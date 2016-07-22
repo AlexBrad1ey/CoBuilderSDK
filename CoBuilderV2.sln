@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoBuilder.Service", "CoBuilder.Service\CoBuilder.Service.csproj", "{473FB8AF-D360-4D88-9E4B-0746FFF2E25E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoBuilder.Core", "CoBuilder.Core\CoBuilder.Core.csproj", "{AD7E6096-B8EA-46DC-95B3-36367343454C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTester", "BuildTester\BuildTester.csproj", "{7FE3DE04-1DA0-43CA-993D-BF78BED5621C}"
@@ -20,10 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{473FB8AF-D360-4D88-9E4B-0746FFF2E25E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{473FB8AF-D360-4D88-9E4B-0746FFF2E25E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{473FB8AF-D360-4D88-9E4B-0746FFF2E25E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{473FB8AF-D360-4D88-9E4B-0746FFF2E25E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD7E6096-B8EA-46DC-95B3-36367343454C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD7E6096-B8EA-46DC-95B3-36367343454C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD7E6096-B8EA-46DC-95B3-36367343454C}.Release|Any CPU.ActiveCfg = Release|Any CPU
