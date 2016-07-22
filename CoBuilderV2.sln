@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoBuilder.Interfaces", "CoBuilder.Interfaces\CoBuilder.Interfaces.csproj", "{F2BC9C66-8993-44D2-9F05-B252D3447A83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{7FE3DE04-1DA0-43CA-993D-BF78BED5621C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FE3DE04-1DA0-43CA-993D-BF78BED5621C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FE3DE04-1DA0-43CA-993D-BF78BED5621C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2BC9C66-8993-44D2-9F05-B252D3447A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2BC9C66-8993-44D2-9F05-B252D3447A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2BC9C66-8993-44D2-9F05-B252D3447A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2BC9C66-8993-44D2-9F05-B252D3447A83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
