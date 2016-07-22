@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AD7E6096-B8EA-46DC-95B3-36367343454C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CoBuilder.Core</RootNamespace>
+    <AssemblyName>CoBuilderV2</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Authentication\AuthenticationProvider.cs" />
+    <Compile Include="Authentication\CoBuilderAuthenticationProvider.cs" />
+    <Compile Include="Authentication\CobuilderAuthenticator.cs" />
+    <Compile Include="Authentication\CoBuilderServiceInfo.cs" />
+    <Compile Include="Authentication\CredentialCache.cs" />
+    <Compile Include="Authentication\CredentialCacheKey.cs" />
+    <Compile Include="Authentication\CredentialCacheNotification.cs" />
+    <Compile Include="Authentication\CredentialCacheNotificationArgs.cs" />
+    <Compile Include="Interfaces\Authentication\ISession.cs" />
+    <Compile Include="Authentication\ServiceInfo.cs" />
+    <Compile Include="Authentication\CoBuilderServiceInfoProvider.cs" />
+    <Compile Include="Authentication\ServiceInfoProvider.cs" />
+    <Compile Include="Authentication\UserInfo.cs" />
+    <Compile Include="Collections\ProductsCollection.cs" />
+    <Compile Include="Collections\PropertiesCollection.cs" />
+    <Compile Include="Collections\PropertySetCollection.cs" />
+    <Compile Include="Collections\WorkplacesCollection.cs" />
+    <Compile Include="Core\AppConfig.cs" />
+    <Compile Include="Core\BaseClient.cs" />
+    <Compile Include="Core\CoBuilderClient.cs" />
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Authentication\Session.cs" />
+    <Compile Include="Interfaces\Core\IAppConfig.cs" />
+    <Compile Include="Core\Mappers.cs" />
+    <Compile Include="Core\RestSharpHttpProvider.cs" />
+    <Compile Include="Domain\Implementations\BimProduct.cs" />
+    <Compile Include="Domain\Implementations\BimProperty.cs" />
+    <Compile Include="Domain\Implementations\BimPropertySet.cs" />
+    <Compile Include="Domain\Implementations\BimPropertySetTag.cs" />
+    <Compile Include="Domain\Implementations\CoBuilderUser.cs" />
+    <Compile Include="Domain\Implementations\Connection.cs" />
+    <Compile Include="Domain\Implementations\GeoAddress.cs" />
+    <Compile Include="Domain\Implementations\PluginUsageLog.cs" />
+    <Compile Include="Domain\Implementations\Workplace.cs" />
+    <Compile Include="Domain\Implementations\WorkplaceResponsible.cs" />
+    <Compile Include="Domain\Interfaces\IBimProperty.cs" />
+    <Compile Include="Domain\Interfaces\IBimPropertySet.cs" />
+    <Compile Include="Domain\Interfaces\IBimPropertySetTag.cs" />
+    <Compile Include="Domain\Interfaces\IWorkplace.cs" />
+    <Compile Include="Enums\AuthenticationRequestStatus.cs" />
+    <Compile Include="Enums\CobuilderErrorCode.cs" />
+    <Compile Include="Enums\PluginApp.cs" />
+    <Compile Include="Enums\ProductRequestType.cs" />
+    <Compile Include="Enums\WorkplaceDataType.cs" />
+    <Compile Include="Exceptions\CoBuilderException.cs" />
+    <Compile Include="Exceptions\Error.cs" />
+    <Compile Include="Interfaces\Authentication\IAuthenticationProvider.cs" />
+    <Compile Include="Interfaces\Authentication\IAuthenticationUi.cs" />
+    <Compile Include="Interfaces\Authentication\IServiceInfo.cs" />
+    <Compile Include="Interfaces\Authentication\IServiceInfoProvider.cs" />
+    <Compile Include="Interfaces\Builders\IProductRequestBuilder.cs" />
+    <Compile Include="Interfaces\Builders\IProductsCollectionRequestBuilder.cs" />
+    <Compile Include="Interfaces\Builders\IPropertiesCollectionRequestBuilder.cs" />
+    <Compile Include="Interfaces\Builders\IPropertySetCollectionRequestBuilder.cs" />
+    <Compile Include="Interfaces\Builders\IPropertySetRequestBuilder.cs" />
+    <Compile Include="Interfaces\Builders\IPropertySetTagsCollectionRequestBuilder.cs" />
+    <Compile Include="Interfaces\Builders\IWorkplaceRequestBuilder.cs" />
+    <Compile Include="Interfaces\Builders\IWorkplacesCollectionRequestBuilder.cs" />
+    <Compile Include="Interfaces\Collections\IProductsCollection.cs" />
+    <Compile Include="Interfaces\Collections\IPropertiesCollection.cs" />
+    <Compile Include="Interfaces\Collections\IPropertySetsCollection.cs" />
+    <Compile Include="Interfaces\Collections\IWorkplacesCollection.cs" />
+    <Compile Include="Interfaces\Core\IBaseClient.cs" />
+    <Compile Include="Interfaces\Core\ICoBuilderClient.cs" />
+    <Compile Include="Interfaces\Core\IHttpProvider.cs" />
+    <Compile Include="Interfaces\ISerializer.cs" />
+    <Compile Include="Interfaces\Requests\IBaseRequest.cs" />
+    <Compile Include="Interfaces\Requests\ILoginRequest.cs" />
+    <Compile Include="Interfaces\Requests\IProductsCollectionRequest.cs" />
+    <Compile Include="Interfaces\Requests\IPropertiesCollectionRequest.cs" />
+    <Compile Include="Interfaces\Requests\IPropertySetCollectionRequest.cs" />
+    <Compile Include="Interfaces\Requests\IPropertySetRequest.cs" />
+    <Compile Include="Interfaces\Requests\IPropertySetTagsCollectionRequest.cs" />
+    <Compile Include="Interfaces\Requests\IWorkplaceRequest.cs" />
+    <Compile Include="Interfaces\Requests\IWorkplacesCollectionRequest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\Builders\BaseRequestBuilder.cs" />
+    <Compile Include="Requests\Builders\LoginRequestBuilder.cs" />
+    <Compile Include="Requests\Builders\ProductRequestBuilder.cs" />
+    <Compile Include="Requests\Builders\ProductsCollectionRequestBuilder.cs" />
+    <Compile Include="Requests\Builders\PropertiesCollectionRequestBuilder.cs" />
+    <Compile Include="Requests\Builders\PropertySetCollectionRequestBuilder.cs" />
+    <Compile Include="Requests\Builders\PropertySetRequestBuilder.cs" />
+    <Compile Include="Requests\Builders\PropertySetTagsCollectionRequestBuilder.cs" />
+    <Compile Include="Requests\Builders\WorkplaceRequestBuilder.cs" />
+    <Compile Include="Requests\Builders\WorkplacesCollectionRequestBuilder.cs" />
+    <Compile Include="Requests\Requests\BaseRequest.cs" />
+    <Compile Include="Requests\Requests\LoginRequest.cs" />
+    <Compile Include="Requests\Requests\ProductsCollectionRequest.cs" />
+    <Compile Include="Requests\Requests\PropertiesCollectionRequest.cs" />
+    <Compile Include="Requests\Requests\PropertySetCollectionRequest.cs" />
+    <Compile Include="Requests\Requests\PropertySetRequest.cs" />
+    <Compile Include="Requests\Requests\PropertySetTagsCollectionRequest.cs" />
+    <Compile Include="Requests\Requests\WorkplaceRequest.cs" />
+    <Compile Include="Requests\Requests\WorkplacesCollectionRequest.cs" />
+    <Compile Include="RestModels\GetProductPropertiesResult.cs" />
+    <Compile Include="RestModels\GetProductPropertySetsResult.cs" />
+    <Compile Include="RestModels\GetProductsDataResult.cs" />
+    <Compile Include="RestModels\GetPropertySetTagsResult.cs" />
+    <Compile Include="RestModels\GetWorkplaceDataResult.cs" />
+    <Compile Include="RestModels\LoginResult.cs" />
+    <Compile Include="RestModels\PluginWritebackResult.cs" />
+    <Compile Include="Serialization\Serializer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
