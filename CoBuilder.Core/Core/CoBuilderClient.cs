@@ -53,5 +53,13 @@ namespace CoBuilder.Core
             return new ProductsCollectionRequestBuilder(Constants.Url.Products, this, ProductRequestType.CountryIndex,
                 CountryIndex: countryIndex);
         }
+
+        public IProductsCollectionRequestBuilder Products(int workplaceId)
+        {
+            if (workplaceId <= 0) throw new ArgumentOutOfRangeException(nameof(workplaceId));
+
+            return new ProductsCollectionRequestBuilder(Constants.Url.Products, this,
+                        ProductRequestType.Workplace, workplaceId);
+        }
     }
 }
