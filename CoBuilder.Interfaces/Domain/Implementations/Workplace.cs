@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using CoBuilder.Core.Domain;
 using CoBuilder.Core.Enums;
 using CoBuilder.Service.Infrastructure;
@@ -35,7 +35,7 @@ namespace CoBuilder.Service.Domain
             }
         }
 
-        public static explicit operator Workplace(Core.Domain.Workplace workplace)
+        public static explicit operator Workplace(Core.Domain.IWorkplace workplace)
         {
             return new Workplace()
             {
