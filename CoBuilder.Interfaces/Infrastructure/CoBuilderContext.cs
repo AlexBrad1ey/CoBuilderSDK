@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
@@ -38,37 +38,71 @@ namespace CoBuilder.Service.Infrastructure
 
         public async Task<IWorkplacesSet> WorkplacesAsync()
         {
-            var objectSet =
-                await
-                    GetObjectSetAsync(KeyType.Workplaces, _client.CurrentSession.ContactId,
-                        _client.Workplaces.Request().GetAsync());
-            var a = new WorkplacesSet((IList<IWorkplace>)objectSet.Select(x => (Workplace)x));
 
-            return new WorkplacesSet((IList<IWorkplace>) objectSet.Select(x => (Workplace) x));
-        }
-
-
-        public async Task<IPropertySetsSet> PropertySetsAsync(int productId)
-        {
-            return
-                await
-                    GetObjectSetAsync(KeyType.Products, productId,
-                        _client.Products[productId].PropertySets.Request().GetAsync());
-        }
-
-
-        private async Task<T> GetObjectSetAsync<T>(KeyType type, object identifier, Task<T> retrieve)
-        {
-            var objectSet = GetFromCache<T>(KeyBuilder.Build(type,identifier));
+            var objectSet =     GetFromCache(KeyBuilder.Build(KeyType.Workplaces,_client.CurrentSession.ContactId));
 
             if (objectSet != null) return objectSet;
 
-            objectSet = await retrieve;
+            objectSet = await _client.Workplaces.Request().GetAsync();
 
-            AddToCache(KeyBuilder.Build(type, identifier), objectSet);
+            var a = new WorkplacesSet((IList<IWorkplace>)objectSet.Select(x => (Workplace)x));
+
+            AddToCache(KeyBuilder.Build(KeyType.Workplaces, identifier), objectSet);
 
             return objectSet;
         }
+
+        public async Task<IProductsSet> ProductsAsync(int workplaceId)
+        {
+
+            var objectSet =     GetFromCache(KeyBuilder.Build(KeyType.Products,identifier));
+
+            if (objectSet != null) return objectSet;
+
+            objectSet = await _client.workplaces[workplaceId].Products.Request().GetAsync();
+
+            var a = new ProductsSet((IList<IBimProduct>)objectSet.Select(x => (BimProduct)x));
+
+            AddToCache(KeyBuilder.Build(KeyType.Products, identifier), objectSet);
+
+            return objectSet;
+        }
+
+        public async Task<IPropertySetsSet> PropertySetsAsync(int productId)
+        {
+
+            var objectSet =     GetFromCache(KeyBuilder.Build(KeyType.PropertySets,productId));
+
+            if (objectSet != null) return objectSet;
+
+            objectSet = await _client.Products[productId].Request().GetAsync();
+
+            var a = new PropertySetsSet((IList<IPropertySet>)objectSet.Select(x => (PropertySet)x));
+
+            AddToCache(KeyBuilder.Build(KeyType.PropertySets, productId), objectSet);
+
+            return objectSet;
+        }
+
+        public async Task<IPropertiesSet> PropertiesAsync(int productId, int propertySetId)
+        {
+
+            var objectSet =     GetFromCache(KeyBuilder.Build(KeyType.Properties,$"{productId}-{propertySet Id}"));
+
+            if (objectSet != null) return objectSet;
+
+            objectSet = await _client.Products[productId].Request().GetAsync();
+
+            var a = new PropertySetsSet((IList<IPropertySet>)objectSet.Select(x => (PropertySet)x));
+
+            AddToCache(KeyBuilder.Build(KeyType.PropertySets, productId), objectSet);
+
+            return objectSet;
+        }
+
+
+
+
 09o76             
         private void AddToCache<T>(string key, T item)
         {
@@ -108,12 +142,14 @@ namespace CoBuilder.Service.Infrastructure
     internal enum KeyType
     {
         Workplaces,
-        Products
+        Products,
+        PropertySet,
+        Properties
     }
 
     internal static class KeyBuilder
     {
-        public static string Build(KeyType type, object identifier)
+        public static string Build(KeyType type, string identifier)
         {
             return string.Join(Constants.Caching.Delimiter,type.ToString(),identifier);
         }
