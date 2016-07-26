@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 
 namespace CoBuilder.Service.Domain
 {
-    public class PropertySetsSet : ReadOnlyCollection<BimPropertySet>
+    public class PropertySetsSet : ReadOnlyCollection<BimPropertySet>,IPropertySetsSet
     {
     }
 }

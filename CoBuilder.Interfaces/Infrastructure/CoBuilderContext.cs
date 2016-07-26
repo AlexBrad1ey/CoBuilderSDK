@@ -29,7 +29,7 @@ namespace CoBuilder.Service.Infrastructure
             _client = client;
 
             if (!_client.IsAuthenticated)
-                throw new CoBuilderException(new Error()
+                throw new wCoBuilderException(new Error()
                 {
                     Code = CoBuilderErrorCode.AuthenticationFailure.ToString(),
                     Message = "Context Requires an Authenticated Client"
@@ -91,11 +91,11 @@ namespace CoBuilder.Service.Infrastructure
 
             if (objectSet != null) return objectSet;
 
-            objectSet = await _client.Products[productId].Request().GetAsync();
+            objectSet = await _client.Products[productId].PropertySets[propertySetId].properties.Request().PostAsync();
 
-            var a = new PropertySetsSet((IList<IPropertySet>)objectSet.Select(x => (PropertySet)x));
+            var a = new PropertiesSet((IList<IBimProperty>)objectSet.Select(x => (BimProperty)x));
 
-            AddToCache(KeyBuilder.Build(KeyType.PropertySets, productId), objectSet);
+            AddToCache(KeyBuilder.Build(KeyType.Properties, productId), $"{productId}-{propertySet Id}");
 
             return objectSet;
         }

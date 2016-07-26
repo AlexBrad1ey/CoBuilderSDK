@@ -1,6 +1,6 @@
 namespace CoBuilder.Service.Domain
 {
-    public class PropertiesSet
+    public class PropertiesSet : ReadOnlyCollection<IBimProperty>, IPropertiesSet
     {
     }
 }
