@@ -1,35 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using CoBuilder.Core.Enums;
 using CoBuilder.Core.Exceptions;
 using CoBuilder.Core.Interfaces;
-using CoBuilder.Service.Domain;
+using CoBuilder.Service.Helpers;
 using CoBuilder.Service.Interfaces;
 using CoBuilder.Service.Sets;
+using System;
+using System.Runtime.Caching;
+using System.Threading.Tasks;
 
 namespace CoBuilder.Service.Infrastructure
 {
-    public class CoBuilderContext
+    public class CoBuilderContext : ICoBuilderContext
     {
         private readonly ICoBuilderClient _client;
-        private ObjectCache _cache = MemoryCache.Default;
+        private readonly ObjectCache _cache = MemoryCache.Default;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CoBuilderContext"/> class.
-        /// </summary>
-        /// <param name="client">The client.</param>
-        /// <exception cref="CoBuilderException"></exception>
-        /// <exception cref="Error"></exception>
         public CoBuilderContext(ICoBuilderClient client)
         {
             _client = client;
 
             if (!_client.IsAuthenticated)
-                throw new wCoBuilderException(new Error()
+                throw new CoBuilderException(new Error()
                 {
                     Code = CoBuilderErrorCode.AuthenticationFailure.ToString(),
                     Message = "Context Requires an Authenticated Client"
@@ -38,72 +29,66 @@ namespace CoBuilder.Service.Infrastructure
 
         public async Task<IWorkplacesSet> WorkplacesAsync()
         {
-
-            var objectSet =     GetFromCache(KeyBuilder.Build(KeyType.Workplaces,_client.CurrentSession.ContactId));
+            var id = _client.CurrentSession.ContactId.ToString();
+            var objectSet = GetFromCache<IWorkplacesSet>(KeyBuilder.Build(KeyType.Workplaces, id));
 
             if (objectSet != null) return objectSet;
 
-            objectSet = await _client.Workplaces.Request().GetAsync();
+            var result = await _client.Workplaces.Request().GetAsync();
 
-            var a = new WorkplacesSet((IList<IWorkplace>)objectSet.Select(x => (Workplace)x));
+            objectSet = new WorkplacesSet(result, this);
 
-            AddToCache(KeyBuilder.Build(KeyType.Workplaces, identifier), objectSet);
+            AddToCache(KeyBuilder.Build(KeyType.Workplaces, id), objectSet);
 
             return objectSet;
         }
 
         public async Task<IProductsSet> ProductsAsync(int workplaceId)
         {
-
-            var objectSet =     GetFromCache(KeyBuilder.Build(KeyType.Products,identifier));
+            var objectSet = GetFromCache<IProductsSet>(KeyBuilder.Build(KeyType.Products, workplaceId.ToString()));
 
             if (objectSet != null) return objectSet;
 
-            objectSet = await _client.workplaces[workplaceId].Products.Request().GetAsync();
+            var result = await _client.Workplaces[workplaceId].Products.Request().GetAsync();
 
-            var a = new ProductsSet((IList<IBimProduct>)objectSet.Select(x => (BimProduct)x));
+            objectSet = new ProductsSet(result, this);
 
-            AddToCache(KeyBuilder.Build(KeyType.Products, identifier), objectSet);
+            AddToCache(KeyBuilder.Build(KeyType.Products, workplaceId.ToString()), objectSet);
 
             return objectSet;
         }
 
         public async Task<IPropertySetsSet> PropertySetsAsync(int productId)
         {
-
-            var objectSet =     GetFromCache(KeyBuilder.Build(KeyType.PropertySets,productId));
+            var objectSet = GetFromCache<IPropertySetsSet>(KeyBuilder.Build(KeyType.PropertySets, productId.ToString()));
 
             if (objectSet != null) return objectSet;
 
-            objectSet = await _client.Products[productId].Request().GetAsync();
+            var result = await _client.Products[productId].PropertySets.Request().PostAsync();
 
-            var a = new PropertySetsSet((IList<IPropertySet>)objectSet.Select(x => (PropertySet)x));
+            objectSet = new PropertySetsSet(result, productId, this);
 
-            AddToCache(KeyBuilder.Build(KeyType.PropertySets, productId), objectSet);
+            AddToCache(KeyBuilder.Build(KeyType.PropertySets, productId.ToString()), objectSet);
 
             return objectSet;
         }
 
-        public async Task<IPropertiesSet> PropertiesAsync(int productId, int propertySetId)
+        public async Task<IPropertiesSet> PropertiesAsync(int productId, string propertySetId)
         {
-
-            var objectSet =     GetFromCache(KeyBuilder.Build(KeyType.Properties,$"{productId}-{propertySet Id}"));
+            var objectSet =
+                GetFromCache<PropertiesSet>(KeyBuilder.Build(KeyType.Properties, $"{productId}-{propertySetId}"));
 
             if (objectSet != null) return objectSet;
 
-            objectSet = await _client.Products[productId].PropertySets[propertySetId].properties.Request().PostAsync();
+            var result = await _client.Products[productId].PropertySets[propertySetId].Properties.Request().PostAsync();
 
-            var a = new PropertiesSet((IList<IBimProperty>)objectSet.Select(x => (BimProperty)x));
+            objectSet = new PropertiesSet(result, this);
 
-            AddToCache(KeyBuilder.Build(KeyType.Properties, productId), $"{productId}-{propertySet Id}");
+            AddToCache(KeyBuilder.Build(KeyType.Properties, $"{productId}-{propertySetId}"), objectSet);
 
             return objectSet;
         }
 
-
-
-
-09o76             
         private void AddToCache<T>(string key, T item)
         {
             var policy = new CacheItemPolicy()
@@ -117,42 +102,7 @@ namespace CoBuilder.Service.Infrastructure
 
         private T GetFromCache<T>(string key)
         {
-           return (T) _cache.Get(key);
-        }
-
-
-        public void ProductsAsync(int id)
-        {
-            throw new NotImplementedException();
+            return (T)_cache.Get(key);
         }
     }
-
-    public class ProductsSet: IProductsSet
-    {
-        public ProductsSet(IProductsCollection productsCollection)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public interface IProductsSet
-    {
-    }
-
-    internal enum KeyType
-    {
-        Workplaces,
-        Products,
-        PropertySet,
-        Properties
-    }
-
-    internal static class KeyBuilder
-    {
-        public static string Build(KeyType type, string identifier)
-        {
-            return string.Join(Constants.Caching.Delimiter,type.ToString(),identifier);
-        }
-    }
-}
 }

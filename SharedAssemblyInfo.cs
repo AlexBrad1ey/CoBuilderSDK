@@ -8,9 +8,7 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("Release")]
 #endif
 
-
 [assembly: AssemblyProduct("CoBuilder SDK")]
 [assembly: AssemblyCompany("AB Consulting")]
 [assembly: AssemblyCopyright("Copyright © AB Consulting 2016")]
 [assembly: AssemblyCulture("")]
-

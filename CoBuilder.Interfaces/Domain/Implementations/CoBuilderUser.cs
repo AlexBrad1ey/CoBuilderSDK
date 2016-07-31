@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoBuilder.Core.Domain
+namespace CoBuilder.Service.Domain
 {
     public class CoBuilderUser
     {

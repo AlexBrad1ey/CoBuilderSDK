@@ -10,8 +10,6 @@ namespace CoBuilder.Service
         {
         }
 
-
-
         public static void Close()
         {
             Factory<ISession>().Close();
@@ -20,10 +18,10 @@ namespace CoBuilder.Service
         #region Private Fields
 
         private static Registry _configuration;
-        
+
         private static bool _initialised;
 
-        #endregion
+        #endregion Private Fields
 
         #region Constructors
 
@@ -31,8 +29,6 @@ namespace CoBuilder.Service
         {
             _configuration = new CoBuilderConfig();
         }
-
-        
 
         public CoBuilderService(CoBuilderConfig appConfig) : this(appConfig, false)
         {
@@ -44,7 +40,7 @@ namespace CoBuilder.Service
             if (autoInitialise) Initialise();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Public Properties
 
@@ -59,11 +55,12 @@ namespace CoBuilder.Service
         public ICoBuilderUser User => Factory<ICoBuilderUser>();
         public ISession Session => Factory<ISession>();
 
-        #endregion
+        #endregion Public Properties
 
         #region Public Events
 
 #pragma warning disable RECS0154 // Parameter is never used
+
         public void App_DocumentLoadEventHandler<TElement>(object sender, EventArgs e) where TElement : class
 #pragma warning restore RECS0154 // Parameter is never used
         {
@@ -103,7 +100,7 @@ namespace CoBuilder.Service
             }
         }
 
-        #endregion
+        #endregion Public Events
 
         #region Startup Methods
 
@@ -142,7 +139,7 @@ namespace CoBuilder.Service
             config.SetPropertyInclusion("CBProduct.IsCreatedFromScan", false);
         }
 
-        #endregion
+        #endregion Startup Methods
 
         #region Static Factories for object generation
 
@@ -204,7 +201,7 @@ namespace CoBuilder.Service
             }
         }
 
-        #endregion
+        #endregion Static Factories for object generation
 
         #region DI Testing Methods
 
@@ -218,6 +215,6 @@ namespace CoBuilder.Service
             return _diContainer.Model.For<T>().Default.DescribeBuildPlan(5);
         }
 
-        #endregion
+        #endregion DI Testing Methods
     }
 }

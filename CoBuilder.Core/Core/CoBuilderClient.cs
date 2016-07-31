@@ -46,6 +46,14 @@ namespace CoBuilder.Core
             }
         }
 
+        public IProductsCollectionRequestBuilder Products
+        {
+            get
+            {
+                return new ProductsCollectionRequestBuilder(Constants.Url.Products, this);
+            }
+        }
+
         public IProductsCollectionRequestBuilder ProductsByCountryIndex(int countryIndex)
         {
             if (countryIndex <= 0) throw new ArgumentOutOfRangeException(nameof(countryIndex));
@@ -54,12 +62,6 @@ namespace CoBuilder.Core
                 CountryIndex: countryIndex);
         }
 
-        public IProductsCollectionRequestBuilder Products(int workplaceId)
-        {
-            if (workplaceId <= 0) throw new ArgumentOutOfRangeException(nameof(workplaceId));
 
-            return new ProductsCollectionRequestBuilder(Constants.Url.Products, this,
-                        ProductRequestType.Workplace, workplaceId);
-        }
     }
 }

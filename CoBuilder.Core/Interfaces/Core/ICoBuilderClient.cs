@@ -7,6 +7,6 @@ namespace CoBuilder.Core.Interfaces
         IList<int> PropertySetIds { get; }
         IWorkplacesCollectionRequestBuilder Workplaces { get; }
         IPropertySetTagsCollectionRequestBuilder PropertySetTags { get; }
-        IProductsCollectionRequestBuilder Products { get; }
+        IProductsCollectionRequestBuilder Products { get;  }
     }
 }

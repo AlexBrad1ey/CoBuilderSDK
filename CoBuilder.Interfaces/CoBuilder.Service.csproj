@@ -61,13 +61,26 @@
       <DependentUpon>ProductDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Domain\Implementations\BimProduct.cs" />
+    <Compile Include="Domain\Implementations\BimProperty.cs" />
     <Compile Include="Domain\Implementations\CoBuilderUser.cs" />
     <Compile Include="Domain\Implementations\Connection.cs" />
     <Compile Include="Domain\Implementations\BimPropertySet.cs" />
-    <Compile Include="Domain\Implementations\IWorkplace.cs" />
+    <Compile Include="Domain\Interfaces\IBimPropertySet.cs" />
+    <Compile Include="Core\KeyType.cs" />
+    <Compile Include="Helpers\KeyBuilder.cs" />
+    <Compile Include="Interfaces\Sets\IPropertiesSet.cs" />
+    <Compile Include="Domain\Interfaces\IBimProperty.cs" />
+    <Compile Include="Domain\Interfaces\IWorkplace.cs" />
     <Compile Include="Domain\Implementations\Workplace.cs" />
     <Compile Include="Domain\Interfaces\IBimProduct.cs" />
-    <Compile Include="Interfaces\IWorkplacesSet.cs" />
+    <Compile Include="Interfaces\Sets\IPropertySetsSet.cs" />
+    <Compile Include="Interfaces\ICoBuilderContext.cs" />
+    <Compile Include="Interfaces\Sets\IWorkplacesSet.cs" />
+    <Compile Include="Domain\Interfaces\IEntity.cs" />
+    <Compile Include="Interfaces\Sets\ICBSet.cs" />
+    <Compile Include="Sets\BaseSet.cs" />
+    <Compile Include="Interfaces\Sets\IProductsSet.cs" />
+    <Compile Include="Sets\ProductsSet.cs" />
     <Compile Include="Sets\WorkplacesSet.cs" />
     <Compile Include="Sets\PropertiesSet.cs" />
     <Compile Include="Sets\PropertySetsSet.cs" />

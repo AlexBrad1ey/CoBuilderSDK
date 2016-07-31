@@ -1,6 +1,6 @@
 namespace CoBuilder.Service.Interfaces
 {
-    public interface IWorkplacesSet
+    public interface ICBSet<T>
     {
     }
 }

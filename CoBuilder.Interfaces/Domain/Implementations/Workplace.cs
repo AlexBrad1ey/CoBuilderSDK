@@ -1,14 +1,13 @@
-using System;
 using CoBuilder.Core.Domain;
 using CoBuilder.Core.Enums;
-using CoBuilder.Service.Infrastructure;
-using CoBuilder.Service.Sets;
+using CoBuilder.Service.Interfaces;
+using System;
 
 namespace CoBuilder.Service.Domain
 {
     public class Workplace : IWorkplace
     {
-        internal CoBuilderContext Context { get; set; }
+        public ICoBuilderContext Context { get; set; }
 
         public int Id { get; set; }
         public Guid? MsdsId { get; set; }
@@ -31,11 +30,11 @@ namespace CoBuilder.Service.Domain
         {
             get
             {
-               return Context.ProductsAsync(Id).Result;
+                return Context.ProductsAsync(Id).Result;
             }
         }
 
-        public static explicit operator Workplace(Core.Domain.IWorkplace workplace)
+        public static explicit operator Workplace(Core.Domain.Workplace workplace)
         {
             return new Workplace()
             {
@@ -57,4 +56,4 @@ namespace CoBuilder.Service.Domain
                 PostCode = workplace.PostCode
             };
         }
-}
+    }

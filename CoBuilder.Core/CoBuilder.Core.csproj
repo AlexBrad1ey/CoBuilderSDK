@@ -60,6 +60,7 @@
     <Compile Include="Authentication\CredentialCacheNotification.cs" />
     <Compile Include="Authentication\CredentialCacheNotificationArgs.cs" />
     <Compile Include="Domain\Interfaces\IBimProduct.cs" />
+    <Compile Include="Domain\Implementations\PluginUsageLog.cs" />
     <Compile Include="Interfaces\Authentication\ISession.cs" />
     <Compile Include="Authentication\ServiceInfo.cs" />
     <Compile Include="Authentication\CoBuilderServiceInfoProvider.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="Domain\Implementations\BimPropertySet.cs" />
     <Compile Include="Domain\Implementations\BimPropertySetTag.cs" />
     <Compile Include="Domain\Implementations\GeoAddress.cs" />
-    <Compile Include="Domain\Implementations\PluginUsageLog.cs" />
     <Compile Include="Domain\Implementations\Workplace.cs" />
     <Compile Include="Domain\Implementations\WorkplaceResponsible.cs" />
     <Compile Include="Domain\Interfaces\IBimProperty.cs" />

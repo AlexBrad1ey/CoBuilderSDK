@@ -1,8 +1,8 @@
-﻿namespace CoBuilder.Core.Domain
+﻿namespace CoBuilder.Service.Domain
 {
     public class Connection<TElement> where TElement : class
     {
-        private BimProduct _product;
+        private Core.Domain.BimProduct _product;
         private int _productId;
         //private LoadState _state = LoadState.Unconnected;
 
@@ -15,7 +15,7 @@
             AppElement = element;
         }
 
-        public Connection(TElement element, BimProduct product)
+        public Connection(TElement element, Core.Domain.BimProduct product)
         {
             AppElement = element;
             _product = product;
@@ -30,10 +30,9 @@
             //_state = LoadState.NotLoaded;
         }
 
-
         public TElement AppElement { get; set; }
 
-        public BimProduct BimProduct
+        public Core.Domain.BimProduct BimProduct
         {
             get { return _product; }
             internal set

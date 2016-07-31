@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
-using CoBuilder.Service.Infrastructure;
 using CoBuilder.Service.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoBuilder.Service.Sets
 {
-    public class WorkplacesSet:ReadOnlyCollection<IWorkplace>, IWorkplacesSet
+    public class WorkplacesSet : BaseSet<IWorkplace>, IWorkplacesSet
     {
-        public WorkplacesSet(IList<IWorkplace> objectSet):base(objectSet)
+        public WorkplacesSet(IWorkplacesCollection collection, ICoBuilderContext ctx)
+            : base((IList<IWorkplace>)collection.Select(x => (Workplace)x), ctx)
+        {
+        }
+
+        public WorkplacesSet(IList<IWorkplace> entitySet, ICoBuilderContext ctx) : base(entitySet, ctx)
         {
         }
     }
