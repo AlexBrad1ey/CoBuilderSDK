@@ -6,6 +6,14 @@ namespace CoBuilder.Service
 {
     public class CoBuilderService
     {
+
+        public static CoBuilderService Initiate(IServiceConfiguration serviceConfiguration)
+        {
+            return null;
+        }
+
+
+        /*
         public CoBuilderService()
         {
         }
@@ -215,6 +223,6 @@ namespace CoBuilder.Service
             return _diContainer.Model.For<T>().Default.DescribeBuildPlan(5);
         }
 
-        #endregion DI Testing Methods
+        #endregion DI Testing Methods */
     }
 }

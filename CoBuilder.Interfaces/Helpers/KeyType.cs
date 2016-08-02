@@ -1,4 +1,4 @@
-namespace CoBuilder.Service
+namespace CoBuilder.Service.Helpers
 {
     internal enum KeyType
     {

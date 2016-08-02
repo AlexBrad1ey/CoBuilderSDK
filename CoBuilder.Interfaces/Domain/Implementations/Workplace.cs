@@ -28,10 +28,7 @@ namespace CoBuilder.Service.Domain
 
         public IProductsSet Products
         {
-            get
-            {
-                return Context.ProductsAsync(Id).Result;
-            }
+            get { return Context.ProductsAsync(Id).Result; }
         }
 
         public static explicit operator Workplace(Core.Domain.Workplace workplace)
@@ -57,3 +54,4 @@ namespace CoBuilder.Service.Domain
             };
         }
     }
+}
