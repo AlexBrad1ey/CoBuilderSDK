@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using CoBuilder.Core;
+using Microsoft.Win32;
 
 namespace CoBuilder.Service
 {
@@ -9,7 +11,9 @@ namespace CoBuilder.Service
 
         public static CoBuilderService Initiate(IServiceConfiguration serviceConfiguration)
         {
-            return null;
+            var servicebuilder = new ServiceBuilder(serviceConfiguration);
+            return servicebuilder.Build();
+
         }
 
 
@@ -224,5 +228,31 @@ namespace CoBuilder.Service
         }
 
         #endregion DI Testing Methods */
+    }
+
+    public class ServiceBuilder
+    {
+        public ServiceBuilder(IServiceConfiguration serviceConfiguration)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CoBuilderService Build()
+        {
+                
+        }
+    }
+
+    public interface IServiceConfiguration
+    {
+        IAppConfig AppConfig { get; }
+        bool UseDefinedContainerConfig { get; }
+        Registry ContainerConfig { get; }
+        ICachePolicy GlobalCachePolicy { get; }
+
+    }
+
+    public interface ICachePolicy
+    {
     }
 }

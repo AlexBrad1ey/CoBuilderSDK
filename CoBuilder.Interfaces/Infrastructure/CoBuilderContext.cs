@@ -89,9 +89,9 @@ namespace CoBuilder.Service.Infrastructure
             return objectSet;
         }
 
-        private void AddToCache<T>(string key, T item)
+        private void  AddToCache<T>(string key, T item)
         {
-            var policy = new CacheItemPolicy()
+            var policy = new CacheItemPolicy
             {
                 AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(Constants.Caching.AbsoluteEvictionMinutes),
                 SlidingExpiration = TimeSpan.FromMinutes(Constants.Caching.SlidingEvictionMinutes)
@@ -105,4 +105,6 @@ namespace CoBuilder.Service.Infrastructure
             return (T)_cache.Get(key);
         }
     }
+
+    public class CoBuilderCacheItemPolicy : CacheItemPolicy,ICachePolicy
 }
