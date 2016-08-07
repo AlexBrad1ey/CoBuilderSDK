@@ -8,5 +8,10 @@
             public const int SlidingEvictionMinutes = 10;
             public const string Delimiter = ".";
         }
+
+        public static class Commands
+        {
+            public const string Login = "LoginCommand";
+        }
     }
 }

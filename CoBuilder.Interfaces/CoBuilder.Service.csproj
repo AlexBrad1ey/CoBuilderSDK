@@ -54,8 +54,18 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Infrastructure\DI\ContainerProvider.cs" />
+    <Compile Include="Interfaces\Infrastructure\IContainerProvider.cs" />
+    <Compile Include="Infrastructure\ServiceBuilder.cs" />
+    <Compile Include="Infrastructure\CoBuilderCacheItemPolicy.cs" />
+    <Compile Include="Infrastructure\DI\CoBuilderCoreRegistry.cs" />
     <Compile Include="Core\CoBuilderService.cs" />
+    <Compile Include="Infrastructure\DI\CoBuilderServiceRegistry.cs" />
     <Compile Include="Core\Constants.cs" />
+    <Compile Include="Interfaces\Infrastructure\ICachePolicy.cs" />
+    <Compile Include="Infrastructure\DI\ScanningRegistry.cs" />
+    <Compile Include="Infrastructure\DI\ServiceRegistry.cs" />
+    <Compile Include="Interfaces\Infrastructure\IServiceConfiguration.cs" />
     <Compile Include="Dialogs\LoginDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,7 +92,7 @@
     <Compile Include="Domain\Implementations\Workplace.cs" />
     <Compile Include="Domain\Interfaces\IBimProduct.cs" />
     <Compile Include="Interfaces\Sets\IPropertySetsSet.cs" />
-    <Compile Include="Interfaces\ICoBuilderContext.cs" />
+    <Compile Include="Interfaces\Infrastructure\ICoBuilderContext.cs" />
     <Compile Include="Interfaces\Sets\IWorkplacesSet.cs" />
     <Compile Include="Domain\Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\Sets\ICBSet.cs" />

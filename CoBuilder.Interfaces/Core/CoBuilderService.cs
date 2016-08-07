@@ -1,22 +1,111 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using CoBuilder.Core;
-using Microsoft.Win32;
+using CoBuilder.Core.Enums;
+using CoBuilder.Core.Exceptions;
+using CoBuilder.Service.Infrastructure;
+using CoBuilder.Service.Interfaces;
+using StructureMap.Pipeline;
 
 namespace CoBuilder.Service
 {
-    public class CoBuilderService
+    public class CoBuilderService : IDisposable
     {
+        private const string InvalidOperationMessage =
+            "CoBuilder Service not initiated. Call Initiate with appropriate configuration. This applies to both the static service API and the Instance API";
+
+        private const string InvalidConfigurationMessage =
+            "CoBuilder Service Configuration is invalid. a Application Configuration (AppConfig) is Required";
+
+        private static IServiceConfiguration _config;
+        private static CoBuilderService _instance;
+
+        #region Static API
+
+        public static CoBuilderService Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    throw new CoBuilderException(new Error()
+                    {
+                        Code = CoBuilderErrorCode.UnInitiatedService.ToString(),
+                        Message = InvalidOperationMessage
+                    }, new InvalidOperationException(InvalidOperationMessage));
+
+                return _instance;
+
+            }
+            private set { _instance = value; }
+        }
+
+        public static IServiceConfiguration Config
+        {
+            get {
+                if (_config == null)
+                    throw new CoBuilderException(new Error()
+                    {
+                        Code = CoBuilderErrorCode.UnInitiatedService.ToString(),
+                        Message = InvalidOperationMessage
+                    }, new InvalidOperationException(InvalidOperationMessage));
+
+                return _config;
+            }
+            private set { _config = value; }
+        }
 
         public static CoBuilderService Initiate(IServiceConfiguration serviceConfiguration)
         {
-            var servicebuilder = new ServiceBuilder(serviceConfiguration);
-            return servicebuilder.Build();
+            if (serviceConfiguration == null) throw new ArgumentNullException(nameof(serviceConfiguration));
+            if (serviceConfiguration.AppConfig == null)
+                throw new CoBuilderException(new Error()
+                {
+                    Code = CoBuilderErrorCode.InvalidConfiguration.ToString(),
+                    Message = InvalidConfigurationMessage
+                }, new InvalidOperationException(InvalidConfigurationMessage));
 
+            _config = serviceConfiguration;
+            var serviceBuilder = new ServiceBuilder(serviceConfiguration);
+
+            _instance = serviceBuilder.Build();
+            return Instance;
+        }
+        #endregion
+
+        #region Instance API
+
+        private readonly IContainerProvider _containerProvider;
+
+
+        internal CoBuilderService(IContainerProvider containerProvider)
+        {
+            if (containerProvider == null) throw new ArgumentNullException(nameof(containerProvider));
+            _containerProvider = containerProvider;
         }
 
+        public T ServiceFactory<T>()
+        {
+           return  _containerProvider.Container.GetInstance<T>();
+        }
 
+        public T ServiceFactory<T>(ExplicitArguments args)
+        {
+            return _containerProvider.Container.GetInstance<T>(args);
+        }
+
+        public void Close()
+        {
+            _containerProvider.Reset();
+        }
+
+        public void Dispose()
+        {
+            _containerProvider.Dispose();
+            _config.Dispose();
+        }
+
+        #endregion
         /*
         public CoBuilderService()
         {
@@ -228,31 +317,6 @@ namespace CoBuilder.Service
         }
 
         #endregion DI Testing Methods */
-    }
 
-    public class ServiceBuilder
-    {
-        public ServiceBuilder(IServiceConfiguration serviceConfiguration)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CoBuilderService Build()
-        {
-                
-        }
-    }
-
-    public interface IServiceConfiguration
-    {
-        IAppConfig AppConfig { get; }
-        bool UseDefinedContainerConfig { get; }
-        Registry ContainerConfig { get; }
-        ICachePolicy GlobalCachePolicy { get; }
-
-    }
-
-    public interface ICachePolicy
-    {
     }
 }
