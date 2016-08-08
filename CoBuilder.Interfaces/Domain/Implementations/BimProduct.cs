@@ -1,10 +1,32 @@
-﻿using CoBuilder.Service.Interfaces;
+﻿using CoBuilder.Core.Domain;
+using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Domain
 {
     public class BimProduct : IBimProduct
     {
-        public ICoBuilderContext Context { get; set; }
+        public BimProduct(Core.Domain.IBimProduct product, int workplaceId)
+        {
+
+            Id = product.Id;
+            Identifier = product.Identifier;
+            IsCreatedFromScan = product.IsCreatedFromScan;
+            IsRiskAssessed = product.IsRiskAssessed;
+            DeliveredBy = product.DeliveredBy;
+            DOP = product.DOP;
+            Link = product.Link;
+            Name = product.Name;
+            ProductTypes = product.ProductTypes;
+            SupplierName = product.SupplierName;
+            WorkplaceId = workplaceId;
+        }
+
+        public BimProduct(Core.Domain.IBimProduct product, int workplaceId, ICoBuilderContext ctx) : this(product, workplaceId)
+        {
+            Context = ctx;
+        }
+
+        public ICoBuilderContext Context { get; }
         public string DeliveredBy { get; internal set; }
         public bool? DOP { get; internal set; }
         public int Id { get; internal set; }
@@ -20,25 +42,10 @@ namespace CoBuilder.Service.Domain
         {
             get
             {
-                return Context.PropertySetsAsync(Id).Result;
+                return Context?.PropertySetsAsync(Id).Result;
             }
         }
 
-        public static explicit operator BimProduct(Core.Domain.BimProduct product)
-        {
-            return new BimProduct()
-            {
-                Id = product.Id,
-                Identifier = product.Identifier,
-                IsCreatedFromScan = product.IsCreatedFromScan,
-                IsRiskAssessed = product.IsRiskAssessed,
-                DeliveredBy = product.DeliveredBy,
-                DOP = product.DOP,
-                Link = product.Link,
-                Name = product.Name,
-                ProductTypes = product.ProductTypes,
-                SupplierName = product.SupplierName
-            };
-        }
+        public int WorkplaceId { get; }
     }
 }

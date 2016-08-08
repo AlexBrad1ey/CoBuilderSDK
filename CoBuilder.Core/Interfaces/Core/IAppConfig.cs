@@ -1,6 +1,6 @@
 ﻿using CoBuilder.Core.Enums;
 
-namespace CoBuilder.Core
+namespace CoBuilder.Core.Interfaces
 {
     public interface IAppConfig
     {

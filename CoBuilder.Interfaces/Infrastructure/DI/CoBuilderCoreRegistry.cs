@@ -1,3 +1,6 @@
+using CoBuilder.Core;
+using CoBuilder.Core.Authentication;
+using CoBuilder.Core.Interfaces;
 using StructureMap;
 
 namespace CoBuilder.Service.Infrastructure.DI
@@ -6,7 +9,12 @@ namespace CoBuilder.Service.Infrastructure.DI
     {
         public CoBuilderCoreRegistry()
         {
-            //Add Required DI for Core Level Objects
+            For<ICoBuilderClient>().Use<CoBuilderClient>();
+                For<IAppConfig>().Use<AppConfig>().Singleton();
+                For<IHttpProvider>().Use<RestSharpHttpProvider>();
+                For<IServiceInfoProvider>().Use<CoBuilderServiceInfoProvider>();
+                    For<IAuthenticationProvider>().Use<CoBuilderAuthenticationProvider>();
+                        For<CredentialCache>().Singleton();
+
         }
-    }
 }

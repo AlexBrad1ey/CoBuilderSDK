@@ -1,9 +1,13 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Reflection;
 using CoBuilder.Core.Enums;
 using CoBuilder.Core.Exceptions;
+using CoBuilder.Core.Interfaces;
+using CoBuilder.Service.Domain;
 using CoBuilder.Service.Infrastructure;
 using CoBuilder.Service.Interfaces;
 using StructureMap.Pipeline;
@@ -23,7 +27,7 @@ namespace CoBuilder.Service
 
         #region Static API
 
-        public static CoBuilderService Instance
+        public static CoBuilderService CurrentService
         {
             get
             {
@@ -69,13 +73,14 @@ namespace CoBuilder.Service
             var serviceBuilder = new ServiceBuilder(serviceConfiguration);
 
             _instance = serviceBuilder.Build();
-            return Instance;
+            return CurrentService;
         }
         #endregion
 
         #region Instance API
 
         private readonly IContainerProvider _containerProvider;
+        private IServiceSession _serviceSession;
 
 
         internal CoBuilderService(IContainerProvider containerProvider)
@@ -83,6 +88,34 @@ namespace CoBuilder.Service
             if (containerProvider == null) throw new ArgumentNullException(nameof(containerProvider));
             _containerProvider = containerProvider;
         }
+
+        public ProductsRepository Products => ServiceFactory<ProductsRepository>();
+
+        public WorkPlacesRepository WorkPlaces => ServiceFactory<WorkPlacesRepository>();
+        
+        public CommandsCollection Commands => new CommandsCollection();
+
+
+        public ICoBuilderUser User { get { return Session.User; } }
+
+        public IServiceSession Session
+        {
+            get { return _serviceSession ?? InitiateSession(); }
+        }
+
+        private IServiceSession InitiateSession()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Close()
+        {
+            _serviceSession = null;
+            _containerProvider.Reset();
+        }
+
+        #region DI Methods
 
         public T ServiceFactory<T>()
         {
@@ -94,10 +127,9 @@ namespace CoBuilder.Service
             return _containerProvider.Container.GetInstance<T>(args);
         }
 
-        public void Close()
-        {
-            _containerProvider.Reset();
-        }
+#endregion
+
+        
 
         public void Dispose()
         {
@@ -107,66 +139,7 @@ namespace CoBuilder.Service
 
         #endregion
         /*
-        public CoBuilderService()
-        {
-        }
-
-        public static void Close()
-        {
-            Factory<ISession>().Close();
-        }
-
-        #region Private Fields
-
-        private static Registry _configuration;
-
-        private static bool _initialised;
-
-        #endregion Private Fields
-
-        #region Constructors
-
-        static CoBuilderService()
-        {
-            _configuration = new CoBuilderConfig();
-        }
-
-        public CoBuilderService(CoBuilderConfig appConfig) : this(appConfig, false)
-        {
-        }
-
-        public CoBuilderService(CoBuilderConfig appConfig, bool autoInitialise)
-        {
-            SetConfiguration(appConfig);
-            if (autoInitialise) Initialise();
-        }
-
-        #endregion Constructors
-
-        #region Public Properties
-
-        public bool Initialised => _initialised;
-
-        public ProductStore Products
-        {
-            get { return Factory<ProductStore>(); }
-        }
-
-        public WorkPlaceStore WorkPlaces => Factory<WorkPlaceStore>();
-        public ICoBuilderUser User => Factory<ICoBuilderUser>();
-        public ISession Session => Factory<ISession>();
-
-        #endregion Public Properties
-
-        #region Public Events
-
-#pragma warning disable RECS0154 // Parameter is never used
-
-        public void App_DocumentLoadEventHandler<TElement>(object sender, EventArgs e) where TElement : class
-#pragma warning restore RECS0154 // Parameter is never used
-        {
-            InterrogateModel<TElement>();
-        }
+       
 
         public void InterrogateModel<TElement>() where TElement : class
         {
@@ -199,15 +172,6 @@ namespace CoBuilder.Service
                 commonSettings.WriteLogFile(exception, GetType().Name, MethodBase.GetCurrentMethod().Name);
                 Session.LoginStatus = LoginStatus.NotLoggedIn;
             }
-        }
-
-        #endregion Public Events
-
-        #region Startup Methods
-
-        public void SetConfiguration(CoBuilderConfig appConfig)
-        {
-            _configuration = appConfig;
         }
 
         public void Initialise()
@@ -244,23 +208,6 @@ namespace CoBuilder.Service
 
         #region Static Factories for object generation
 
-        public static T Factory<T>()
-        {
-            if (_initialised)
-            {
-                return _diContainer.GetInstance<T>();
-            }
-            throw new Exception("Service Uninitialised");
-        }
-
-        public static T Factory<T>(ExplicitArguments args)
-        {
-            if (_initialised)
-            {
-                return _diContainer.GetInstance<T>(args);
-            }
-            throw new Exception("Service Uninitialized");
-        }
 
         public static T Factory<T>(string key)
         {
@@ -318,5 +265,9 @@ namespace CoBuilder.Service
 
         #endregion DI Testing Methods */
 
+    }
+
+    public interface IServiceSession
+    {
     }
 }

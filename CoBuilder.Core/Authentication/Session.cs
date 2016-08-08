@@ -5,7 +5,7 @@ using CoBuilder.Core.RestModels;
 
 namespace CoBuilder.Core.Authentication
 {
-    class Session : ISession
+    internal class Session : ISession
     {
 
         public Session(LoginResult loginResult, string username)

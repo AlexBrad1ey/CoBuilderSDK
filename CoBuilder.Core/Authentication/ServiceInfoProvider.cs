@@ -5,17 +5,21 @@ namespace CoBuilder.Core.Authentication
 {
     public abstract class ServiceInfoProvider
     {
-        protected IAuthenticationUi AuthenticationUi;
+        private readonly IAuthenticationUi _authenticationUi;
 
-
-        protected ServiceInfoProvider(IAuthenticationProvider authenticationProvider, IAuthenticationUi authenticationUi = null)
+        protected ServiceInfoProvider(IAuthenticationProvider authenticationProvider,IAuthenticationUi authenticationUi)
         {
-            AuthenticationUi = authenticationUi;
+            _authenticationUi = authenticationUi;
             AuthenticationProvider = authenticationProvider;
         }
 
 
         public IAuthenticationProvider AuthenticationProvider { get; private set; }
+
+        public IAuthenticationUi AuthenticationUi
+        {
+            get { return _authenticationUi; }
+        }
 
         public Task<IServiceInfo> GetServiceInfoAsync(IAppConfig appConfig, IHttpProvider httpProvider)
         {

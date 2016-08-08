@@ -2,20 +2,16 @@
 
 namespace CoBuilder.Service.Domain
 {
-    public class CoBuilderUser
+    public class CoBuilderUser : ICoBuilderUser
     {
-        public string AccessToken { get; set; }
+        public string AdminName { get; }
 
-        public string AdminName { get; set; }
+        public bool CanWrite { get; }
 
-        public bool CanWrite { get; set; }
+        public string CompanyName { get; }
 
-        public string CompanyName { get; set; }
+        public Guid ContactId { get; }
 
-        public Guid ContactId { get; set; }
-
-        public string Password { get; set; }
-
-        public string Username { get; set; }
+        public string Username { get; }
     }
 }

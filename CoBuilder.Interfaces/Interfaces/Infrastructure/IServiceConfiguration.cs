@@ -1,5 +1,6 @@
 ﻿using System;
 using CoBuilder.Core;
+using CoBuilder.Core.Interfaces;
 using StructureMap;
 
 namespace CoBuilder.Service.Interfaces
@@ -10,7 +11,5 @@ namespace CoBuilder.Service.Interfaces
         bool UseDefinedContainerConfig { get; }
         Registry ContainerConfig { get; }
         ICachePolicy GlobalCachePolicy { get; }
-
-        void Dispose();
     }
 }

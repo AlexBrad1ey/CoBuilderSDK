@@ -2,19 +2,38 @@ using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Interfaces;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using CoBuilder.Service.Infrastructure;
+using CoBuilder.Service.Sets;
 
 namespace CoBuilder.Service.Sets
 {
     public class ProductsSet : BaseSet<IBimProduct>, IProductsSet
     {
-        public ProductsSet(IProductsCollection collection, ICoBuilderContext ctx)
-            : base((IList<IBimProduct>)collection.Select(x => (BimProduct)x), ctx)
+        private SupplierSet _suppliers;
+
+        public ProductsSet(IProductsCollection collection, int workplaceId, ICoBuilderContext ctx)
+            : base((IList<IBimProduct>) collection.Select(x => new BimProduct(x, workplaceId, ctx)))
         {
         }
 
-        public ProductsSet(IList<IBimProduct> entitySet, ICoBuilderContext ctx) : base(entitySet, ctx)
+        public SupplierSet Suppliers
         {
+            get
+            {
+                if (_suppliers != null) return _suppliers;
+                _suppliers = new SupplierSet(Items.GroupBy(b => b.SupplierName).Select(s => s.Key).ToList());
+                return _suppliers;
+            }
+            }
         }
+    }
+
+public class SupplierSet:ReadOnlyCollection<string>
+{
+    public SupplierSet(IList<string> suppliers) : base(suppliers)
+    {
     }
 }

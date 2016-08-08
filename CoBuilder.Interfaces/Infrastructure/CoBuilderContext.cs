@@ -50,7 +50,7 @@ namespace CoBuilder.Service.Infrastructure
 
             var result = await _client.Workplaces[workplaceId].Products.Request().GetAsync();
 
-            objectSet = new ProductsSet(result, this);
+            objectSet = new ProductsSet(result, workplaceId, this);
 
             AddToCache(KeyBuilder.Build(KeyType.Products, workplaceId.ToString()), objectSet);
 
@@ -81,7 +81,7 @@ namespace CoBuilder.Service.Infrastructure
 
             var result = await _client.Products[productId].PropertySets[propertySetId].Properties.Request().PostAsync();
 
-            objectSet = new PropertiesSet(result, this);
+            objectSet = new PropertiesSet(result, productId, propertySetId, this);
 
             AddToCache(KeyBuilder.Build(KeyType.Properties, $"{productId}-{propertySetId}"), objectSet);
 

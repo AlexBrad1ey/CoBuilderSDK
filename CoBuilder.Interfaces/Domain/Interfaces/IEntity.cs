@@ -4,6 +4,6 @@ namespace CoBuilder.Service.Domain
 {
     public interface IEntity
     {
-        ICoBuilderContext Context { get; set; }
+        ICoBuilderContext Context { get; }
     }
 }
