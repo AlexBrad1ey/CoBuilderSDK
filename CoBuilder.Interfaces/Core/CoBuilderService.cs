@@ -1,12 +1,6 @@
 ﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Reflection;
 using CoBuilder.Core.Enums;
 using CoBuilder.Core.Exceptions;
-using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Infrastructure;
 using CoBuilder.Service.Interfaces;
@@ -267,7 +261,20 @@ namespace CoBuilder.Service
 
     }
 
+    public class CommandsCollection
+    {
+    }
+
+    public class WorkPlacesRepository
+    {
+    }
+
+    public class ProductsRepository
+    {
+    }
+
     public interface IServiceSession
     {
+        ICoBuilderUser User { get; set; }
     }
 }
