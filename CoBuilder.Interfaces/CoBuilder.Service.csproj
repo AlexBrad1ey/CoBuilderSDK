@@ -56,6 +56,21 @@
     </Compile>
     <Compile Include="GUI\CoBuilderAuthenticationUi.cs" />
     <Compile Include="Domain\Interfaces\ICoBuilderUser.cs" />
+    <Compile Include="GUI\ConfigEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ConfigEditorDialog.Designer.cs">
+      <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\ConfigurationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ConfigurationDialog.Designer.cs">
+      <DependentUpon>ConfigurationDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Config\Configuration.cs" />
+    <Compile Include="Infrastructure\Config\IDefinition.cs" />
+    <Compile Include="Infrastructure\Config\PropertyTree.cs" />
     <Compile Include="Infrastructure\DI\ContainerProvider.cs" />
     <Compile Include="Interfaces\Infrastructure\IContainerProvider.cs" />
     <Compile Include="Infrastructure\ServiceBuilder.cs" />
@@ -118,6 +133,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\ConfigEditorDialog.resx">
+      <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GUI\Controls\" />
+    <Folder Include="Logic\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
