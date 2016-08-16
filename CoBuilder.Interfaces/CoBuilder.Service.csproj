@@ -62,11 +62,11 @@
     <Compile Include="GUI\ConfigEditorDialog.Designer.cs">
       <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\ConfigurationDialog.cs">
+    <Compile Include="GUI\LoginDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\ConfigurationDialog.Designer.cs">
-      <DependentUpon>ConfigurationDialog.cs</DependentUpon>
+    <Compile Include="GUI\LoginDialog.Designer.cs">
+      <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Config\Configuration.cs" />
     <Compile Include="Infrastructure\Config\IDefinition.cs" />
@@ -83,12 +83,6 @@
     <Compile Include="Infrastructure\DI\ScanningRegistry.cs" />
     <Compile Include="Infrastructure\DI\ServiceRegistry.cs" />
     <Compile Include="Interfaces\Infrastructure\IServiceConfiguration.cs" />
-    <Compile Include="GUI\LoginDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\LoginDialog.Designer.cs">
-      <DependentUpon>LoginDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\ProductDialog.cs">
       <SubType>Form</SubType>
     </Compile>
