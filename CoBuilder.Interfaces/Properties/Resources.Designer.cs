@@ -111,6 +111,15 @@ namespace CoBuilder.Service.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to http://www.CoBuilder.com.
+        /// </summary>
+        internal static string CoBuilderHome {
+            get {
+                return ResourceManager.GetString("CoBuilderHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap GenericMaterial {

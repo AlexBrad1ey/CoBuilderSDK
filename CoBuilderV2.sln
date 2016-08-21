@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTester", "BuildTester\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E90F29E1-0204-466C-A504-7D02EE1A2126}"
 	ProjectSection(SolutionItems) = preProject
+		Dlls\OCSLRevitUtils.dll = Dlls\OCSLRevitUtils.dll
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject

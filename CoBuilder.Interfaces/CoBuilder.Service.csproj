@@ -34,6 +34,9 @@
       <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OCSLRevitUtils">
+      <HintPath>..\Dlls\OCSLRevitUtils.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=4.3.0.449, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\StructureMap.4.4.0\lib\net45\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -62,12 +65,20 @@
     <Compile Include="GUI\ConfigEditorDialog.Designer.cs">
       <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\Enums\SignInResult.cs" />
+    <Compile Include="GUI\WorkplaceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\WorkplaceDialog.Designer.cs">
+      <DependentUpon>WorkplaceDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\LoginDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\LoginDialog.Designer.cs">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Infrastructure\Config\Configuration.cs" />
     <Compile Include="Infrastructure\Config\IDefinition.cs" />
     <Compile Include="Infrastructure\Config\PropertyTree.cs" />
@@ -130,6 +141,12 @@
     <EmbeddedResource Include="GUI\ConfigEditorDialog.resx">
       <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ProductDialog.resx">
+      <DependentUpon>ProductDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\WorkplaceDialog.resx">
+      <DependentUpon>WorkplaceDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -139,6 +156,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

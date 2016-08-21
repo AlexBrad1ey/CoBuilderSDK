@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CoBuilder.Core.Enums;
 using CoBuilder.Core.Exceptions;
 using CoBuilder.Service.Domain;
@@ -267,6 +268,10 @@ namespace CoBuilder.Service
 
     public class WorkPlacesRepository
     {
+        public IList<Core.Domain.IWorkplace> GetAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ProductsRepository
@@ -275,6 +280,8 @@ namespace CoBuilder.Service
 
     public interface IServiceSession
     {
+
         ICoBuilderUser User { get; set; }
+        IWorkplace CurrentWorkplace { get; set; }
     }
 }

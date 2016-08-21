@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.PbxCoBuilder = new System.Windows.Forms.PictureBox();
             this.grpLogin = new System.Windows.Forms.GroupBox();
             this.CbxRemember = new System.Windows.Forms.CheckBox();
             this.CmbLogin = new System.Windows.Forms.Button();
@@ -36,28 +35,14 @@
             this.LblPassword = new System.Windows.Forms.Label();
             this.TxbName = new System.Windows.Forms.TextBox();
             this.LblName = new System.Windows.Forms.Label();
-            this.GrpWorkplace = new System.Windows.Forms.GroupBox();
-            this.CmbApply = new System.Windows.Forms.Button();
-            this.CboWorkplace = new System.Windows.Forms.ComboBox();
             this.GbxCommands = new System.Windows.Forms.GroupBox();
             this.CmbCancel = new System.Windows.Forms.Button();
             this.CmbOK = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.PbxCoBuilder)).BeginInit();
+            this.PbxCoBuilder = new System.Windows.Forms.PictureBox();
             this.grpLogin.SuspendLayout();
-            this.GrpWorkplace.SuspendLayout();
             this.GbxCommands.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxCoBuilder)).BeginInit();
             this.SuspendLayout();
-            // 
-            // PbxCoBuilder
-            // 
-            this.PbxCoBuilder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PbxCoBuilder.Image = global::CoBuilder.Service.Properties.Resources.CoBuilder_logo;
-            this.PbxCoBuilder.Location = new System.Drawing.Point(88, 11);
-            this.PbxCoBuilder.Margin = new System.Windows.Forms.Padding(2);
-            this.PbxCoBuilder.Name = "PbxCoBuilder";
-            this.PbxCoBuilder.Size = new System.Drawing.Size(196, 50);
-            this.PbxCoBuilder.TabIndex = 13;
-            this.PbxCoBuilder.TabStop = false;
             // 
             // grpLogin
             // 
@@ -99,6 +84,7 @@
             this.CmbLogin.TabIndex = 4;
             this.CmbLogin.Text = "Login";
             this.CmbLogin.UseVisualStyleBackColor = true;
+            this.CmbLogin.Click += new System.EventHandler(this.CmbLogin_Click);
             // 
             // TxbPassword
             // 
@@ -111,6 +97,7 @@
             this.TxbPassword.TabIndex = 3;
             this.TxbPassword.Text = "password";
             this.TxbPassword.UseSystemPasswordChar = true;
+            this.TxbPassword.Enter += new System.EventHandler(this.TxbPassword_Enter);
             // 
             // LblPassword
             // 
@@ -132,6 +119,7 @@
             this.TxbName.Size = new System.Drawing.Size(246, 20);
             this.TxbName.TabIndex = 1;
             this.TxbName.Text = " cobuilderuk@gmail.com";
+            this.TxbName.Enter += new System.EventHandler(this.TxbName_Enter);
             // 
             // LblName
             // 
@@ -143,50 +131,13 @@
             this.LblName.TabIndex = 0;
             this.LblName.Text = "Name";
             // 
-            // GrpWorkplace
-            // 
-            this.GrpWorkplace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.GrpWorkplace.Controls.Add(this.CmbApply);
-            this.GrpWorkplace.Controls.Add(this.CboWorkplace);
-            this.GrpWorkplace.Location = new System.Drawing.Point(11, 225);
-            this.GrpWorkplace.Margin = new System.Windows.Forms.Padding(2);
-            this.GrpWorkplace.Name = "GrpWorkplace";
-            this.GrpWorkplace.Padding = new System.Windows.Forms.Padding(2);
-            this.GrpWorkplace.Size = new System.Drawing.Size(273, 65);
-            this.GrpWorkplace.TabIndex = 15;
-            this.GrpWorkplace.TabStop = false;
-            this.GrpWorkplace.Text = "Select Current Work Place";
-            // 
-            // CmbApply
-            // 
-            this.CmbApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CmbApply.Location = new System.Drawing.Point(204, 24);
-            this.CmbApply.Margin = new System.Windows.Forms.Padding(2);
-            this.CmbApply.Name = "CmbApply";
-            this.CmbApply.Size = new System.Drawing.Size(56, 27);
-            this.CmbApply.TabIndex = 2;
-            this.CmbApply.Text = "Apply";
-            this.CmbApply.UseVisualStyleBackColor = true;
-            // 
-            // CboWorkplace
-            // 
-            this.CboWorkplace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CboWorkplace.FormattingEnabled = true;
-            this.CboWorkplace.Location = new System.Drawing.Point(14, 28);
-            this.CboWorkplace.Margin = new System.Windows.Forms.Padding(2);
-            this.CboWorkplace.Name = "CboWorkplace";
-            this.CboWorkplace.Size = new System.Drawing.Size(186, 21);
-            this.CboWorkplace.TabIndex = 1;
-            // 
             // GbxCommands
             // 
             this.GbxCommands.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GbxCommands.Controls.Add(this.CmbCancel);
             this.GbxCommands.Controls.Add(this.CmbOK);
-            this.GbxCommands.Location = new System.Drawing.Point(11, 293);
+            this.GbxCommands.Location = new System.Drawing.Point(11, 226);
             this.GbxCommands.Margin = new System.Windows.Forms.Padding(2);
             this.GbxCommands.Name = "GbxCommands";
             this.GbxCommands.Padding = new System.Windows.Forms.Padding(2);
@@ -205,6 +156,7 @@
             this.CmbCancel.TabIndex = 1;
             this.CmbCancel.Text = "&Cancel";
             this.CmbCancel.UseVisualStyleBackColor = true;
+            this.CmbCancel.Click += new System.EventHandler(this.CmbCancel_Click);
             // 
             // CmbOK
             // 
@@ -218,24 +170,37 @@
             this.CmbOK.TabIndex = 0;
             this.CmbOK.Text = "&OK";
             this.CmbOK.UseVisualStyleBackColor = true;
+            this.CmbOK.Click += new System.EventHandler(this.CmbOK_Click);
+            // 
+            // PbxCoBuilder
+            // 
+            this.PbxCoBuilder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.PbxCoBuilder.Image = global::CoBuilder.Service.Properties.Resources.CoBuilder_logo;
+            this.PbxCoBuilder.Location = new System.Drawing.Point(88, 11);
+            this.PbxCoBuilder.Margin = new System.Windows.Forms.Padding(2);
+            this.PbxCoBuilder.Name = "PbxCoBuilder";
+            this.PbxCoBuilder.Size = new System.Drawing.Size(196, 50);
+            this.PbxCoBuilder.TabIndex = 13;
+            this.PbxCoBuilder.TabStop = false;
             // 
             // LoginDialog
             // 
+            this.AcceptButton = this.CmbOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(295, 358);
+            this.CancelButton = this.CmbCancel;
+            this.ClientSize = new System.Drawing.Size(295, 291);
             this.Controls.Add(this.GbxCommands);
-            this.Controls.Add(this.GrpWorkplace);
             this.Controls.Add(this.grpLogin);
             this.Controls.Add(this.PbxCoBuilder);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "LoginDialog";
             this.Text = "CoBuilder Login";
-            ((System.ComponentModel.ISupportInitialize)(this.PbxCoBuilder)).EndInit();
+            this.Load += new System.EventHandler(this.LoginDialog_Load);
             this.grpLogin.ResumeLayout(false);
             this.grpLogin.PerformLayout();
-            this.GrpWorkplace.ResumeLayout(false);
             this.GbxCommands.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PbxCoBuilder)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -250,9 +215,6 @@
         private System.Windows.Forms.Label LblPassword;
         private System.Windows.Forms.TextBox TxbName;
         private System.Windows.Forms.Label LblName;
-        private System.Windows.Forms.GroupBox GrpWorkplace;
-        private System.Windows.Forms.Button CmbApply;
-        private System.Windows.Forms.ComboBox CboWorkplace;
         private System.Windows.Forms.GroupBox GbxCommands;
         private System.Windows.Forms.Button CmbCancel;
         private System.Windows.Forms.Button CmbOK;

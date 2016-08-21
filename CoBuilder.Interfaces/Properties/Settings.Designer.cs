@@ -22,5 +22,17 @@ namespace CoBuilder.Service.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"C://\"")]
+        public string ErrorPath {
+            get {
+                return ((string)(this["ErrorPath"]));
+            }
+            set {
+                this["ErrorPath"] = value;
+            }
+        }
     }
 }
