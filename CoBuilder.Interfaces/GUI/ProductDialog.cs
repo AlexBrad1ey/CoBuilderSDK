@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using CoBuilder.Service.Domain;
@@ -35,7 +36,7 @@ namespace CoBuilder.Service.GUI
             {
                 Filters_Changed(sender, e);
 
-                _supplierproxy = _productStore.GetAllSupplierList().ToObservableCollection();
+                _supplierProxy = new ObservableCollection<string>(_productsRepo.GetAllSupplierList());
                 Suppliers_CollectionChanged(sender, e);
 
                 GBxProducts.Text = "Select Product from current Work Place.";
@@ -44,7 +45,7 @@ namespace CoBuilder.Service.GUI
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                _commonSettings.WriteLogFile(exception, GetType().Name, MethodBase.GetCurrentMethod().Name);
+                _settings.WriteLogFile(exception, GetType().Name, MethodBase.GetCurrentMethod().Name);
             }
         }
 
@@ -106,14 +107,14 @@ namespace CoBuilder.Service.GUI
         {
             try
             {
-                _productProxy =
+                _productProxy = new ObservableCollection<BimProduct>(
                     _productsRepo.GetAll()
                         .Where(
                             bp =>
                                 (!CbxApplySupplierFilter.Checked || bp.SupplierName == CboSupplier.Text) &&
                                 (!CbxProductFilter.Checked ||
                                  bp.Name.IndexOf(TxbFilter.Text, StringComparison.InvariantCultureIgnoreCase) >= 0))
-                        .ToObservableCollection();
+                        );
                 Products_CollectionChanged(sender, e);
                 CboProduct.SelectedIndex = CboProduct.Items.Count <= 0 ? -1 : 0;
                 UpdateProductData();

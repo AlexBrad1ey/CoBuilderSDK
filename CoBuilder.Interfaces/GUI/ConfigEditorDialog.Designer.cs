@@ -38,10 +38,14 @@
             this.gbxConfigEdit = new System.Windows.Forms.GroupBox();
             this.PbxCoBuilder = new System.Windows.Forms.PictureBox();
             this.GbxDetails = new System.Windows.Forms.GroupBox();
-            this.LblName = new System.Windows.Forms.Label();
-            this.LblAuthor = new System.Windows.Forms.Label();
-            this.tbxName = new System.Windows.Forms.TextBox();
+            this.cmdConfigCancel = new System.Windows.Forms.Button();
+            this.lblAuthorValue = new System.Windows.Forms.Label();
+            this.lblNameValue = new System.Windows.Forms.Label();
+            this.cmdConfigEdit = new System.Windows.Forms.Button();
             this.tbxAuthor = new System.Windows.Forms.TextBox();
+            this.tbxName = new System.Windows.Forms.TextBox();
+            this.LblAuthor = new System.Windows.Forms.Label();
+            this.LblName = new System.Windows.Forms.Label();
             this.GbxCommands = new System.Windows.Forms.GroupBox();
             this.CmbCancel = new System.Windows.Forms.Button();
             this.CmbOK = new System.Windows.Forms.Button();
@@ -90,7 +94,6 @@
             this.CmdRemove.TabIndex = 3;
             this.CmdRemove.Text = "&Remove";
             this.CmdRemove.UseVisualStyleBackColor = true;
-            this.CmdRemove.Click += new System.EventHandler(this.CmdRemove_Click);
             // 
             // CmdEdit
             // 
@@ -102,7 +105,6 @@
             this.CmdEdit.TabIndex = 2;
             this.CmdEdit.Text = "&Edit";
             this.CmdEdit.UseVisualStyleBackColor = true;
-            this.CmdEdit.Click += new System.EventHandler(this.CmdEdit_Click);
             // 
             // CmdConfigAdd
             // 
@@ -114,7 +116,6 @@
             this.CmdConfigAdd.TabIndex = 1;
             this.CmdConfigAdd.Text = "&Add";
             this.CmdConfigAdd.UseVisualStyleBackColor = true;
-            this.CmdConfigAdd.Click += new System.EventHandler(this.CmdConfigAdd_Click);
             // 
             // TrvConfiguration
             // 
@@ -137,7 +138,6 @@
             this.CmdAddtoConfig.TabIndex = 4;
             this.CmdAddtoConfig.Text = "&Add";
             this.CmdAddtoConfig.UseVisualStyleBackColor = true;
-            this.CmdAddtoConfig.Click += new System.EventHandler(this.CmdAddtoConfig_Click);
             // 
             // TrvRoot
             // 
@@ -175,6 +175,10 @@
             // 
             // GbxDetails
             // 
+            this.GbxDetails.Controls.Add(this.cmdConfigCancel);
+            this.GbxDetails.Controls.Add(this.lblAuthorValue);
+            this.GbxDetails.Controls.Add(this.lblNameValue);
+            this.GbxDetails.Controls.Add(this.cmdConfigEdit);
             this.GbxDetails.Controls.Add(this.tbxAuthor);
             this.GbxDetails.Controls.Add(this.tbxName);
             this.GbxDetails.Controls.Add(this.LblAuthor);
@@ -186,14 +190,66 @@
             this.GbxDetails.TabStop = false;
             this.GbxDetails.Text = "Details";
             // 
-            // LblName
+            // cmdConfigCancel
             // 
-            this.LblName.AutoSize = true;
-            this.LblName.Location = new System.Drawing.Point(9, 20);
-            this.LblName.Name = "LblName";
-            this.LblName.Size = new System.Drawing.Size(100, 13);
-            this.LblName.TabIndex = 0;
-            this.LblName.Text = "Configuration Name";
+            this.cmdConfigCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmdConfigCancel.Location = new System.Drawing.Point(299, 39);
+            this.cmdConfigCancel.Margin = new System.Windows.Forms.Padding(6);
+            this.cmdConfigCancel.Name = "cmdConfigCancel";
+            this.cmdConfigCancel.Size = new System.Drawing.Size(50, 27);
+            this.cmdConfigCancel.TabIndex = 7;
+            this.cmdConfigCancel.Text = "&Cancel";
+            this.cmdConfigCancel.UseVisualStyleBackColor = true;
+            this.cmdConfigCancel.Click += new System.EventHandler(this.cmdConfigCancel_Click);
+            // 
+            // lblAuthorValue
+            // 
+            this.lblAuthorValue.AutoSize = true;
+            this.lblAuthorValue.Location = new System.Drawing.Point(83, 46);
+            this.lblAuthorValue.Name = "lblAuthorValue";
+            this.lblAuthorValue.Size = new System.Drawing.Size(38, 13);
+            this.lblAuthorValue.TabIndex = 6;
+            this.lblAuthorValue.Text = "Author";
+            // 
+            // lblNameValue
+            // 
+            this.lblNameValue.AutoSize = true;
+            this.lblNameValue.Location = new System.Drawing.Point(83, 20);
+            this.lblNameValue.Name = "lblNameValue";
+            this.lblNameValue.Size = new System.Drawing.Size(35, 13);
+            this.lblNameValue.TabIndex = 5;
+            this.lblNameValue.Text = "Name";
+            // 
+            // cmdConfigEdit
+            // 
+            this.cmdConfigEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmdConfigEdit.Location = new System.Drawing.Point(244, 39);
+            this.cmdConfigEdit.Margin = new System.Windows.Forms.Padding(6);
+            this.cmdConfigEdit.Name = "cmdConfigEdit";
+            this.cmdConfigEdit.Size = new System.Drawing.Size(51, 27);
+            this.cmdConfigEdit.TabIndex = 4;
+            this.cmdConfigEdit.Text = "&Edit";
+            this.cmdConfigEdit.UseVisualStyleBackColor = true;
+            this.cmdConfigEdit.Click += new System.EventHandler(this.cmdConfigEdit_Click);
+            // 
+            // tbxAuthor
+            // 
+            this.tbxAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxAuthor.Location = new System.Drawing.Point(83, 43);
+            this.tbxAuthor.Name = "tbxAuthor";
+            this.tbxAuthor.Size = new System.Drawing.Size(152, 20);
+            this.tbxAuthor.TabIndex = 3;
+            // 
+            // tbxName
+            // 
+            this.tbxName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxName.BackColor = System.Drawing.SystemColors.Window;
+            this.tbxName.Location = new System.Drawing.Point(83, 17);
+            this.tbxName.Name = "tbxName";
+            this.tbxName.Size = new System.Drawing.Size(266, 20);
+            this.tbxName.TabIndex = 2;
             // 
             // LblAuthor
             // 
@@ -204,23 +260,14 @@
             this.LblAuthor.TabIndex = 1;
             this.LblAuthor.Text = "Author";
             // 
-            // tbxName
+            // LblName
             // 
-            this.tbxName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxName.Location = new System.Drawing.Point(115, 17);
-            this.tbxName.Name = "tbxName";
-            this.tbxName.Size = new System.Drawing.Size(237, 20);
-            this.tbxName.TabIndex = 2;
-            // 
-            // tbxAuthor
-            // 
-            this.tbxAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxAuthor.Location = new System.Drawing.Point(115, 43);
-            this.tbxAuthor.Name = "tbxAuthor";
-            this.tbxAuthor.Size = new System.Drawing.Size(237, 20);
-            this.tbxAuthor.TabIndex = 3;
+            this.LblName.AutoSize = true;
+            this.LblName.Location = new System.Drawing.Point(9, 20);
+            this.LblName.Name = "LblName";
+            this.LblName.Size = new System.Drawing.Size(68, 13);
+            this.LblName.TabIndex = 0;
+            this.LblName.Text = "Config Name";
             // 
             // GbxCommands
             // 
@@ -271,7 +318,8 @@
             this.Controls.Add(this.PbxCoBuilder);
             this.Controls.Add(this.gbxConfigEdit);
             this.Name = "ConfigEditorDialog";
-            this.Text = "a|szxq";
+            this.Text = "Configuration Editor";
+            this.Load += new System.EventHandler(this.ConfigEditorDialog_Load);
             this.SpCForm.Panel1.ResumeLayout(false);
             this.SpCForm.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SpCForm)).EndInit();
@@ -304,5 +352,9 @@
         private System.Windows.Forms.GroupBox GbxCommands;
         private System.Windows.Forms.Button CmbCancel;
         private System.Windows.Forms.Button CmbOK;
+        private System.Windows.Forms.Label lblAuthorValue;
+        private System.Windows.Forms.Label lblNameValue;
+        private System.Windows.Forms.Button cmdConfigEdit;
+        private System.Windows.Forms.Button cmdConfigCancel;
     }
 }

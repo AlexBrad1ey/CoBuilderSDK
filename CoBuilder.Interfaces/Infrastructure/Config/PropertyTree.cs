@@ -63,7 +63,7 @@ namespace CoBuilder.Service.Infrastructure.Config
         }
     }
 
-    public class TreeNode<T> : Node<T>
+    public class TreeNode<T>
     {
         private TreeNode<T> _parent;
 
@@ -72,23 +72,23 @@ namespace CoBuilder.Service.Infrastructure.Config
 
         }
 
-        public TreeNode(T value) : base(value, null)
+        public TreeNode(T info)
         {
-
+            Value = info;
         }
 
-        public TreeNode(T info, NodeList<T> children) : base(info, children)
+        public TreeNode(T info, NodeList<T> children) : this(info)
         {
+            Children = children;
         }
 
-        public TreeNode(T info, TreeNode<T> parent) : base(info, null)
+        public TreeNode(T info, TreeNode<T> parent) : this(info)
         {
             _parent = parent.AddChild(this);
         }
 
-        public TreeNode(T info, params TreeNode<T>[] children)
+        public TreeNode(T info, params TreeNode<T>[] children) : this(info)
         {
-            Value = info;
 #pragma warning disable RECS0021 // Warns about calls to virtual member functions occuring in the constructor
             AddChildren(children);
 #pragma warning restore RECS0021 // Warns about calls to virtual member functions occuring in the constructor
@@ -100,21 +100,21 @@ namespace CoBuilder.Service.Infrastructure.Config
             get { return _parent; }
             set
             {
-                Parent.Neighbors.Remove(this);
+                Parent.Children.Remove(this);
                 value.AddChild(this);
             }
         }
 
-        public NodeList<T> Children => Neighbors;
+        public NodeList<T> Children { get; set; }
 
-        public bool HasChildren => Neighbors != null && Neighbors.Count > 0;
-
+        public bool HasChildren => Children != null && Children.Count > 0;
+        public T Value { get; protected set; }
 
         public virtual TreeNode<T> AddChild(TreeNode<T> child)
         {
             var temp = Children ?? new NodeList<T>();
             PrivateAddChild(child, temp);
-            Neighbors = temp;
+            Children = temp;
             return this;
         }
 
@@ -125,7 +125,7 @@ namespace CoBuilder.Service.Infrastructure.Config
             {
                 PrivateAddChild(child, temp);
             }
-            Neighbors = temp;
+            Children = temp;
 
             return this;
         }
@@ -174,30 +174,7 @@ namespace CoBuilder.Service.Infrastructure.Config
         }
     }
 
-    public class Node<T>
-    {
-        // Private member-variables
-
-        public Node()
-        {
-        }
-
-        public Node(T info) : this(info, null)
-        {
-        }
-
-        public Node(T info, NodeList<T> neighbors)
-        {
-            Value = info;
-            Neighbors = neighbors;
-        }
-
-        public T Value { get; protected set; }
-
-        protected NodeList<T> Neighbors { get; set; }
-    }
-
-    public class NodeList<T> : Collection<Node<T>>
+    public class NodeList<T> : Collection<TreeNode<T>>
     {
         public NodeList()
         {
@@ -207,10 +184,10 @@ namespace CoBuilder.Service.Infrastructure.Config
         {
             // Add the specified number of items
             for (var i = 0; i < initialSize; i++)
-                Items.Add(default(Node<T>));
+                Items.Add(default(TreeNode<T>));
         }
 
-        public Node<T> FindByValue(T value)
+        public TreeNode<T> FindByValue(T value)
         {
             // search the list for the value
             return Items.FirstOrDefault(node => node.Value.Equals(value));
