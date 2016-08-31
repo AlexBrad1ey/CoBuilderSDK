@@ -31,9 +31,8 @@
             this.SpCForm = new System.Windows.Forms.SplitContainer();
             this.CmdRemove = new System.Windows.Forms.Button();
             this.CmdEdit = new System.Windows.Forms.Button();
-            this.CmdConfigAdd = new System.Windows.Forms.Button();
             this.TrvConfiguration = new System.Windows.Forms.TreeView();
-            this.CmdAddtoConfig = new System.Windows.Forms.Button();
+            this.CmdAdd = new System.Windows.Forms.Button();
             this.TrvRoot = new System.Windows.Forms.TreeView();
             this.gbxConfigEdit = new System.Windows.Forms.GroupBox();
             this.PbxCoBuilder = new System.Windows.Forms.PictureBox();
@@ -69,13 +68,12 @@
             // 
             this.SpCForm.Panel1.Controls.Add(this.CmdRemove);
             this.SpCForm.Panel1.Controls.Add(this.CmdEdit);
-            this.SpCForm.Panel1.Controls.Add(this.CmdConfigAdd);
             this.SpCForm.Panel1.Controls.Add(this.TrvConfiguration);
             this.SpCForm.Panel1MinSize = 225;
             // 
             // SpCForm.Panel2
             // 
-            this.SpCForm.Panel2.Controls.Add(this.CmdAddtoConfig);
+            this.SpCForm.Panel2.Controls.Add(this.CmdAdd);
             this.SpCForm.Panel2.Controls.Add(this.TrvRoot);
             this.SpCForm.Panel2.Margin = new System.Windows.Forms.Padding(3);
             this.SpCForm.Panel2MinSize = 225;
@@ -87,7 +85,7 @@
             // CmdRemove
             // 
             this.CmdRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CmdRemove.Location = new System.Drawing.Point(132, 398);
+            this.CmdRemove.Location = new System.Drawing.Point(69, 398);
             this.CmdRemove.Margin = new System.Windows.Forms.Padding(6);
             this.CmdRemove.Name = "CmdRemove";
             this.CmdRemove.Size = new System.Drawing.Size(56, 27);
@@ -98,7 +96,7 @@
             // CmdEdit
             // 
             this.CmdEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CmdEdit.Location = new System.Drawing.Point(69, 398);
+            this.CmdEdit.Location = new System.Drawing.Point(6, 398);
             this.CmdEdit.Margin = new System.Windows.Forms.Padding(6);
             this.CmdEdit.Name = "CmdEdit";
             this.CmdEdit.Size = new System.Drawing.Size(51, 27);
@@ -106,44 +104,36 @@
             this.CmdEdit.Text = "&Edit";
             this.CmdEdit.UseVisualStyleBackColor = true;
             // 
-            // CmdConfigAdd
-            // 
-            this.CmdConfigAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CmdConfigAdd.Location = new System.Drawing.Point(6, 398);
-            this.CmdConfigAdd.Margin = new System.Windows.Forms.Padding(6);
-            this.CmdConfigAdd.Name = "CmdConfigAdd";
-            this.CmdConfigAdd.Size = new System.Drawing.Size(51, 27);
-            this.CmdConfigAdd.TabIndex = 1;
-            this.CmdConfigAdd.Text = "&Add";
-            this.CmdConfigAdd.UseVisualStyleBackColor = true;
-            // 
             // TrvConfiguration
             // 
             this.TrvConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TrvConfiguration.Location = new System.Drawing.Point(6, 12);
+            this.TrvConfiguration.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TrvConfiguration.Location = new System.Drawing.Point(5, 12);
             this.TrvConfiguration.Margin = new System.Windows.Forms.Padding(6);
             this.TrvConfiguration.Name = "TrvConfiguration";
             this.TrvConfiguration.Size = new System.Drawing.Size(282, 374);
             this.TrvConfiguration.TabIndex = 0;
             // 
-            // CmdAddtoConfig
+            // CmdAdd
             // 
-            this.CmdAddtoConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CmdAddtoConfig.Location = new System.Drawing.Point(239, 398);
-            this.CmdAddtoConfig.Margin = new System.Windows.Forms.Padding(6);
-            this.CmdAddtoConfig.Name = "CmdAddtoConfig";
-            this.CmdAddtoConfig.Size = new System.Drawing.Size(51, 27);
-            this.CmdAddtoConfig.TabIndex = 4;
-            this.CmdAddtoConfig.Text = "&Add";
-            this.CmdAddtoConfig.UseVisualStyleBackColor = true;
+            this.CmdAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmdAdd.Location = new System.Drawing.Point(239, 398);
+            this.CmdAdd.Margin = new System.Windows.Forms.Padding(6);
+            this.CmdAdd.Name = "CmdAdd";
+            this.CmdAdd.Size = new System.Drawing.Size(51, 27);
+            this.CmdAdd.TabIndex = 4;
+            this.CmdAdd.Text = "&Add";
+            this.CmdAdd.UseVisualStyleBackColor = true;
+            this.CmdAdd.Click += new System.EventHandler(this.CmdAdd_Click);
             // 
             // TrvRoot
             // 
             this.TrvRoot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.TrvRoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TrvRoot.Location = new System.Drawing.Point(6, 12);
             this.TrvRoot.Margin = new System.Windows.Forms.Padding(6);
             this.TrvRoot.Name = "TrvRoot";
@@ -294,6 +284,7 @@
             this.CmbCancel.TabIndex = 1;
             this.CmbCancel.Text = "&Cancel";
             this.CmbCancel.UseVisualStyleBackColor = true;
+            this.CmbCancel.Click += new System.EventHandler(this.CmbCancel_Click);
             // 
             // CmbOK
             // 
@@ -307,6 +298,7 @@
             this.CmbOK.TabIndex = 0;
             this.CmbOK.Text = "&OK";
             this.CmbOK.UseVisualStyleBackColor = true;
+            this.CmbOK.Click += new System.EventHandler(this.CmbOK_Click);
             // 
             // ConfigEditorDialog
             // 
@@ -340,8 +332,7 @@
         private System.Windows.Forms.TreeView TrvRoot;
         private System.Windows.Forms.Button CmdRemove;
         private System.Windows.Forms.Button CmdEdit;
-        private System.Windows.Forms.Button CmdConfigAdd;
-        private System.Windows.Forms.Button CmdAddtoConfig;
+        private System.Windows.Forms.Button CmdAdd;
         private System.Windows.Forms.GroupBox gbxConfigEdit;
         private System.Windows.Forms.PictureBox PbxCoBuilder;
         private System.Windows.Forms.GroupBox GbxDetails;

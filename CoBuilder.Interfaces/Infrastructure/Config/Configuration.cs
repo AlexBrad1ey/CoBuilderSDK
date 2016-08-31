@@ -7,24 +7,34 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CoBuilder.Service.Helpers;
+using CoBuilder.Service.Infrastructure.Structures;
+using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Infrastructure.Config
 {
 
     public class Configuration
     {
-        private readonly IDictionary<DefinitionKey, IDefinition> _definitions;
-        private readonly PropertyTree _structure;
+        private Guid _configId;
+        private string _name;
+        private string _author;
 
-        public Configuration()
+        //private readonly IDictionary<DefinitionKey, IDefinition> _definitions;
+        private readonly IConfigDefinition _root;
+        
+
+        public Configuration(string name, string author)
         {
-            var root = GenerateRoot();
+            _configId = Guid.NewGuid();
+            _name = name;
+            _author = author;
 
-           _structure = new PropertyTree(new DefinitionNode(root));
-            _definitions = new Dictionary<DefinitionKey, IDefinition> { {KeyBuilder.Build(root), root}};
+            var root = GenerateRoot();
+            //_definitions = new Dictionary<DefinitionKey, IDefinition> { {KeyBuilder.Build(root), root}};
+            _root = root;
         }
 
-        private IDefinition GenerateRoot()
+        private IConfigDefinition GenerateRoot()
         {
             return new ConfigDefinition()
             {
@@ -34,77 +44,37 @@ namespace CoBuilder.Service.Infrastructure.Config
         }
 
 
-        public Guid ConfigId { get; set; }
-        public string Name { get; set; }
-        public string Author { get; set; }
-        public int WorkplaceId { get; set; }
-
-        public PropertyTree Structure
+        public Guid ConfigId
         {
-            get { return _structure; }
+            get { return _configId; }
         }
-
-        public IDictionary<DefinitionKey, IDefinition> Definitions   
+        public string Name
         {
-            get { return _definitions; }
+            get { return _name; }
         }
-    }
-
-    public interface IPropertyDefinition :IDefinition
-    {
-    }
-
-    public enum DefinitionType
-    {
-        Property,
-        Configuration,
-        PropertySet
-    }
-
-    public class Definition : IDefinition
-    {
-        private readonly DefinitionType _definitionType;
-
-        protected Definition(DefinitionType definitionType)
+        public string Author
         {
-            _definitionType = definitionType;
-            Constraints = new List<IConstraint>();
+            get { return _author; }
         }
-
-        public DefinitionType DefinitionType
+        public IConfigDefinition Root
         {
-            get { return _definitionType; }
+            get { return _root; }
         }
-
-        public string DisplayName { get; set; }
-        public string Identifier { get; set;  }
-        public IList<IConstraint> Constraints { get; set; }
-    }
-
-    public class PropertyDefinition : Definition
-    {
-        public PropertyDefinition() : base(DefinitionType.Property)
+       
+        public IPropertyDefinition AddProperty(IPropertyDefinition property, IPropertySetDefinition pSet)
         {
+            if (property == null) throw new ArgumentNullException(nameof(property));
+            if (pSet == null) throw new ArgumentNullException(nameof(pSet));
+            if (!Root.PropertySets.ContainsKey(KeyBuilder.Build(pSet))) throw new ArgumentException("Property Set Definition Not Present within Configuration",nameof(pSet));
+
+            return pSet.AddProperty(property);
         }
-    }
-
-    public class ConfigDefinition : Definition
-    {
-        public ConfigDefinition() : base(DefinitionType.Configuration)
+        public IPropertySetDefinition AddPropertySet(IPropertySetDefinition pSet)
         {
-        }
-    }
+            if (pSet == null) throw new ArgumentNullException(nameof(pSet));
+            //if (_definitions.ContainsKey(KeyBuilder.Build(pSet))) throw new ArgumentException("Property Set Definition Already Present within Configuration", nameof(pSet));
 
-    public class DefinitionKey
-    {
-        public string DisplayName { get; set; }
-        public string Identifier { get; set; }
-    }
-
-    public class PropertySetDefinition : Definition
-    {
-        public PropertySetDefinition() : base(DefinitionType.PropertySet)
-        {
+            return Root.AddPropertySet(pSet);
         }
     }
 }

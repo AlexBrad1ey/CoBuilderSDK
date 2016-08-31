@@ -34,18 +34,21 @@ namespace BuildTester
             foreach (var BP in products)
             {
                 Console.WriteLine($"{BP.Id} - {BP.Name}");
+                Console.WriteLine($"\tIdentifier - {BP.Identifier}");
+                Console.WriteLine($"\tSupplier - {BP.SupplierName}");
+                Console.WriteLine($"\t Type - {BP.ProductTypes}");
 
                 var pSets = client.Workplaces[162789].Products[BP.Id].PropertySets.Request().PostAsync().Result;
 
                 foreach (var pSet in pSets)
                 {
-                    Console.WriteLine($"\t{pSet.Id} - {pSet.Name}");
+                    Console.WriteLine($"\t\t{pSet.Id} - {pSet.Name}");
 
                     var properties = client.Workplaces[162789].Products[BP.Id].PropertySets[pSet.Id].Properties.Request().PostAsync().Result;
 
                     foreach (var prop in properties)
                     {
-                        Console.WriteLine($"\t\t{prop.Id} - {prop.Name} - {prop.Value} {prop.Unit}");
+                        Console.WriteLine($"\t\t\t{prop.Id} - {prop.Name} - {prop.Value} {prop.Unit}");
                     }
                 }
             }

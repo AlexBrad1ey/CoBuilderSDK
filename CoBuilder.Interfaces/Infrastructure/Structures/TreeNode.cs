@@ -1,68 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Design.Serialization;
-using System.Linq;
-using System.Windows.Forms;
-using StructureMap.Pipeline;
+using System;
 
-namespace CoBuilder.Service.Infrastructure.Config
+namespace CoBuilder.Service.Infrastructure.Structures
 {
-    public class PropertyTree : Tree<IDefinition>
-    {
-        public PropertyTree(DefinitionNode root) : base(root)
-        {
-        }
-    }
-
-    public class DefinitionNode : TreeNode<IDefinition>
-    {
-        public DefinitionNode()
-        {
-        }
-
-        public DefinitionNode(IDefinition value) : base(value)
-        {
-        }
-
-        public DefinitionNode(IDefinition info, params TreeNode<IDefinition>[] children) : base(info, children)
-        {
-        }
-
-        public DefinitionNode(IDefinition info, DefinitionNode parent) : base(info, parent)
-        {
-        }
-
-        public DefinitionNode(IDefinition info, NodeList<IDefinition> children) : base(info, children)
-        {
-        }
-    }
-
-    public class Tree<T>
-    {
-        public Tree()
-        {
-            Root = null;
-        }
-
-        public Tree(TreeNode<T> root)
-        {
-            if (root == null) throw new ArgumentNullException(nameof(root));
-            Root = root;
-        }
-
-        public TreeNode<T> Root { get; protected set; }
-
-        public virtual void Clear()
-        {
-            Root = null;
-        }
-
-        public Tree<T> SubTree(TreeNode<T> root)
-        {
-            return new Tree<T>(root);
-        }
-    }
-
     public class TreeNode<T>
     {
         private TreeNode<T> _parent;
@@ -173,32 +112,4 @@ namespace CoBuilder.Service.Infrastructure.Config
             child._parent = null;
         }
     }
-
-    public class NodeList<T> : Collection<TreeNode<T>>
-    {
-        public NodeList()
-        {
-        }
-
-        public NodeList(int initialSize)
-        {
-            // Add the specified number of items
-            for (var i = 0; i < initialSize; i++)
-                Items.Add(default(TreeNode<T>));
-        }
-
-        public TreeNode<T> FindByValue(T value)
-        {
-            // search the list for the value
-            return Items.FirstOrDefault(node => node.Value.Equals(value));
-        }
-    }
-
-    public enum RemoveChildOptions
-    {
-        RemoveBranch,
-        ShiftBranchUp
-    }
-
-
 }

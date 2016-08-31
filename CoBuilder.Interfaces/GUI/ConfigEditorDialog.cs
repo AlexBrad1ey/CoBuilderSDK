@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CoBuilder.Service.Infrastructure.Config;
+using CoBuilder.Service.Infrastructure.Structures;
+using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.GUI
 {
@@ -18,27 +20,32 @@ namespace CoBuilder.Service.GUI
         private ConfigEditState _configEditState;
         private OpenState _openState;
 
-       public ConfigEditorDialog(Configuration configuration, Configuration baseConfiguration, OpenState state )
+        #region Constructors
+        public ConfigEditorDialog(Configuration configuration, Configuration baseConfiguration, OpenState state )
         {
             _configuration = configuration;
             _baseConfiguration = baseConfiguration;
             _openState = state;
             InitializeComponent();
         }
+
         public ConfigEditorDialog(Configuration configuration, Configuration baseConfiguration)
             : this(configuration, baseConfiguration, OpenState.Edit)
         {
         }
+
         public ConfigEditorDialog(Configuration baseConfiguration)
             : this(new Configuration(), baseConfiguration, OpenState.New)
         {
         }
 
-        public Configuration Configuration
-        {
-            get { return _configuration; }
-        }
+        #endregion
 
+        #region Porperties
+        public Configuration Configuration { get; private set; }
+        #endregion
+
+        #region Event Handlers
         private void ConfigEditorDialog_Load(object sender, EventArgs e)
         {
             SwitchConfigEditState(ConfigEditState.Viewing);
@@ -56,6 +63,21 @@ namespace CoBuilder.Service.GUI
             _configEditState = SwitchConfigEditState(ConfigEditState.Cancel);
         }
 
+        private void CmbOK_Click(object sender, EventArgs e)
+        {
+            Configuration = _configuration;
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void CmbCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
+        #endregion
+
+        #region Methods
         private ConfigEditState SwitchConfigEditState(ConfigEditState state)
         {
             switch (state)
@@ -122,10 +144,13 @@ namespace CoBuilder.Service.GUI
         private void UpdateTreeView(TreeView treeView, Configuration config)
         {
             treeView.BeginUpdate();
+            treeView.Nodes.Clear();
 
             var root = treeView.Nodes.Add(config.Structure.Root.Value.Identifier, config.Structure.Root.Value.DisplayName);
 
             AddChildren(root, config.Structure.Root);
+
+            treeView.EndUpdate();
         }
 
         private void AddChildren(TreeNode displayNode, TreeNode<IDefinition> node)
@@ -136,6 +161,20 @@ namespace CoBuilder.Service.GUI
                 AddChildren(newNode,child);
             } 
         }
+        #endregion
+
+        private void CmdAdd_Click(object sender, EventArgs e)
+        {
+            if (TrvRoot.SelectedNode == null)
+            {
+                MessageBox.Show("Please Select a Property to Add");
+                return;
+            }
+
+            var definition = _baseConfiguration.GetDefinition()
+
+
+        }
     }
 
     public enum OpenState
@@ -143,7 +182,6 @@ namespace CoBuilder.Service.GUI
         Edit,
         New
     }
-
     internal enum ConfigEditState
     {
         Editing,

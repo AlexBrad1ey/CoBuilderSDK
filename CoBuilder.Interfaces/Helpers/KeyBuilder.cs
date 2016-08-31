@@ -1,5 +1,6 @@
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Infrastructure.Config;
+using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Helpers
 {

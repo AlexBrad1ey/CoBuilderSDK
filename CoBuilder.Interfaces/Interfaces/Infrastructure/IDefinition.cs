@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using CoBuilder.Service.Infrastructure.Config;
 
-namespace CoBuilder.Service.Infrastructure.Config
+namespace CoBuilder.Service.Interfaces
 {
     public interface IDefinition
     {
@@ -9,9 +10,5 @@ namespace CoBuilder.Service.Infrastructure.Config
         string Identifier { get; }
         IList<IConstraint> Constraints { get; } 
 
-    }
-
-    public interface IConstraint
-    {
     }
 }

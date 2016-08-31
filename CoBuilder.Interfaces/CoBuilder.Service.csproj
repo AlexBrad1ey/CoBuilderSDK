@@ -66,6 +66,12 @@
       <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Enums\SignInResult.cs" />
+    <Compile Include="GUI\DefinitionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\DefinitionDialog.Designer.cs">
+      <DependentUpon>DefinitionDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\WorkplaceDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,9 +85,24 @@
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Infrastructure\Config\ConfigDefinition.cs" />
     <Compile Include="Infrastructure\Config\Configuration.cs" />
-    <Compile Include="Infrastructure\Config\IDefinition.cs" />
-    <Compile Include="Infrastructure\Config\PropertyTree.cs" />
+    <Compile Include="Infrastructure\Config\Definition.cs" />
+    <Compile Include="Infrastructure\Config\DefinitionType.cs" />
+    <Compile Include="Interfaces\Infrastructure\IConfigDefinition.cs" />
+    <Compile Include="Interfaces\Infrastructure\IConstraint.cs" />
+    <Compile Include="Interfaces\Infrastructure\IDefinition.cs" />
+    <Compile Include="Interfaces\Infrastructure\IObservableDictionary.cs" />
+    <Compile Include="Interfaces\Infrastructure\IPropertyDefinition.cs" />
+    <Compile Include="Interfaces\Infrastructure\IPropertySetDefinition.cs" />
+    <Compile Include="Infrastructure\Config\ObservableDictionary.cs" />
+    <Compile Include="Infrastructure\Structures\NodeList.cs" />
+    <Compile Include="Infrastructure\Config\PropertyDefinition.cs" />
+    <Compile Include="Infrastructure\Config\PropertySetDefinition.cs" />
+    <Compile Include="Infrastructure\Structures\PropertyTree.cs" />
+    <Compile Include="Infrastructure\Structures\RemoveChildOptions.cs" />
+    <Compile Include="Infrastructure\Structures\Tree.cs" />
+    <Compile Include="Infrastructure\Structures\TreeNode.cs" />
     <Compile Include="Infrastructure\DI\ContainerProvider.cs" />
     <Compile Include="Interfaces\Infrastructure\IContainerProvider.cs" />
     <Compile Include="Infrastructure\ServiceBuilder.cs" />
@@ -118,6 +139,8 @@
     <Compile Include="Interfaces\Sets\IWorkplacesSet.cs" />
     <Compile Include="Domain\Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\Sets\ICBSet.cs" />
+    <Compile Include="Logic\ConnectionManager.cs" />
+    <Compile Include="Repositories\ConnectionStore.cs" />
     <Compile Include="Sets\BaseSet.cs" />
     <Compile Include="Interfaces\Sets\IProductsSet.cs" />
     <Compile Include="Sets\ProductsSet.cs" />
@@ -141,6 +164,9 @@
     <EmbeddedResource Include="GUI\ConfigEditorDialog.resx">
       <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\DefinitionDialog.resx">
+      <DependentUpon>DefinitionDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\ProductDialog.resx">
       <DependentUpon>ProductDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -157,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -208,8 +235,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GUI\Controls\" />
-    <Folder Include="Logic\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoBuilder.Core\CoBuilder.Core.csproj">
