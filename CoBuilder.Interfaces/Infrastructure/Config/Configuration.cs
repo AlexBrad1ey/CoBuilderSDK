@@ -9,11 +9,12 @@ using AutoMapper;
 using CoBuilder.Service.Helpers;
 using CoBuilder.Service.Infrastructure.Structures;
 using CoBuilder.Service.Interfaces;
+using IConfiguration = CoBuilder.Service.Interfaces.IConfiguration;
 
 namespace CoBuilder.Service.Infrastructure.Config
 {
 
-    public class Configuration
+    public class Configuration : IConfiguration
     {
         private Guid _configId;
         private string _name;
