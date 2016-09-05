@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CoBuilder.Core.Enums;
 using CoBuilder.Core.Exceptions;
 using CoBuilder.Service.Domain;
@@ -88,9 +87,6 @@ namespace CoBuilder.Service
 
         public WorkPlacesRepository WorkPlaces => ServiceFactory<WorkPlacesRepository>();
         
-        public CommandsCollection Commands => new CommandsCollection();
-
-
         public ICoBuilderUser User { get { return Session.User; } }
 
         public IServiceSession Session
@@ -100,7 +96,10 @@ namespace CoBuilder.Service
 
         private IServiceSession InitiateSession()
         {
-            throw new NotImplementedException();
+            return new ServiceSession()
+            {
+                
+            }
         }
 
 
@@ -264,33 +263,5 @@ namespace CoBuilder.Service
 
     public class CommandsCollection
     {
-    }
-
-    public class WorkPlacesRepository
-    {
-        public IList<Core.Domain.IWorkplace> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ProductsRepository
-    {
-        public IList<string> GetAllSupplierList()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<BimProduct> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public interface IServiceSession
-    {
-
-        ICoBuilderUser User { get; set; }
-        IWorkplace CurrentWorkplace { get; set; }
     }
 }

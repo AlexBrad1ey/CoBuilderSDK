@@ -1,4 +1,8 @@
-﻿using CoBuilder.Service.Infrastructure.Config;
+﻿using System.Collections.Generic;
+using CoBuilder.Core.Interfaces;
+using CoBuilder.Service.Domain;
+using CoBuilder.Service.Enums;
+using CoBuilder.Service.Infrastructure.Config;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Logic
@@ -15,29 +19,16 @@ namespace CoBuilder.Service.Logic
         /// </summary>
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AttachProcessor{TElement}"/> class.
-        /// </summary>
-        /// <param name="attacher">The attacher.</param>
-        /// <param name="config">The configuration.</param>
         public AttachProcessor(IAppAttacher<TElement> attacher, IConfiguration config)
         {
             _attacher = attacher;
             _mapper = new Mapper(config);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AttachProcessor{TElement}"/> class.
-        /// </summary>
         public AttachProcessor()
         {
         }
 
-        /// <summary>
-        /// Processes the specified connections.
-        /// </summary>
-        /// <param name="connections">The connections.</param>
-        /// <returns>AttachmentResult.</returns>
         internal AttachmentResult Process(IEnumerable<Connection<TElement>> connections)
         {
             var result = AttachmentResult.Null;
@@ -50,11 +41,6 @@ namespace CoBuilder.Service.Logic
             return result;
         }
 
-        /// <summary>
-        /// Processes the specified connection.
-        /// </summary>
-        /// <param name="connection">The connection.</param>
-        /// <returns>AttachmentResult.</returns>
         public AttachmentResult Process(Connection<TElement> connection)
         {
             var success = true;
@@ -68,10 +54,6 @@ namespace CoBuilder.Service.Logic
             return success ? AttachmentResult.AllElementsConnected : AttachmentResult.NoElementsConnected;
         }
 
-        /// <summary>
-        /// Attaches the master.
-        /// </summary>
-        /// <param name="session">The session.</param>
         public void AttachMaster(ISession session)
         {
             var pSet = _mapper.GenerateProjectSet(session);

@@ -57,6 +57,9 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Interfaces\IServiceSession.cs" />
+    <Compile Include="Repositories\WorkPlacesRepository.cs" />
+    <Compile Include="Repositories\ProductsRepository.cs" />
     <Compile Include="GUI\CoBuilderAuthenticationUi.cs" />
     <Compile Include="Domain\Interfaces\ICoBuilderUser.cs" />
     <Compile Include="GUI\ConfigEditorDialog.cs">
@@ -91,11 +94,13 @@
     <Compile Include="Infrastructure\Config\Definition.cs" />
     <Compile Include="Infrastructure\Config\DefinitionType.cs" />
     <Compile Include="Core\Enums\AttachmentResult.cs" />
+    <Compile Include="Interfaces\Infrastructure\IConfigurator.cs" />
     <Compile Include="Interfaces\Infrastructure\IMapper.cs" />
     <Compile Include="Interfaces\Infrastructure\IConfiguration.cs" />
     <Compile Include="Infrastructure\PTO\PropertyInfo.cs" />
     <Compile Include="Infrastructure\PTO\Info.cs" />
     <Compile Include="Infrastructure\PTO\PropertySetInfo.cs" />
+    <Compile Include="Interfaces\Logic\IAppSelector.cs" />
     <Compile Include="Interfaces\Logic\IAttacher.cs" />
     <Compile Include="Interfaces\Infrastructure\IConfigDefinition.cs" />
     <Compile Include="Interfaces\Infrastructure\IConstraint.cs" />
@@ -138,6 +143,8 @@
     <Compile Include="Helpers\KeyType.cs" />
     <Compile Include="Helpers\KeyBuilder.cs" />
     <Compile Include="Core\Enums\RemovalResult.cs" />
+    <Compile Include="Interfaces\Logic\IInterrogator.cs" />
+    <Compile Include="Logic\Identifier.cs" />
     <Compile Include="Interfaces\Sets\IPropertiesSet.cs" />
     <Compile Include="Domain\Interfaces\IBimProperty.cs" />
     <Compile Include="Domain\Interfaces\IWorkplace.cs" />
@@ -153,6 +160,9 @@
     <Compile Include="Logic\ConnectionManager.cs" />
     <Compile Include="Interfaces\Logic\IAppAttacher.cs" />
     <Compile Include="Interfaces\Logic\IAppAccessor.cs" />
+    <Compile Include="Logic\DetachProcessor.cs" />
+    <Compile Include="Logic\Mapper.cs" />
+    <Compile Include="Logic\ModelInterrogator.cs" />
     <Compile Include="Repositories\ConnectionStore.cs" />
     <Compile Include="Sets\BaseSet.cs" />
     <Compile Include="Interfaces\Sets\IProductsSet.cs" />

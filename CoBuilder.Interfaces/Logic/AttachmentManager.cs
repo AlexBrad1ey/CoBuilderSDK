@@ -1,9 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Enums;
 using CoBuilder.Service.Interfaces;
@@ -14,12 +9,12 @@ namespace CoBuilder.Service.Logic
     public class AttachmentManager<TElement> : IAttacher<TElement> where TElement : class
     {
         private readonly IAppAttacher<TElement> _attacher;
-        private readonly IAppAccessor _accessor;
+        private readonly IAppAccessor<TElement> _accessor;
         private readonly IConfiguration _config;
         private bool _masterAttachment;
 
 
-        public AttachmentManager(IAppAttacher<TElement> attacher,IAppAccessor accessor, IConfiguration config)
+        public AttachmentManager(IAppAttacher<TElement> attacher,IAppAccessor<TElement> accessor, IConfiguration config)
         {
             _config = config;
             _attacher = attacher;
@@ -30,6 +25,7 @@ namespace CoBuilder.Service.Logic
 
         public AttachmentResult AttachProduct(IEnumerable<TElement> elements, BimProduct product)
         {
+            var connection = _connector.Connect(elements, product);
             var attachProcessor = new AttachProcessor<TElement>(_attacher, _config);
             if (!_masterAttachment)
             {

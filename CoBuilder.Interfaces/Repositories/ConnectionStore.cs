@@ -5,11 +5,11 @@ using CoBuilder.Service.Domain;
 
 namespace CoBuilder.Service.Repositories
 {
-    public class ConnectionStore<TElement> where TElement : class
+    public class ConnectionRepository<TElement> where TElement : class
     {
         private readonly HashSet<Connection<TElement>> _objectSet;
 
-        public ConnectionStore()
+        public ConnectionRepository()
         {
             _objectSet = new HashSet<Connection<TElement>>();
         }

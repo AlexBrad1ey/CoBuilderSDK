@@ -8,9 +8,9 @@ namespace CoBuilder.Service.Logic
 {
     public class ConnectionManager<TElement> where TElement : class
     {
-        private readonly ConnectionStore<TElement> _connections;
+        private readonly ConnectionRepository<TElement> _connections;
 
-        public ConnectionManager(ConnectionStore<TElement> connections)
+        public ConnectionManager(ConnectionRepository<TElement> connections)
         {
             _connections = connections;
         }
