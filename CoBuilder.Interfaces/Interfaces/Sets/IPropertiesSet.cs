@@ -1,6 +1,8 @@
+using CoBuilder.Service.Domain;
+
 namespace CoBuilder.Service.Interfaces
 {
-    public interface IPropertiesSet
+    public interface IPropertiesSet : ICBSet<IBimProperty>
     {
     }
 }

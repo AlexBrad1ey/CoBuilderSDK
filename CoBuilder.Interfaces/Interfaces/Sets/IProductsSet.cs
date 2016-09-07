@@ -1,6 +1,9 @@
-﻿namespace CoBuilder.Service.Interfaces
+﻿using System.Collections.Generic;
+using CoBuilder.Service.Domain;
+
+namespace CoBuilder.Service.Interfaces
 {
-    public interface IProductsSet
+    public interface IProductsSet: ICBSet<IBimProduct>
     {
     }
 }

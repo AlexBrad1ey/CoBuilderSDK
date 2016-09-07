@@ -1,13 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using CoBuilder.Service.Domain;
+using CoBuilder.Service.Interfaces;
 
-namespace CoBuilder.Service
+namespace CoBuilder.Service.Repositories
 {
-    public class WorkPlacesRepository
+    public class WorkPlacesRepository:IWorkplacesRepository
     {
-        public IList<Core.Domain.IWorkplace> GetAll()
+        private IWorkplacesSet _workplacesSet;
+
+        public WorkPlacesRepository(ICoBuilderContext ctx)
         {
-            throw new NotImplementedException();
+            _workplacesSet = ctx.WorkplacesAsync().Result;
+        }
+
+        public IWorkplace Get(int key)
+        {
+            return _workplacesSet.FirstOrDefault(x => x.Id == key);
+        }
+
+        public IEnumerable<IWorkplace> FindAll()
+        {
+            return _workplacesSet;
+        }
+
+        public IWorkplace this[int key]
+        {
+            get { return Get(key); }
         }
     }
 }

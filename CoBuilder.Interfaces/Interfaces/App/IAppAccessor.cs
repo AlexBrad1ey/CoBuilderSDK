@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using CoBuilder.Service.Infrastructure.PTO;
 
-namespace CoBuilder.Service.Logic
+namespace CoBuilder.Service.Interfaces.App
 {
     public interface IAppAccessor<TElement> where TElement: class
     {
-        PropertySetInfo GetProjectPropertySet(string identifier);
+        ProjectPropertySetInfo GetProjectPropertySet(string identifier);
         bool HasProjectPropertySet(string identifier);
         PropertySetInfo GetPropertySet(TElement element, string identifier);
         IEnumerable<Tuple<string, int>> GetCoBuilderPropertySetIdentifiers(TElement element);

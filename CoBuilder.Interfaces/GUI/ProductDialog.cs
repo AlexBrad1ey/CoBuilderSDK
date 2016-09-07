@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Helpers;
+using CoBuilder.Service.Repositories;
 
 namespace CoBuilder.Service.GUI
 {

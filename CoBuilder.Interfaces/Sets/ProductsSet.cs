@@ -1,12 +1,11 @@
-using CoBuilder.Core.Interfaces;
-using CoBuilder.Service.Domain;
-using CoBuilder.Service.Interfaces;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using CoBuilder.Core.Interfaces;
+using CoBuilder.Service.Domain;
 using CoBuilder.Service.Infrastructure;
-using CoBuilder.Service.Sets;
+using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Sets
 {
@@ -27,13 +26,13 @@ namespace CoBuilder.Service.Sets
                 _suppliers = new SupplierSet(Items.GroupBy(b => b.SupplierName).Select(s => s.Key).ToList());
                 return _suppliers;
             }
-            }
         }
     }
 
-public class SupplierSet:ReadOnlyCollection<string>
-{
-    public SupplierSet(IList<string> suppliers) : base(suppliers)
+    public class SupplierSet:ReadOnlyCollection<string>
     {
+        public SupplierSet(IList<string> suppliers) : base(suppliers)
+        {
+        }
     }
 }

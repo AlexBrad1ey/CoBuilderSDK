@@ -1,10 +1,11 @@
-﻿namespace CoBuilder.Service.Domain
+﻿using CoBuilder.Service.Enums;
+
+namespace CoBuilder.Service.Domain
 {
     public class Connection<TElement> where TElement : class
     {
         private TElement _element;
         private BimProduct _product;
-        //private LoadState _state = LoadState.Unconnected;
 
         public Connection()
         {
@@ -19,7 +20,6 @@
         {
             _element = element;
             _product = product;
-            //_state = LoadState.Loaded;
         }
 
         public TElement AppElement { get { return _element; } }
@@ -30,18 +30,7 @@
             internal set
             {
                 _product = value;
-                //_state = LoadState.Loaded;
             }
         }
-
-
-        /* public LoadState State
-        {
-            get { return _state; }
-            set { _state = value; }
-        }
-
-        public bool IsLoaded => _state == LoadState.Loaded;
-        */
     }
 }

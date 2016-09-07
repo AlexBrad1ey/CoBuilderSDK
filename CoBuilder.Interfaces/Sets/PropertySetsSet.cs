@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace CoBuilder.Service.Sets
 {
-    public class PropertySetsSet : BaseSet<BimPropertySet>, IPropertySetsSet
+    public class PropertySetsSet : BaseSet<IBimPropertySet>, IPropertySetsSet
     {
         public PropertySetsSet(IPropertySetCollection collection, int productId, ICoBuilderContext ctx)
-            : base((IList<BimPropertySet>)collection.Select(x => new BimPropertySet(x,productId,ctx)))
+            : base((IList<IBimPropertySet>)collection.Select(x => new BimPropertySet(x,productId,ctx)))
         {
 
         }

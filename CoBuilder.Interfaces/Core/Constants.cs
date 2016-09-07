@@ -13,5 +13,10 @@
         {
             public const string Login = "LoginCommand";
         }
+
+        public static class PropertySets
+        {
+            public const string CoBuilderMaster = "CoBuilderProject";
+        }
     }
-}
+} 

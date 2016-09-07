@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Enums;
 using CoBuilder.Service.Interfaces;
+using CoBuilder.Service.Interfaces.App;
+using CoBuilder.Service.Repositories;
 
 namespace CoBuilder.Service.Logic
 {
@@ -10,76 +13,57 @@ namespace CoBuilder.Service.Logic
     {
         private readonly IAppAttacher<TElement> _attacher;
         private readonly IAppAccessor<TElement> _accessor;
-        private readonly IConfiguration _config;
+        private readonly ConnectionRepository<TElement> _connectionRepo;
+        private readonly IServiceSession _session;
         private bool _masterAttachment;
 
 
-        public AttachmentManager(IAppAttacher<TElement> attacher,IAppAccessor<TElement> accessor, IConfiguration config)
+        public AttachmentManager(IAppAttacher<TElement> attacher,IAppAccessor<TElement> accessor, ConnectionRepository<TElement> connectionRepo, IServiceSession session )
         {
-            _config = config;
+            _connectionRepo = connectionRepo;
+            _session = session;
             _attacher = attacher;
             _accessor = accessor;
-            _masterAttachment = _attacher.HasProjectPropertySet("CBProject");
+            _masterAttachment = _accessor.HasProjectPropertySet(Constants.PropertySets.CoBuilderMaster);
         }
 
-
-        public AttachmentResult AttachProduct(IEnumerable<TElement> elements, BimProduct product)
+        public void RefreshAttachments()
         {
-            var connection = _connector.Connect(elements, product);
-            var attachProcessor = new AttachProcessor<TElement>(_attacher, _config);
+            var attachProcessor = new AttachProcessor<TElement>(_attacher, _session.CurrentConfiguration);
+
             if (!_masterAttachment)
             {
                 attachProcessor.AttachMaster(_session);
                 _masterAttachment = true;
             }
-            return attachProcessor.Process(connections);
+            var toAdd = _connectionRepo.ToBeAdded();
+
+            attachProcessor.Process(toAdd);
+            _connectionRepo.UpdateState();
+
+            var detachProcessor = new DetachProcessor<TElement>(_attacher);
+            detachProcessor.Process(_connectionRepo.ToBeRemoved());
+            _connectionRepo.Clean();
         }
 
-        public AttachmentResult AttachProduct(TElement element, BimProduct product)
+        public void RefreshAllAttachments()
         {
-            var connection = _connector.Connect(element, product);
-            if (connection == null) return AttachmentResult.Null;
+            var attachProcessor = new AttachProcessor<TElement>(_attacher, _session.CurrentConfiguration);
+            var detachProcessor = new DetachProcessor<TElement>(_attacher);
 
-            var attachProcessor = new AttachProcessor<TElement>(_attacher, _config);
-            if (!_masterAttachment) attachProcessor.AttachMaster(_session);
-            return attachProcessor.Process(connection);
+            if (!_masterAttachment)
+            {
+                attachProcessor.AttachMaster(_session);
+                _masterAttachment = true;
+            }
+
+            detachProcessor.Process(_connectionRepo.All());
+            attachProcessor.Process(_connectionRepo.Current());
+
+            _connectionRepo.UpdateState();
+            _connectionRepo.Clean();
         }
 
-        public RemovalResult RemoveProducts(IEnumerable<TElement> elements)
-        {
-            var connections = _connector.ConnectionsWith(elements);
-            var enumerable = connections as IList<Connection<TElement>> ?? connections.ToList();
-            var detachProc = new DetachProcessor<TElement>(_attacher, _config, this);
-            var result = detachProc.Process(enumerable);
-            _connector.RemoveConnections(enumerable);
-            return result;
-        }
 
-        public RemovalResult RemoveProducts(TElement element)
-        {
-            var connections = _connector.ConnectionsWith(element);
-            var detachProc = new DetachProcessor<TElement>(_attacher, _config, this);
-            var enumerable = connections as IList<Connection<TElement>> ?? connections.ToList();
-            _connector.RemoveConnections(enumerable);
-            return detachProc.Process(enumerable);
-        }
-
-        public RemovalResult RemoveProduct(IEnumerable<TElement> elements, BimProduct product)
-        {
-            var connections = _connector.ConnectionsBetween(elements, product);
-            var detachProc = new DetachProcessor<TElement>(_attacher, _config, this);
-            var enumerable = connections as IList<Connection<TElement>> ?? connections.ToList();
-            _connector.RemoveConnections(enumerable);
-            return detachProc.Process(enumerable);
-        }
-
-        public RemovalResult RemoveProduct(TElement element, BimProduct product)
-        {
-            var connection = _connector.ConnectionBetween(element, product);
-            if (connection == null) return RemovalResult.Null;
-            _connector.RemoveConnection(connection);
-            var detachProc = new DetachProcessor<TElement>(_attacher, _config, this);
-            return detachProc.Process(connection);
-        }
     }
 }

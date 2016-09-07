@@ -1,9 +1,12 @@
 ﻿using System;
 using CoBuilder.Core.Enums;
 using CoBuilder.Core.Exceptions;
+using CoBuilder.Core.Interfaces;
+using CoBuilder.Core.RestModels;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Infrastructure;
 using CoBuilder.Service.Interfaces;
+using CoBuilder.Service.Repositories;
 using StructureMap.Pipeline;
 
 namespace CoBuilder.Service
@@ -83,9 +86,39 @@ namespace CoBuilder.Service
             _containerProvider = containerProvider;
         }
 
-        public ProductsRepository Products => ServiceFactory<ProductsRepository>();
+        public ProductsRepository Products
+        {
+            get
+            {
+                if (Session.LoggedIn && Session.WorkplaceSet)
+                {
+                    return ServiceFactory<ProductsRepository>();
+                }
 
-        public WorkPlacesRepository WorkPlaces => ServiceFactory<WorkPlacesRepository>();
+                throw new CoBuilderException(new Error()
+                {
+                    Code = CoBuilderErrorCode.GeneralException.ToString(),
+                    Message = "Access to Products only available when Service is both Logged In and Current Workplace Set"
+                });
+            }
+        }
+
+        public WorkPlacesRepository WorkPlaces
+        {
+            get
+            {
+                if (Session.LoggedIn)
+                {
+                    return ServiceFactory<WorkPlacesRepository>();
+                }
+
+                throw new CoBuilderException(new Error()
+                {
+                    Code = CoBuilderErrorCode.GeneralException.ToString(),
+                    Message = "Access to Workplaces only available when Service is Logged In "
+                });
+            }
+        }
         
         public ICoBuilderUser User { get { return Session.User; } }
 
@@ -94,14 +127,23 @@ namespace CoBuilder.Service
             get { return _serviceSession ?? InitiateSession(); }
         }
 
-        private IServiceSession InitiateSession()
+        #region Public Methods
+
+        public CoBuilderService LoginAsync()
         {
-            return new ServiceSession()
-            {
-                
-            }
+            var client = ServiceFactory<ICoBuilderClient>();
+            var session = client.AuthenticateAsync();
+            InitiateSession(client);
+            return this;
         }
 
+        public CoBuilderService LoginAsync(string username, string password)
+        {
+            var client = ServiceFactory<ICoBuilderClient>();
+            var session = client.AuthenticateAsync(username, password);
+            InitiateSession(client);
+            return this;
+        }
 
         public void Close()
         {
@@ -120,17 +162,32 @@ namespace CoBuilder.Service
         {
             return _containerProvider.Container.GetInstance<T>(args);
         }
-
-#endregion
-
-        
-
+        #endregion
+      
         public void Dispose()
         {
             _containerProvider.Dispose();
             _config.Dispose();
         }
 
+        #endregion
+
+        #region Private Methods
+
+        private IServiceSession InitiateSession()
+        {
+            var client = ServiceFactory<ICoBuilderClient>();
+
+            return InitiateSession(client);
+        }
+
+        private IServiceSession InitiateSession(ICoBuilderClient client)
+        {
+            _serviceSession = new ServiceSession(client.CurrentSession, this) { LoggedIn = client.IsAuthenticated };
+            return _serviceSession;
+        }
+        #endregion
+        
         #endregion
         /*
        
@@ -259,9 +316,5 @@ namespace CoBuilder.Service
 
         #endregion DI Testing Methods */
 
-    }
-
-    public class CommandsCollection
-    {
     }
 }

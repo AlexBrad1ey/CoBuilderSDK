@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using CoBuilder.Service.Domain;
+using CoBuilder.Service.Interfaces;
 using CoBuilder.Service.Repositories;
 
 namespace CoBuilder.Service.Logic
 {
-    public class ConnectionManager<TElement> where TElement : class
+    public class ConnectionManager<TElement> : IConnector<TElement> where TElement : class
     {
         private readonly ConnectionRepository<TElement> _connections;
 
@@ -89,6 +90,12 @@ namespace CoBuilder.Service.Logic
             {
                 RemoveConnection(connection);
             }
+        }
+
+        public void Remove(IEnumerable<TElement> elements)
+        {
+            var connections = ConnectionsWith(elements);
+            RemoveConnections(connections);
         }
 
         public void RemoveConnection(Connection<TElement> connection)

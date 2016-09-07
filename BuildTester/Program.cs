@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CoBuilder.Core;
 using CoBuilder.Core.Authentication;
 using CoBuilder.Core.Enums;
 
 namespace BuildTester
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {

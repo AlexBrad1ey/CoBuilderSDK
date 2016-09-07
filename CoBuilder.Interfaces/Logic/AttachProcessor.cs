@@ -4,6 +4,7 @@ using CoBuilder.Service.Domain;
 using CoBuilder.Service.Enums;
 using CoBuilder.Service.Infrastructure.Config;
 using CoBuilder.Service.Interfaces;
+using CoBuilder.Service.Interfaces.App;
 
 namespace CoBuilder.Service.Logic
 {
@@ -54,7 +55,7 @@ namespace CoBuilder.Service.Logic
             return success ? AttachmentResult.AllElementsConnected : AttachmentResult.NoElementsConnected;
         }
 
-        public void AttachMaster(ISession session)
+        public void AttachMaster(IServiceSession session)
         {
             var pSet = _mapper.GenerateProjectSet(session);
             _attacher.AttachRoot(pSet);

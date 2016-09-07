@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CoBuilder.Service.Interfaces
+namespace CoBuilder.Service.Interfaces.App
 {
     public interface IAppSelector<TElement>
     {

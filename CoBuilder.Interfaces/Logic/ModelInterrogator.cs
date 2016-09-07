@@ -1,47 +1,25 @@
-﻿// ***********************************************************************
-// Assembly         : CoBuilder.Common
-// Author           : Alex Bradley
-// Created          : 06-07-2016
-//
-// Last Modified By : Alex Bradley
-// Last Modified On : 07-20-2016
-// ***********************************************************************
-// <copyright file="ModelInterrogator.cs" company="AB Consulting">
-//     Copyright © AB Consulting 2016
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoBuilder.Core.Enums;
+using CoBuilder.Core.Exceptions;
 using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
+using CoBuilder.Service.Infrastructure.PTO;
 using CoBuilder.Service.Interfaces;
+using CoBuilder.Service.Interfaces.App;
 
 namespace CoBuilder.Service.Logic
 {
     public class ModelInterrogator<TElement> : IInterrogator<TElement> where TElement : class
     {
-        /// <summary>
-        /// The _accessor
-        /// </summary>
         private readonly IAppAccessor<TElement> _accessor;
-        /// <summary>
-        /// The _connector
-        /// </summary>
         private readonly ConnectionManager<TElement> _connector;
-        /// <summary>
-        /// The _selector
-        /// </summary>
         private readonly IAppSelector<TElement> _selector;
-        /// <summary>
-        /// The _session
-        /// </summary>
-        private readonly ISession _session;
+        private readonly IServiceSession _session;
 
         public ModelInterrogator(ConnectionManager<TElement> connector, IAppAccessor<TElement> accessor,
-            IAppSelector<TElement> selector, ISession session)
+            IAppSelector<TElement> selector, IServiceSession session)
         {
             _connector = connector;
             _accessor = accessor;
@@ -51,17 +29,21 @@ namespace CoBuilder.Service.Logic
 
         public bool Interrogate()
         {
-            var hasProject = _accessor.HasProjectPropertySet("CBProject");
+            if (!_session.LoggedIn)
+            {
+                throw new CoBuilderException(new Error() {Code = CoBuilderErrorCode.GeneralException, Message = "To Interrogate model, User Must be Logged In"});
+            }
+
+            var hasProject = _accessor.HasProjectPropertySet(Constants.PropertySets.CoBuilderMaster);
+
             if (hasProject)
             {
-                var projectPropertySetInfo = _accessor.GetProjectPropertySet("CBProject");
-                var check = projectPropertySetInfo.Username;
-                if (projectPropertySetInfo.Username != null)
-                {
-                    UpdateSession(_session, projectPropertySetInfo);
-                    Interrogate(_selector.All());
+                var projectPropertySetInfo = _accessor.GetProjectPropertySet(Constants.PropertySets.CoBuilderMaster);
+
+                UpdateSession(_session, projectPropertySetInfo);
+                Interrogate(_selector.All());
                     return true;
-                }
+                
             }
             return false;
         }
@@ -70,9 +52,9 @@ namespace CoBuilder.Service.Logic
         {
             foreach (var element in elements)
             {
-                var identifiers = _accessor.GetCoBuilderPropertySetIdentifiers(element);
+                var identifiers = _accessor.GetCoBuilderProductsPropertySet(element);
                 var coBuilderIds =
-                    identifiers.Where(i => i.Item1.StartsWith("CBProduct", StringComparison.InvariantCultureIgnoreCase));
+                    identifiers.Where(i => i.Item1.StartsWith("CBProducts", StringComparison.InvariantCultureIgnoreCase));
 
                 foreach (var identifier in coBuilderIds)
                 {
@@ -82,16 +64,10 @@ namespace CoBuilder.Service.Logic
             }
         }
 
-        private ISession UpdateSession(ISession session, ProjectPropertySetInfo projectPropertySetInfo)
+        private ISession UpdateSession(IServiceSession session, ProjectPropertySetInfo projectPropertySetInfo)
         {
-            session.CurrentUser = new CoBuilderUser
-            {
-                Username = projectPropertySetInfo.Username,
-                ContactId = projectPropertySetInfo.ContactId
-            };
-            session.CurrentWorkplaceName = projectPropertySetInfo.WorkplaceName;
-            session.LoginStatus = LoginStatus.NotLoggedInWithWorkplaceId;
-            session.modelHasData = true;
+            session.C = projectPropertySetInfo.WorkplaceName;
+
 
             return session;
         }

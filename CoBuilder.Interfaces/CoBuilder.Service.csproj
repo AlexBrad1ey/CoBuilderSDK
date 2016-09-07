@@ -57,7 +57,24 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Commands\RefreshCommand.cs" />
+    <Compile Include="Commands\ConnectCommand.cs" />
+    <Compile Include="Commands\ChangeWorkplaceCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\IProductSelectionUi.cs" />
+    <Compile Include="Commands\LoginCommand.cs" />
+    <Compile Include="Commands\LogOutCommand.cs" />
+    <Compile Include="Commands\RemoveCommand.cs" />
+    <Compile Include="Commands\ConfigurationCommand.cs" />
+    <Compile Include="Core\CoBuilderServiceExtensions.cs" />
+    <Compile Include="Core\Enums\ConnectionState.cs" />
+    <Compile Include="Infrastructure\PTO\ProjectPropertySetInfo.cs" />
     <Compile Include="Interfaces\IServiceSession.cs" />
+    <Compile Include="Core\ServiceSession.cs" />
+    <Compile Include="Interfaces\Repositories\IProductsRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IReadOnlyRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IWorkplacesRepository.cs" />
+    <Compile Include="Interfaces\Logic\IConnector.cs" />
     <Compile Include="Repositories\WorkPlacesRepository.cs" />
     <Compile Include="Repositories\ProductsRepository.cs" />
     <Compile Include="GUI\CoBuilderAuthenticationUi.cs" />
@@ -100,7 +117,7 @@
     <Compile Include="Infrastructure\PTO\PropertyInfo.cs" />
     <Compile Include="Infrastructure\PTO\Info.cs" />
     <Compile Include="Infrastructure\PTO\PropertySetInfo.cs" />
-    <Compile Include="Interfaces\Logic\IAppSelector.cs" />
+    <Compile Include="Interfaces\App\IAppSelector.cs" />
     <Compile Include="Interfaces\Logic\IAttacher.cs" />
     <Compile Include="Interfaces\Infrastructure\IConfigDefinition.cs" />
     <Compile Include="Interfaces\Infrastructure\IConstraint.cs" />
@@ -158,12 +175,12 @@
     <Compile Include="Logic\AttachmentManager.cs" />
     <Compile Include="Logic\AttachProcessor.cs" />
     <Compile Include="Logic\ConnectionManager.cs" />
-    <Compile Include="Interfaces\Logic\IAppAttacher.cs" />
-    <Compile Include="Interfaces\Logic\IAppAccessor.cs" />
+    <Compile Include="Interfaces\App\IAppAttacher.cs" />
+    <Compile Include="Interfaces\App\IAppAccessor.cs" />
     <Compile Include="Logic\DetachProcessor.cs" />
     <Compile Include="Logic\Mapper.cs" />
     <Compile Include="Logic\ModelInterrogator.cs" />
-    <Compile Include="Repositories\ConnectionStore.cs" />
+    <Compile Include="Repositories\ConnectionRepository.cs" />
     <Compile Include="Sets\BaseSet.cs" />
     <Compile Include="Interfaces\Sets\IProductsSet.cs" />
     <Compile Include="Sets\ProductsSet.cs" />
@@ -206,7 +223,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
