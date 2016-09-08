@@ -5,15 +5,16 @@ using System.Reflection;
 using System.Windows.Forms;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Helpers;
+using CoBuilder.Service.Interfaces;
 using CoBuilder.Service.Repositories;
 
 namespace CoBuilder.Service.GUI
 {
-    public partial class ProductDialog : Form
+    public partial class ProductDialog : Form, IProductSelectionUi
     {
         private readonly ProductsRepository _productsRepo;
         private readonly Settings _settings;
-        private ObservableCollection<BimProduct> _productProxy = new ObservableCollection<BimProduct>();
+        private ObservableCollection<IBimProduct> _productProxy = new ObservableCollection<IBimProduct>();
         private ObservableCollection<string> _supplierProxy = new ObservableCollection<string>();
 
         public ProductDialog(ProductsRepository productsRepo, Settings settings)
@@ -37,7 +38,7 @@ namespace CoBuilder.Service.GUI
             {
                 Filters_Changed(sender, e);
 
-                _supplierProxy = new ObservableCollection<string>(_productsRepo.GetAllSupplierList());
+                _supplierProxy = new ObservableCollection<string>(_productsRepo.Suppliers());
                 Suppliers_CollectionChanged(sender, e);
 
                 GBxProducts.Text = "Select Product from current Work Place.";
@@ -108,8 +109,8 @@ namespace CoBuilder.Service.GUI
         {
             try
             {
-                _productProxy = new ObservableCollection<BimProduct>(
-                    _productsRepo.GetAll()
+                _productProxy = new ObservableCollection<IBimProduct>(
+                    _productsRepo.FindAll()
                         .Where(
                             bp =>
                                 (!CbxApplySupplierFilter.Checked || bp.SupplierName == CboSupplier.Text) &&
@@ -189,6 +190,12 @@ namespace CoBuilder.Service.GUI
             {
                 _settings.WriteLogFile(exception, GetType().Name, MethodBase.GetCurrentMethod().Name);
             }
+        }
+
+        public BimProduct SelectProduct()
+        {
+            ShowDialog();
+            return SelectedProduct;
         }
     }
 }

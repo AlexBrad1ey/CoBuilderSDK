@@ -1,3 +1,4 @@
+using System;
 using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Interfaces;
@@ -13,6 +14,11 @@ namespace CoBuilder.Service.Sets
             : base((IList<IBimProperty>) collection.Select(x => new BimProperty(x, productId, propertySetId, ctx)))
         {
             
+        }
+
+        public IBimProperty this[string id]
+        {
+            get { return Items.FirstOrDefault(p => p.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase)); }
         }
     }
 }

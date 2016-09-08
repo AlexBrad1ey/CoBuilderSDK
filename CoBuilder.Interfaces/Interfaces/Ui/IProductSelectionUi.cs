@@ -1,6 +1,6 @@
 ﻿using CoBuilder.Service.Domain;
 
-namespace CoBuilder.Service.Commands
+namespace CoBuilder.Service.Interfaces
 {
     public interface IProductSelectionUi
     {

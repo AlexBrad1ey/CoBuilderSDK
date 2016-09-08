@@ -14,6 +14,23 @@ namespace CoBuilder.Service.Infrastructure.Config
         {
             Properties = new ObservableDictionary<DefinitionKey, IPropertyDefinition>();
             Properties.CollectionChanged += PropertiesOnCollectionChanged;
+
+            //Mandatory Properties
+            AddProperty(new PropertyDefinition()
+            {
+                ConnectedProperty = Constants.Identifiers.Properties.ProductId,
+                DisplayName = "ProductId",
+                Visible = false,
+                Identifier = Constants.Identifiers.Properties.ProductId
+            });
+
+            AddProperty(new PropertyDefinition()
+            {
+                ConnectedProperty = Constants.Identifiers.Properties.WorkplaceId,
+                DisplayName = "WorkplaceId",
+                Visible = false,
+                Identifier = Constants.Identifiers.Properties.WorkplaceId
+            });
         }
 
         public string PSetId { get; set; }
@@ -25,8 +42,16 @@ namespace CoBuilder.Service.Infrastructure.Config
             var key = KeyBuilder.Build(property);
 
             if (Properties.ContainsKey(key)) throw new ArgumentException("Property Definition with the Same Key Identifier already Present", nameof(property));
-            Properties.Add(KeyBuilder.Build(property), property);
+            Properties.Add(key, property);
             return property;
+        }
+
+        public bool RemoveProperty(IPropertyDefinition property)
+        {
+            if (property == null) throw new ArgumentNullException(nameof(property));
+            var key = KeyBuilder.Build(property);
+            return Properties.Remove(key);
+
         }
 
         public IPropertyDefinition GetPropertyByName(string name)

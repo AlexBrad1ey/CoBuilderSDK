@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using CoBuilder.Service.Enums;
 using CoBuilder.Service.Interfaces;
 using CoBuilder.Service.Interfaces.App;
@@ -23,6 +24,7 @@ namespace CoBuilder.Service.Commands
             var productSelector = CoBuilderService.CurrentService.ServiceFactory<IProductSelectionUi>();
 
             var product = productSelector.SelectProduct();
+            if (product == null) return false;
 
             var selector = CoBuilderService.CurrentService.ServiceFactory<IAppSelector<TElement>>();
             var selection = selector.GetSelection();

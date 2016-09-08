@@ -7,7 +7,7 @@ namespace CoBuilder.Service.Interfaces
 {
     public interface IMapper
     {
-        IEnumerable<PropertySetInfo> Map(BimProduct bimProduct);
+        IEnumerable<PropertySetInfo> Map(IBimProduct bimProduct);
         PropertySetInfo GenerateProjectSet(IServiceSession session);
     }
 }

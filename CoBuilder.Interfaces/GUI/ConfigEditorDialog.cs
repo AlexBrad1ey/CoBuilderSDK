@@ -171,7 +171,7 @@ namespace CoBuilder.Service.GUI
                 return;
             }
 
-            var definition = _baseConfiguration.GetDefinition()
+            var definition = _baseConfiguration.GetDefinition();
 
 
         }

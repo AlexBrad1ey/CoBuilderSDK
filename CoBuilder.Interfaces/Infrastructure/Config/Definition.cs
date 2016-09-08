@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Infrastructure.Config
@@ -20,6 +21,7 @@ namespace CoBuilder.Service.Infrastructure.Config
 
         public string DisplayName { get; set; }
         public string Identifier { get; set;  }
+        public bool Visible { get; set; }
         public IList<IConstraint> Constraints { get; set; }
     }
 }

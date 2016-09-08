@@ -28,5 +28,10 @@ namespace CoBuilder.Service.Repositories
         {
             get { return Get(key); }
         }
+
+        public IEnumerable<string> Suppliers()
+        {
+            return _productsSet.Suppliers;
+        }
     }
 }

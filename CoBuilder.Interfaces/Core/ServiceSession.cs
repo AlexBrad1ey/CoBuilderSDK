@@ -27,7 +27,7 @@ namespace CoBuilder.Service
             }
         }
 
-        public IConfiguration CurrentConfiguration { get; internal set}
+        public IConfiguration CurrentConfiguration { get; internal set; }
         public CoBuilderService TheService { get; }
 
         public Guid UserContactId

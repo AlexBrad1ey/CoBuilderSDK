@@ -57,11 +57,19 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="GUI\ConfigDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ConfigDialog.Designer.cs">
+      <DependentUpon>ConfigDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\Ui\IWorkplaceSelectionUi.cs" />
+    <Compile Include="Interfaces\Ui\IProductSelectionUi.cs" />
+    <Compile Include="Interfaces\Ui\IConfigSelectionUi.cs" />
     <Compile Include="Commands\RefreshCommand.cs" />
     <Compile Include="Commands\ConnectCommand.cs" />
     <Compile Include="Commands\ChangeWorkplaceCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Commands\IProductSelectionUi.cs" />
     <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\LogOutCommand.cs" />
     <Compile Include="Commands\RemoveCommand.cs" />
@@ -69,6 +77,7 @@
     <Compile Include="Core\CoBuilderServiceExtensions.cs" />
     <Compile Include="Core\Enums\ConnectionState.cs" />
     <Compile Include="Infrastructure\PTO\ProjectPropertySetInfo.cs" />
+    <Compile Include="Infrastructure\ProductKey.cs" />
     <Compile Include="Interfaces\IServiceSession.cs" />
     <Compile Include="Core\ServiceSession.cs" />
     <Compile Include="Interfaces\Repositories\IProductsRepository.cs" />
@@ -126,13 +135,8 @@
     <Compile Include="Interfaces\Infrastructure\IPropertyDefinition.cs" />
     <Compile Include="Interfaces\Infrastructure\IPropertySetDefinition.cs" />
     <Compile Include="Infrastructure\Config\ObservableDictionary.cs" />
-    <Compile Include="Infrastructure\Structures\NodeList.cs" />
     <Compile Include="Infrastructure\Config\PropertyDefinition.cs" />
     <Compile Include="Infrastructure\Config\PropertySetDefinition.cs" />
-    <Compile Include="Infrastructure\Structures\PropertyTree.cs" />
-    <Compile Include="Infrastructure\Structures\RemoveChildOptions.cs" />
-    <Compile Include="Infrastructure\Structures\Tree.cs" />
-    <Compile Include="Infrastructure\Structures\TreeNode.cs" />
     <Compile Include="Infrastructure\DI\ContainerProvider.cs" />
     <Compile Include="Interfaces\Infrastructure\IContainerProvider.cs" />
     <Compile Include="Infrastructure\ServiceBuilder.cs" />
@@ -201,6 +205,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\ConfigDialog.resx">
+      <DependentUpon>ConfigDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\ConfigEditorDialog.resx">
       <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
     </EmbeddedResource>

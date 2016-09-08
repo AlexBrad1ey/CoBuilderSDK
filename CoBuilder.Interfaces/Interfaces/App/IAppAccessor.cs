@@ -12,5 +12,6 @@ namespace CoBuilder.Service.Interfaces.App
         IEnumerable<Tuple<string, int>> GetCoBuilderPropertySetIdentifiers(TElement element);
         IEnumerable<PropertySetInfo> GetPropertySets(TElement element);
 
+        IEnumerable<ProductKey> GetCoBuilderProductKeys(TElement element);
     }
 }

@@ -1,13 +1,5 @@
 ﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
 using CoBuilder.Service.Helpers;
-using CoBuilder.Service.Infrastructure.Structures;
 using CoBuilder.Service.Interfaces;
 using IConfiguration = CoBuilder.Service.Interfaces.IConfiguration;
 

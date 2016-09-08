@@ -47,5 +47,9 @@ namespace CoBuilder.Service.Domain
         }
 
         public int WorkplaceId { get; }
+        public int ProductId
+        {
+            get { return Id; }
+        }
     }
 }

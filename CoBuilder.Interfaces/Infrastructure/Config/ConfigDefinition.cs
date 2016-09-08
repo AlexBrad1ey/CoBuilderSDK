@@ -33,11 +33,11 @@ namespace CoBuilder.Service.Infrastructure.Config
         }
         public IPropertySetDefinition GetPropertySetByName(string name)
         {
-            return PropertySets.FirstOrDefault(k => k.Value.DisplayName == name).Value;
+            return PropertySets.FirstOrDefault(k => k.Key.DisplayName == name).Value;
         }
         public IPropertySetDefinition GetPropertySetByIdentifier(string identifier)
         {
-            return PropertySets.FirstOrDefault(k => k.Value.Identifier == identifier).Value;
+            return PropertySets.FirstOrDefault(k => k.Key.Identifier == identifier).Value;
         }
         public void Dispose()
         {

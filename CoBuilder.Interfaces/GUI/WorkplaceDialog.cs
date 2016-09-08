@@ -11,7 +11,7 @@ using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.GUI
 {
-    public partial class WorkplaceDialog : Form
+    public partial class WorkplaceDialog : Form, IWorkplaceSelectionUi
     {
         private readonly ICoBuilderContext _ctx;
         private Settings _settings;
@@ -45,13 +45,13 @@ namespace CoBuilder.Service.GUI
         private void CmbOK_Click(object sender, EventArgs e)
         {
             var result = DialogResult.Yes;
-            if (Session.CurrentWorkplace != null)
+            if (Session.CurrentWorkplace != null && Session.CurrentWorkplace != CboWorkplace.SelectedItem as Workplace )
             {
                 result = Warning();
             }
 
             if (result != DialogResult.Yes) return;
-            Session.CurrentWorkplace = CboWorkplace.SelectedItem as Workplace;
+            ((ServiceSession)Session).CurrentWorkplace = CboWorkplace.SelectedItem as Workplace;
             SetRememberMe();
             DialogResult = DialogResult.OK;
             Close();
@@ -94,7 +94,7 @@ namespace CoBuilder.Service.GUI
         {
             try
             {
-                _workplaceValue = _settings.WorkPlace;
+                _workplaceValue = _session.WorkplaceSet ? _session.CurrentWorkplace.Name : _settings.WorkPlace;
                 CboWorkplace.Text = _workplaceValue;
             }
             catch (Exception exception)
@@ -124,6 +124,12 @@ namespace CoBuilder.Service.GUI
                 MessageBox.Show(
                     "WARNING! - Changing Workplace will cause problems with already attached products, Due to current Functionality. Do you wish to continue (This cannot be Undone)",
                     "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+        }
+
+        public IWorkplace SelectWorkplace()
+        {
+            ShowDialog();
+            return _session.CurrentWorkplace;
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using CoBuilder.Service.Domain;
 using CoBuilder.Service.Helpers;
+using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Commands
 {
@@ -19,7 +21,10 @@ namespace CoBuilder.Service.Commands
             try
             {
                 var workplaceSelector = CoBuilderService.CurrentService.ServiceFactory<IWorkplaceSelectionUi>();
-                workplaceSelector.Select();
+                var workplace = workplaceSelector.SelectWorkplace();
+                if (workplace == null) return false;
+                CoBuilderService.CurrentService.SetWorkplace(workplace);
+
                 return true;
             }
             catch (Exception exception)

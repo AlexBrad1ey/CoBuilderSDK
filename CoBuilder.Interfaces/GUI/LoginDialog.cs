@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Enums;
@@ -7,7 +8,7 @@ using CoBuilder.Service.Helpers;
 
 namespace CoBuilder.Service.GUI
 {
-    public partial class LoginDialog : Form
+    public partial class LoginDialog : Form, IAuthenticationUi
     {
         private readonly ICoBuilderClient _client;
         private readonly Settings _settings;
@@ -145,6 +146,12 @@ namespace CoBuilder.Service.GUI
         private void TxbPassword_Enter(object sender, EventArgs e)
         {
             TxbPassword.Clear();
+        }
+
+        public Task<ISession> AuthenticateAsync(IHttpProvider httpProvider)
+        {
+            ShowDialog();
+            return Task.FromResult(Session);
         }
     }
 }

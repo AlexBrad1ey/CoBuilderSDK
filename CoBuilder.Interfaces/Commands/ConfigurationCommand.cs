@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using CoBuilder.Service.Helpers;
+using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Commands
 {

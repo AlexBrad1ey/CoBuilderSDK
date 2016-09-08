@@ -8,7 +8,6 @@ using CoBuilder.Service.Repositories;
 
 namespace CoBuilder.Service.Logic
 {
-    // change operation to supply Connection/Connections 
     public class AttachmentManager<TElement> : IAttacher<TElement> where TElement : class
     {
         private readonly IAppAttacher<TElement> _attacher;
@@ -24,7 +23,7 @@ namespace CoBuilder.Service.Logic
             _session = session;
             _attacher = attacher;
             _accessor = accessor;
-            _masterAttachment = _accessor.HasProjectPropertySet(Constants.PropertySets.CoBuilderMaster);
+            _masterAttachment = _accessor.HasProjectPropertySet(Constants.Identifiers.PropertySets.CoBuilderMaster);
         }
 
         public void RefreshAttachments()

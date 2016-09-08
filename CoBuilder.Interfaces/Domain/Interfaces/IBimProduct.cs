@@ -6,5 +6,6 @@ namespace CoBuilder.Service.Domain
     {
         IPropertySetsSet PropertySets { get; }
         int WorkplaceId { get; }
+        int ProductId { get; }
     }
 }

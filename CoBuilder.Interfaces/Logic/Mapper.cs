@@ -1,68 +1,126 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Infrastructure.PTO;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Logic
 {
-    public class Mapper : IMapper, IConfigurator
+    public class Mapper : IMapper
     {
-        /// <summary>
-        /// The _config
-        /// </summary>
         private readonly IConfiguration _config;
 
         public Mapper(IConfiguration config)
         {
             _config = config;
         }
+        
 
-        public IEnumerable<string> PSetIdentifiers(BimProduct bimProduct)
+        public IEnumerable<PropertySetInfo> Map(IBimProduct bimProduct)
         {
-            //return new List<string> {_config.Structure.Root.Value.Identifier + bimProduct.Id};
-        }
-
-    
-
-        public IEnumerable<PropertySetInfo> Map(BimProduct bimProduct)
-        {
-            var root = _config.Structure.Root;
-            var rootPSet = MapPSet(root.Value, bimProduct);
-
-            foreach (var child in root.Children)
+            var root = _config.Root;
+            var result = new List<PropertySetInfo>();
+            foreach (var pSetDefinition in root.PropertySets.Values)
             {
-                if (child.Value.Include)
+                var pSetInfo = MapPSet(pSetDefinition);
+                result.Add(pSetInfo);
+
+                foreach (var propertyDefinition in pSetDefinition.Properties.Values)
                 {
-                    var property = MapProperty(child.Value, bimProduct);
-                    if (property == null) continue;
-                    rootPSet.AddProperty(property);
+
+                    pSetInfo.AddProperty(MapProperty(propertyDefinition,bimProduct));
                 }
             }
 
-            return new List<PropertySetInfo> {rootPSet};
+            return result;
         }
 
-        private PropertyInfo MapProperty(ConfigInfo info, BimProduct product)
+        public PropertySetInfo GenerateProjectSet(IServiceSession session)
         {
-            var value = typeof (BimProduct).GetProperty(info.Name).GetValue(product);
+            return new ProjectPropertySetInfo()
+            {
+                DisplayName = Constants.Identifiers.PropertySets.CoBuilderMaster,
+                Identifier = Constants.Identifiers.PropertySets.CoBuilderMaster,
+                WorkplaceId = session.CurrentWorkplaceId,
+                WorkplaceName = session.CurrentWorkplace.WorkplaceName
+            };
+
+        }
+
+        private PropertyInfo MapProperty(IPropertyDefinition definition, IBimProduct bimProduct)
+        {
+
+
+            var value = BuildValue(bimProduct, definition.ConnectedProperty);
             if (value == null) return null;
+
             var result = new PropertyInfo
             {
-                DisplayName = info.DisplayName,
-                Identifier = info.Identifier,
-                Units = null,
-                Value = value.ToString()
+                DisplayName = definition.DisplayName,
+                Identifier = definition.Identifier,
+                Value = value.Value,
+                Units = value.Units
             };
 
             return result;
         }
 
-        private PropertySetInfo MapPSet(ConfigInfo info, BimProduct product)
+        private Data BuildValue(IBimProduct bimProduct, string connectedProperty)
+        {
+            var path = connectedProperty.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+
+            if (path[0] == Constants.Identifiers.PropertySets.CoBuilderMaster)
+            {
+                var type = typeof(IBimProduct);
+                var value = new Data
+                {
+                    Value = type.GetProperty(path[1]).GetValue(bimProduct)?.ToString(),
+                    Units = null
+                };
+
+                return value.Value == null ? value : null;
+
+            }
+            else
+            {
+                if (path[1] == "Base")
+                {
+                    var type = typeof(IBimProduct);
+                    var value = new Data
+                    {
+                        Value = type.GetProperty(path[2])?.GetValue(bimProduct)?.ToString(),
+                        Units = null
+                    };
+
+                    return value.Value == null ? value : null;
+                }
+                else
+                {
+                    var property = bimProduct.PropertySets[path[1]].Properties[path[2]];
+                    if (property == null) return null;
+
+                    return new Data()
+                    {
+                        Value = property.Value,
+                        Units = property.Unit
+                    };
+                }
+            }
+
+        }
+
+        private class Data
+        {
+            public string Value { get; set; }
+            public string Units { get; set; }
+        }
+
+        private PropertySetInfo MapPSet(IPropertySetDefinition definition)
         {
             return new PropertySetInfo
             {
-                DisplayName = info.DisplayName,
-                Identifier = info.Identifier + product.Id
+                DisplayName = definition.DisplayName,
+                Identifier = definition.Identifier
             };
         }
     }
