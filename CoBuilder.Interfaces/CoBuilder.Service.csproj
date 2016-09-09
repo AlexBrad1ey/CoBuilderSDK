@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CoBuilder.Service</RootNamespace>
     <AssemblyName>CoBuilder.Service</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OCSLRevitUtils">
@@ -57,12 +58,18 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Core\Enums\OpenState.cs" />
+    <Compile Include="Core\Enums\ConfigEditState.cs" />
+    <Compile Include="Infrastructure\Config\BaseConfiguration.cs" />
     <Compile Include="GUI\ConfigDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\ConfigDialog.Designer.cs">
       <DependentUpon>ConfigDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Infrastructure\Config\ConfigurationSerializer.cs" />
+    <Compile Include="Core\ServiceConfiguration.cs" />
     <Compile Include="Interfaces\Ui\IWorkplaceSelectionUi.cs" />
     <Compile Include="Interfaces\Ui\IProductSelectionUi.cs" />
     <Compile Include="Interfaces\Ui\IConfigSelectionUi.cs" />
@@ -86,7 +93,6 @@
     <Compile Include="Interfaces\Logic\IConnector.cs" />
     <Compile Include="Repositories\WorkPlacesRepository.cs" />
     <Compile Include="Repositories\ProductsRepository.cs" />
-    <Compile Include="GUI\CoBuilderAuthenticationUi.cs" />
     <Compile Include="Domain\Interfaces\ICoBuilderUser.cs" />
     <Compile Include="GUI\ConfigEditorDialog.cs">
       <SubType>Form</SubType>

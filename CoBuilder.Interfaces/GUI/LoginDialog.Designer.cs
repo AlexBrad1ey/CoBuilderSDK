@@ -97,7 +97,6 @@
             this.TxbPassword.TabIndex = 3;
             this.TxbPassword.Text = "password";
             this.TxbPassword.UseSystemPasswordChar = true;
-            this.TxbPassword.Enter += new System.EventHandler(this.TxbPassword_Enter);
             // 
             // LblPassword
             // 
@@ -107,7 +106,6 @@
             this.LblPassword.Name = "LblPassword";
             this.LblPassword.Size = new System.Drawing.Size(53, 13);
             this.LblPassword.TabIndex = 2;
-            this.LblPassword.Text = "Password";
             // 
             // TxbName
             // 
@@ -118,8 +116,6 @@
             this.TxbName.Name = "TxbName";
             this.TxbName.Size = new System.Drawing.Size(246, 20);
             this.TxbName.TabIndex = 1;
-            this.TxbName.Text = " cobuilderuk@gmail.com";
-            this.TxbName.Enter += new System.EventHandler(this.TxbName_Enter);
             // 
             // LblName
             // 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using CoBuilder.Service.Domain;
 using CoBuilder.Service.Helpers;
 using CoBuilder.Service.Interfaces;
 

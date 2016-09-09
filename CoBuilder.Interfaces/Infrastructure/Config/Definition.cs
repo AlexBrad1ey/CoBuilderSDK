@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Drawing;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Infrastructure.Config

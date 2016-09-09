@@ -1,5 +1,4 @@
-﻿using CoBuilder.Core.Domain;
-using CoBuilder.Service.Interfaces;
+﻿using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Domain
 {
@@ -42,7 +41,7 @@ namespace CoBuilder.Service.Domain
         {
             get
             {
-                return Context?.PropertySetsAsync(Id).Result;
+                return Context?.PropertySets(Id);
             }
         }
 

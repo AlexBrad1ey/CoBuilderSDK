@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Eventing.Reader;
 using CoBuilder.Service.Domain;
 
 namespace CoBuilder.Service.Interfaces

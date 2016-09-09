@@ -8,52 +8,32 @@ namespace CoBuilder.Service.Infrastructure.Config
 
     public class Configuration : IConfiguration
     {
-        private Guid _configId;
-        private string _name;
-        private string _author;
-
         //private readonly IDictionary<DefinitionKey, IDefinition> _definitions;
         private readonly IConfigDefinition _root;
         
 
-        public Configuration(string name, string author)
+        public Configuration()
         {
-            _configId = Guid.NewGuid();
-            _name = name;
-            _author = author;
-
-            var root = GenerateRoot();
-            //_definitions = new Dictionary<DefinitionKey, IDefinition> { {KeyBuilder.Build(root), root}};
-            _root = root;
+            ConfigId = Guid.NewGuid();
         }
 
         private IConfigDefinition GenerateRoot()
         {
-            return new ConfigDefinition()
-            {
-                DisplayName = Name,
-                Identifier = ConfigId.ToString()
-            };
+            return new ConfigDefinition(this);
+
         }
 
 
-        public Guid ConfigId
-        {
-            get { return _configId; }
-        }
-        public string Name
-        {
-            get { return _name; }
-        }
-        public string Author
-        {
-            get { return _author; }
-        }
+        public Guid ConfigId { get; set; }
+        public string Name { get; set; }
+
+        public string Author { get; set; }
+
         public IConfigDefinition Root
         {
-            get { return _root; }
+            get { return _root ?? GenerateRoot(); }
         }
-       
+
         public IPropertyDefinition AddProperty(IPropertyDefinition property, IPropertySetDefinition pSet)
         {
             if (property == null) throw new ArgumentNullException(nameof(property));
@@ -68,6 +48,19 @@ namespace CoBuilder.Service.Infrastructure.Config
             //if (_definitions.ContainsKey(KeyBuilder.Build(pSet))) throw new ArgumentException("Property Set Definition Already Present within Configuration", nameof(pSet));
 
             return Root.AddPropertySet(pSet);
+        }
+
+        public IConfiguration Save()
+        {
+            var serializer = new ConfigurationSerializer();
+            serializer.Serialize(this, Constants.FilePathBase + ConfigId + Constants.ConfigFileType);
+            return this;
+        }
+
+        public static IConfiguration Load(string filename)
+        {
+            var serializer = new ConfigurationSerializer();
+            return serializer.Deserialize(filename);
         }
     }
 }

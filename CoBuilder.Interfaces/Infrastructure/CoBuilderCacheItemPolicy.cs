@@ -9,7 +9,7 @@ namespace CoBuilder.Service.Infrastructure
         public CoBuilderCacheItemPolicy()
             : this(
                 DateTimeOffset.Now.AddMinutes(Constants.Caching.AbsoluteEvictionMinutes),
-                TimeSpan.FromMinutes(Constants.Caching.SlidingEvictionMinutes))
+                TimeSpan.Zero)
         {
         }
 

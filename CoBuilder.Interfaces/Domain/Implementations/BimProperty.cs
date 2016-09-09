@@ -1,5 +1,4 @@
-﻿using CoBuilder.Core.Domain;
-using CoBuilder.Service.Infrastructure;
+﻿using CoBuilder.Service.Infrastructure;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Domain

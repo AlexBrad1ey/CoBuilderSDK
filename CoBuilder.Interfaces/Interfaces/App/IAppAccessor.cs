@@ -9,7 +9,6 @@ namespace CoBuilder.Service.Interfaces.App
         ProjectPropertySetInfo GetProjectPropertySet(string identifier);
         bool HasProjectPropertySet(string identifier);
         PropertySetInfo GetPropertySet(TElement element, string identifier);
-        IEnumerable<Tuple<string, int>> GetCoBuilderPropertySetIdentifiers(TElement element);
         IEnumerable<PropertySetInfo> GetPropertySets(TElement element);
 
         IEnumerable<ProductKey> GetCoBuilderProductKeys(TElement element);

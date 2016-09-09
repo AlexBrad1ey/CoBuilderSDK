@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Infrastructure.PTO;
 

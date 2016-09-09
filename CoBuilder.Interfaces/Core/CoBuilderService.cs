@@ -2,7 +2,6 @@
 using CoBuilder.Core.Enums;
 using CoBuilder.Core.Exceptions;
 using CoBuilder.Core.Interfaces;
-using CoBuilder.Core.RestModels;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Infrastructure;
 using CoBuilder.Service.Interfaces;
@@ -132,7 +131,7 @@ namespace CoBuilder.Service
         public CoBuilderService LoginAsync()
         {
             var client = ServiceFactory<ICoBuilderClient>();
-            var session = client.AuthenticateAsync();
+            var session = client.AuthenticateAsync().Result;
             InitiateSession(client);
             return this;
         }
@@ -162,6 +161,11 @@ namespace CoBuilder.Service
         {
             return _containerProvider.Container.GetInstance<T>(args);
         }
+
+        public string whatDoIHave()
+        {
+            return _containerProvider.Container.WhatDoIHave();
+        }
         #endregion
       
         public void Dispose()
@@ -183,9 +187,14 @@ namespace CoBuilder.Service
 
         private IServiceSession InitiateSession(ICoBuilderClient client)
         {
-            _serviceSession = new ServiceSession(client.CurrentSession, this) { LoggedIn = client.IsAuthenticated };
-            return _serviceSession;
+            if (client.CurrentSession != null)
+            {
+                _serviceSession = new ServiceSession(client.CurrentSession, this) {LoggedIn = client.IsAuthenticated};
+                return _serviceSession;
+            }
+            return null;
         }
+
         #endregion
         
         #endregion

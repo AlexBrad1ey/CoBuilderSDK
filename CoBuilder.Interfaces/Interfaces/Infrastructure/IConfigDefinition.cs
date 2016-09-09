@@ -6,5 +6,6 @@ namespace CoBuilder.Service.Interfaces
     {
         IObservableDictionary<DefinitionKey,IPropertySetDefinition> PropertySets { get;}
         IPropertySetDefinition AddPropertySet(IPropertySetDefinition pSet);
+        bool RemovePropertySet(IPropertySetDefinition propertySet);
     }
 }

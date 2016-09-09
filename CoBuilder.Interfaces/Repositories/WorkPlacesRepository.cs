@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Interfaces;
@@ -12,7 +11,7 @@ namespace CoBuilder.Service.Repositories
 
         public WorkPlacesRepository(ICoBuilderContext ctx)
         {
-            _workplacesSet = ctx.WorkplacesAsync().Result;
+            _workplacesSet = ctx.Workplaces();
         }
 
         public IWorkplace Get(int key)

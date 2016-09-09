@@ -17,10 +17,10 @@ namespace CoBuilder.Service.Logic
         private readonly IAppSelector<TElement> _selector;
         private readonly IServiceSession _session;
 
-        public ModelInterrogator(CoBuilderService coBuilderService, ConnectionManager<TElement> connector,  IAppAccessor<TElement> accessor,
+        public ModelInterrogator(ConnectionManager<TElement> connector,  IAppAccessor<TElement> accessor,
             IAppSelector<TElement> selector, IServiceSession session)
         {
-            _coBuilderService = coBuilderService;
+            _coBuilderService = CoBuilderService.CurrentService;
             _connector = connector;
             _accessor = accessor;
             _selector = selector;

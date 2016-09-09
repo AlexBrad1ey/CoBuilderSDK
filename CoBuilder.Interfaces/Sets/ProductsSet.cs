@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
-using CoBuilder.Service.Infrastructure;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Sets
@@ -14,7 +12,7 @@ namespace CoBuilder.Service.Sets
         private SupplierSet _suppliers;
 
         public ProductsSet(IProductsCollection collection, int workplaceId, ICoBuilderContext ctx)
-            : base((IList<IBimProduct>) collection.Select(x => new BimProduct(x, workplaceId, ctx)))
+            : base(collection.Select(x => (IBimProduct)(new BimProduct(x, workplaceId, ctx))).ToList())
         {
         }
 

@@ -53,7 +53,7 @@ namespace CoBuilder.Service.Domain
 
         public IProductsSet Products
         {
-            get { return Context.ProductsAsync(Id).Result; }
+            get { return Context.Products(Id); }
         }
     }
 }

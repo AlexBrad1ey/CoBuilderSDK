@@ -4,12 +4,12 @@ namespace CoBuilder.Service.Interfaces
 {
     public interface ICoBuilderContext
     {
-        Task<IProductsSet> ProductsAsync(int workplaceId);
+        IProductsSet Products(int workplaceId);
 
-        Task<IPropertiesSet> PropertiesAsync(int productId, string propertySetId);
+        IPropertiesSet Properties(int productId, string propertySetId);
 
-        Task<IPropertySetsSet> PropertySetsAsync(int productId);
+        IPropertySetsSet PropertySets(int productId);
 
-        Task<IWorkplacesSet> WorkplacesAsync();
+        IWorkplacesSet Workplaces();
     }
 }

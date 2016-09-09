@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Eventing.Reader;
-
-namespace CoBuilder.Service.Infrastructure.PTO
+﻿namespace CoBuilder.Service.Infrastructure.PTO
 {
     public class Info
     {

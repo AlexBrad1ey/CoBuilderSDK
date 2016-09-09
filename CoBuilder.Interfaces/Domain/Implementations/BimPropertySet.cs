@@ -1,4 +1,3 @@
-using CoBuilder.Core.Domain;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Domain
@@ -27,7 +26,7 @@ namespace CoBuilder.Service.Domain
 
         public virtual IPropertiesSet Properties
         {
-            get { return Context.PropertiesAsync(ProductId, Id).Result; }
+            get { return Context.Properties(ProductId, Id); }
         }
 
         public ICoBuilderContext Context { get; internal set; }

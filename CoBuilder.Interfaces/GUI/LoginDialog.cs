@@ -2,7 +2,10 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CoBuilder.Core.Authentication;
 using CoBuilder.Core.Interfaces;
+using CoBuilder.Core.Requests;
+using CoBuilder.Core.RestModels;
 using CoBuilder.Service.Enums;
 using CoBuilder.Service.Helpers;
 
@@ -10,42 +13,41 @@ namespace CoBuilder.Service.GUI
 {
     public partial class LoginDialog : Form, IAuthenticationUi
     {
-        private readonly ICoBuilderClient _client;
         private readonly Settings _settings;
+        private IHttpProvider _httpProvider;
 
-        public LoginDialog(ICoBuilderClient client, Settings settings)
+        public LoginDialog(Settings settings)
         {
-            _client = client;
             _settings = settings;
             InitializeComponent();
         }
 
-        public ISession Session
-        {
-            get { return _client.CurrentSession; }
-        }
+        public ISession Session { get; set; }
 
         private void CmbLogin_Click(object sender, EventArgs e)
         {
-            var result = SignIn(TxbName.Text, TxbPassword.Name);
+            var result = SignIn(TxbName.Text, TxbPassword.Text);
             DialogState(result);
 
         }
 
         private SignInResult SignIn(string username, string password)
         {
+            var request = new LoginRequestBuilder("Login", _httpProvider).Request(username, password);
+            LoginResult result = null;
             try
             {
-                var result = _client.AuthenticateAsync(username, password).Result;
-
-                return result.AccessToken == null ? SignInResult.Failed : SignInResult.Succeeded;
+                result = request.GetAsync().Result;
+                Session = new Session(result, username) {CanSignOut = true};
+                return Session.AccessToken == null ? SignInResult.Failed : SignInResult.Succeeded;
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 _settings.WriteLogFile(e, GetType().Name, MethodBase.GetCurrentMethod().Name);
                 return SignInResult.Error;
             }
         }
+
 
         private void DialogState(SignInResult? result)
         {
@@ -53,11 +55,13 @@ namespace CoBuilder.Service.GUI
             {
                 case SignInResult.Succeeded:
                     MessageBox.Show("Login Successful");
+                    CmbOK.Enabled = true;
                     break;
                 case SignInResult.Failed:
                     MessageBox.Show("Login Failed Please Try Again");
                     TxbPassword.Clear();
                     TxbPassword.Focus();
+                    CmbOK.Enabled = false;
                     break;
                 case SignInResult.Error:
                     MessageBox.Show("Error during sign in please try again in a moment");
@@ -134,22 +138,13 @@ namespace CoBuilder.Service.GUI
         private void CmbCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            _client.SignOutAsync();
+            Session = null;
             Close();
-        }
-
-        private void TxbName_Enter(object sender, EventArgs e)
-        {
-            TxbName.Clear();
-        }
-
-        private void TxbPassword_Enter(object sender, EventArgs e)
-        {
-            TxbPassword.Clear();
         }
 
         public Task<ISession> AuthenticateAsync(IHttpProvider httpProvider)
         {
+            _httpProvider = httpProvider;
             ShowDialog();
             return Task.FromResult(Session);
         }

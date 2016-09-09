@@ -1,6 +1,4 @@
-﻿using CoBuilder.Service.Enums;
-
-namespace CoBuilder.Service.Domain
+﻿namespace CoBuilder.Service.Domain
 {
     public class Connection<TElement> where TElement : class
     {

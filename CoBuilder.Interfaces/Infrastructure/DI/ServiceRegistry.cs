@@ -9,7 +9,6 @@ namespace CoBuilder.Service.Infrastructure.DI
         {
             if (config.UseDefinedContainerConfig)
             {
-                IncludeRegistry(new CoBuilderServiceRegistry());
                 IncludeRegistry(config.ContainerConfig);
             }
             else

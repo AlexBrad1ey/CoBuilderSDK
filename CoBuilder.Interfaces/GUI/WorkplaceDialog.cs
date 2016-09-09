@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
-using CoBuilder.Service.Enums;
 using CoBuilder.Service.Helpers;
 using CoBuilder.Service.Interfaces;
 
@@ -36,7 +34,7 @@ namespace CoBuilder.Service.GUI
         private void WorkplaceDialog_Load(object sender, EventArgs e)
         {
             GetRememberMe();
-            _workplaces = _ctx.WorkplacesAsync().Result.ToList();
+            _workplaces = _ctx.Workplaces().ToList();
             ComboRefresh();
             CboWorkplace.SelectedItem = _workplaces.FirstOrDefault(x => x.Name.ToString() == _workplaceValue) ??
                                         _workplaces.First();

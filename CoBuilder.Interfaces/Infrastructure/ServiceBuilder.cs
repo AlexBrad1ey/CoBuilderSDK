@@ -1,5 +1,4 @@
-﻿using System.Runtime.Remoting.Activation;
-using AutoMapper.QueryableExtensions.Impl;
+﻿using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Infrastructure.DI;
 using CoBuilder.Service.Interfaces;
 using StructureMap;
@@ -19,13 +18,16 @@ namespace CoBuilder.Service.Infrastructure
         {
             var registry = new ServiceRegistry(_config);
             var container = new Container(registry);
-            //Inject at root for IAppConfig
+            var app = container.GetInstance<IAppConfig>();
+
+            app.AppId = _config.AppConfig.AppId;
+            app.ClientId = _config.AppConfig.ClientId;
+            app.ProgramVersion = _config.AppConfig.ProgramVersion;
 
             var containerProvider = new ContainerProvider(container);
-            //childs should be able to be constructed using exprsessiosn
+            var service = new CoBuilderService(containerProvider);
 
-
-            return new CoBuilderService(containerProvider);
+            return service;
         }
     }
 }

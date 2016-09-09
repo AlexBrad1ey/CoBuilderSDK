@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Enums;
-using CoBuilder.Service.Infrastructure.Config;
 using CoBuilder.Service.Interfaces;
 using CoBuilder.Service.Interfaces.App;
 

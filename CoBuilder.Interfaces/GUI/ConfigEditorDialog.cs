@@ -1,27 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using CoBuilder.Service.Enums;
 using CoBuilder.Service.Infrastructure.Config;
-using CoBuilder.Service.Infrastructure.Structures;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.GUI
 {
     public partial class ConfigEditorDialog : Form
     {
-        private readonly Configuration _configuration;
-        private readonly Configuration _baseConfiguration;
+        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _baseConfiguration;
         private ConfigEditState _configEditState;
         private OpenState _openState;
 
         #region Constructors
-        public ConfigEditorDialog(Configuration configuration, Configuration baseConfiguration, OpenState state )
+
+        public ConfigEditorDialog(IConfiguration configuration, IConfiguration baseConfiguration, OpenState state)
         {
             _configuration = configuration;
             _baseConfiguration = baseConfiguration;
@@ -29,12 +24,12 @@ namespace CoBuilder.Service.GUI
             InitializeComponent();
         }
 
-        public ConfigEditorDialog(Configuration configuration, Configuration baseConfiguration)
+        public ConfigEditorDialog(IConfiguration configuration, IConfiguration baseConfiguration)
             : this(configuration, baseConfiguration, OpenState.Edit)
         {
         }
 
-        public ConfigEditorDialog(Configuration baseConfiguration)
+        public ConfigEditorDialog(IConfiguration baseConfiguration)
             : this(new Configuration(), baseConfiguration, OpenState.New)
         {
         }
@@ -42,10 +37,13 @@ namespace CoBuilder.Service.GUI
         #endregion
 
         #region Porperties
-        public Configuration Configuration { get; private set; }
+
+        public IConfiguration Configuration { get; private set; }
+
         #endregion
 
         #region Event Handlers
+
         private void ConfigEditorDialog_Load(object sender, EventArgs e)
         {
             SwitchConfigEditState(ConfigEditState.Viewing);
@@ -63,27 +61,101 @@ namespace CoBuilder.Service.GUI
             _configEditState = SwitchConfigEditState(ConfigEditState.Cancel);
         }
 
+        private void CmdAdd_Click(object sender, EventArgs e)
+        {
+            if (TrvRoot.SelectedNode == null) return;
+
+            var definition = (IDefinition) TrvRoot.SelectedNode.Tag;
+            TreeNode destinationNode;
+
+            switch (definition.DefinitionType)
+            {
+                case DefinitionType.Property:
+                    destinationNode = TrvConfiguration.SelectedNode == null || TrvConfiguration.SelectedNode.Level != 0
+                        ? TrvConfiguration.TopNode.FirstNode
+                        : TrvConfiguration.SelectedNode;
+                    AddProperty(destinationNode, (PropertyDefinition) definition);
+                    break;
+
+                case DefinitionType.PropertySet:
+                    destinationNode = TrvConfiguration.TopNode;
+                    AddPropertySet(destinationNode, (PropertySetDefinition) definition);
+                    break;
+
+                case DefinitionType.Configuration:
+                    return;
+
+                default:
+                    return;
+            }
+
+        }
+
+        private void CmdEdit_Click(object sender, EventArgs e)
+        {
+            if (TrvConfiguration.SelectedNode == null || TrvConfiguration.SelectedNode.Level == 0) return;
+
+            var editor = new DefinitionDialog((IDefinition) TrvConfiguration.SelectedNode.Tag);
+            editor.ShowDialog();
+        }
+
+        private void CmdRemove_Click(object sender, EventArgs e)
+        {
+            if (TrvConfiguration.SelectedNode == null || TrvConfiguration.SelectedNode.Level == 0) return;
+
+            var definition = (IDefinition) TrvConfiguration.SelectedNode.Tag;
+            var parentDefinition = (IDefinition) TrvConfiguration.SelectedNode.Parent.Tag;
+
+            switch (parentDefinition.DefinitionType)
+            {
+                case DefinitionType.PropertySet:
+                    var pSet = (IPropertySetDefinition) parentDefinition;
+                    var property = (IPropertyDefinition) definition;
+                    pSet.RemoveProperty(property);
+                    TrvConfiguration.SelectedNode.Remove();
+                    break;
+
+                case DefinitionType.Configuration:
+                    var root = (IConfigDefinition) parentDefinition;
+                    var pSetRemove = (IPropertySetDefinition) definition;
+                    root.RemovePropertySet(pSetRemove);
+                    TrvConfiguration.SelectedNode.Remove();
+                    break;
+
+                default:
+                    return;
+
+            }
+        }
+
         private void CmbOK_Click(object sender, EventArgs e)
         {
-            Configuration = _configuration;
+            Configuration = _configuration.Save();
             DialogResult = DialogResult.OK;
             Close();
         }
 
         private void CmbCancel_Click(object sender, EventArgs e)
         {
+            Configuration = null;
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
         #endregion
 
         #region Methods
+
         private ConfigEditState SwitchConfigEditState(ConfigEditState state)
         {
             switch (state)
             {
                 case ConfigEditState.Editing:
-
+                    if (tbxName.Text == "")
+                    {
+                        MessageBox.Show("Name is Required");
+                        return state;
+                    }
                     tbxName.Visible = false;
                     _configuration.Name = tbxName.Text;
                     tbxAuthor.Visible = false;
@@ -99,6 +171,7 @@ namespace CoBuilder.Service.GUI
                     cmdConfigCancel.Visible = false;
 
                     SpCForm.Enabled = true;
+                    CmbOK.Enabled = true;
                     return ConfigEditState.Viewing;
 
                 case ConfigEditState.Viewing:
@@ -116,6 +189,7 @@ namespace CoBuilder.Service.GUI
                     cmdConfigCancel.Visible = true;
 
                     SpCForm.Enabled = false;
+                    CmbOK.Enabled = false;
                     tbxName.Focus();
                     return ConfigEditState.Editing;
 
@@ -134,6 +208,7 @@ namespace CoBuilder.Service.GUI
                     cmdConfigCancel.Visible = false;
 
                     SpCForm.Enabled = true;
+                    CmbOK.Enabled = true;
                     return ConfigEditState.Viewing;
 
                 default:
@@ -141,51 +216,62 @@ namespace CoBuilder.Service.GUI
             }
         }
 
-        private void UpdateTreeView(TreeView treeView, Configuration config)
+        private void AddProperty(TreeNode destinationNode, PropertyDefinition definition)
+        {
+            var pSet = (PropertySetDefinition) destinationNode.Tag;
+            var copy = definition.DeepCopy();
+            pSet.AddProperty(copy);
+
+            TrvConfiguration.BeginUpdate();
+            var propNode = destinationNode.Nodes.Add(copy.Identifier, copy.DisplayName);
+            propNode.Tag = copy;
+
+            TrvConfiguration.EndUpdate();
+        }
+
+        private void AddPropertySet(TreeNode destinationNode, PropertySetDefinition definition)
+        {
+            var root = (ConfigDefinition) destinationNode.Tag;
+            var copy = definition.DeepCopy();
+            root.AddPropertySet(copy);
+
+            TrvConfiguration.BeginUpdate();
+
+            var pSetNode = destinationNode.Nodes.Add(copy.Identifier, copy.DisplayName);
+            pSetNode.Tag = copy;
+
+            foreach (var property in copy.Properties.Values)
+            {
+                var propNode = pSetNode.Nodes.Add(property.Identifier, property.DisplayName);
+                propNode.Tag = property;
+            }
+
+            TrvConfiguration.EndUpdate();
+        }
+
+        private static void UpdateTreeView(TreeView treeView, IConfiguration config)
         {
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
 
-            var root = treeView.Nodes.Add(config.Structure.Root.Value.Identifier, config.Structure.Root.Value.DisplayName);
+            var root = treeView.Nodes.Add(config.Root.Identifier, config.Root.DisplayName);
+            root.Tag = config.Root;
 
-            AddChildren(root, config.Structure.Root);
+            foreach (var pSet in config.Root.PropertySets.Values)
+            {
+                var pSetNode = root.Nodes.Add(pSet.Identifier, pSet.DisplayName);
+                pSetNode.Tag = pSet;
+
+                foreach (var property in pSet.Properties.Values)
+                {
+                    var propNode = pSetNode.Nodes.Add(property.Identifier, property.DisplayName);
+                    propNode.Tag = property;
+                }
+            }
 
             treeView.EndUpdate();
         }
 
-        private void AddChildren(TreeNode displayNode, TreeNode<IDefinition> node)
-        {
-            foreach (var child in node.Children)
-            {
-                var newNode = displayNode.Nodes.Add(child.Value.Identifier, child.Value.DisplayName);
-                AddChildren(newNode,child);
-            } 
-        }
         #endregion
-
-        private void CmdAdd_Click(object sender, EventArgs e)
-        {
-            if (TrvRoot.SelectedNode == null)
-            {
-                MessageBox.Show("Please Select a Property to Add");
-                return;
-            }
-
-            var definition = _baseConfiguration.GetDefinition();
-
-
-        }
-    }
-
-    public enum OpenState
-    {
-        Edit,
-        New
-    }
-    internal enum ConfigEditState
-    {
-        Editing,
-        Viewing,
-        Cancel
     }
 }

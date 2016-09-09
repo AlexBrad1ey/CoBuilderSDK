@@ -92,6 +92,7 @@
             this.CmdRemove.TabIndex = 3;
             this.CmdRemove.Text = "&Remove";
             this.CmdRemove.UseVisualStyleBackColor = true;
+            this.CmdRemove.Click += new System.EventHandler(this.CmdRemove_Click);
             // 
             // CmdEdit
             // 
@@ -103,9 +104,11 @@
             this.CmdEdit.TabIndex = 2;
             this.CmdEdit.Text = "&Edit";
             this.CmdEdit.UseVisualStyleBackColor = true;
+            this.CmdEdit.Click += new System.EventHandler(this.CmdEdit_Click);
             // 
             // TrvConfiguration
             // 
+            this.TrvConfiguration.AllowDrop = true;
             this.TrvConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));

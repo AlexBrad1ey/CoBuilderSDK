@@ -10,7 +10,7 @@ namespace CoBuilder.Core.Authentication
 
 
         Task SignOutAsync();
-        Task<ISession> AuthenticateAsync(IServiceInfo serviceInfo);
+        Task<ISession> AuthenticateAsync(IServiceInfo serviceInfo, bool NoUi);
         Task<ISession> AuthenticateAsync(IServiceInfo serviceInfo, string username, string password);
         IAuthenticator GetAuthenticator();
     }

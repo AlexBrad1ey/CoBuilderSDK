@@ -11,7 +11,7 @@ namespace CoBuilder.Service.Repositories
 
         public ProductsRepository(ICoBuilderContext ctx,IServiceSession session)
         {
-            _productsSet = ctx.ProductsAsync(session.CurrentWorkplaceId).Result;
+            _productsSet = ctx.Products(session.CurrentWorkplaceId);
         }
 
         public IBimProduct Get(int key)

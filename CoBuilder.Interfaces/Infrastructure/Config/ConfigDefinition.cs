@@ -1,23 +1,44 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using CoBuilder.Core.RestModels;
 using CoBuilder.Service.Helpers;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Infrastructure.Config
 {
-    public class ConfigDefinition : Definition,IConfigDefinition, IDisposable
+    public class ConfigDefinition : IConfigDefinition, IDisposable
     {
-        public ConfigDefinition() : base(DefinitionType.Configuration)
+        private readonly DefinitionType _definitionType;
+
+        protected ConfigDefinition(DefinitionType definitionType)
         {
-            PropertySets = new ObservableDictionary<DefinitionKey, IPropertySetDefinition>();
-            PropertySets.CollectionChanged += PropertySetsOnCollectionChanged;
+            _definitionType = definitionType;
+            Constraints = new List<IConstraint>();
         }
 
-        public ConfigDefinition(IObservableDictionary<DefinitionKey, IPropertySetDefinition> propertySets) : base(DefinitionType.Configuration)
+        public DefinitionType DefinitionType
         {
-            PropertySets = propertySets;
+            get { return _definitionType; }
+        }
+
+        public string DisplayName
+        {
+            get { return _config.Name; }
+        }
+        public string Identifier { get { return _config.ConfigId.ToString(); } }
+
+        public bool Visible { get; set; }
+
+        public IList<IConstraint> Constraints { get; set; }
+
+        private readonly Configuration _config;
+
+        public ConfigDefinition(Configuration config) : this(DefinitionType.Configuration)
+        {
+            _config = config;
+            PropertySets = new ObservableDictionary<DefinitionKey, IPropertySetDefinition>();
+            PropertySets.CollectionChanged += PropertySetsOnCollectionChanged;
         }
 
 
@@ -31,6 +52,14 @@ namespace CoBuilder.Service.Infrastructure.Config
             PropertySets.Add(KeyBuilder.Build(pSet),pSet);
             return pSet;
         }
+
+        public bool RemovePropertySet(IPropertySetDefinition propertySet)
+        {
+            if (propertySet == null) throw new ArgumentNullException(nameof(propertySet));
+            var key = KeyBuilder.Build(propertySet);
+            return PropertySets.Remove(key);
+        }
+
         public IPropertySetDefinition GetPropertySetByName(string name)
         {
             return PropertySets.FirstOrDefault(k => k.Key.DisplayName == name).Value;

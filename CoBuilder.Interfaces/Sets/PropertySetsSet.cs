@@ -10,7 +10,7 @@ namespace CoBuilder.Service.Sets
     public class PropertySetsSet : BaseSet<IBimPropertySet>, IPropertySetsSet
     {
         public PropertySetsSet(IPropertySetCollection collection, int productId, ICoBuilderContext ctx)
-            : base((IList<IBimPropertySet>)collection.Select(x => new BimPropertySet(x,productId,ctx)))
+            : base(collection.Select(x => (IBimPropertySet)new BimPropertySet(x,productId,ctx)).ToList())
         {
 
         }

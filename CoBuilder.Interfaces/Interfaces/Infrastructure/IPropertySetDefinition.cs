@@ -6,5 +6,6 @@ namespace CoBuilder.Service.Interfaces
     {
         IObservableDictionary<DefinitionKey, IPropertyDefinition> Properties { get; }
         IPropertyDefinition AddProperty(IPropertyDefinition property);
+        bool RemoveProperty(IPropertyDefinition property);
     }
 }

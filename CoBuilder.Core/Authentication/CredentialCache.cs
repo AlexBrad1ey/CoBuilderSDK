@@ -93,7 +93,7 @@ namespace CoBuilder.Core.Authentication
         {
             return new CredentialCacheKey
             {
-                UserId = session.UserId,
+                UserId = "1",
                 AppId = session.AppId
             };
         }

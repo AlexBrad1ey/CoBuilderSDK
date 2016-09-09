@@ -26,14 +26,14 @@ namespace CoBuilder.Core.Authentication
         public abstract IAuthenticator GetAuthenticator();
 
 
-        public virtual async Task<ISession> AuthenticateAsync(IServiceInfo serviceInfo)
+        public virtual async Task<ISession> AuthenticateAsync(IServiceInfo serviceInfo, bool NoUi = false)
         {
             if (ProcessCachedSession(CurrentSession))
             {
                 return CurrentSession;
             }
 
-            var session = GetAuthenticationResultFromCache(serviceInfo.UserId,serviceInfo.AppId);
+            var session = GetAuthenticationResultFromCache("1", serviceInfo.AppId);
 
             if (ProcessCachedSession(session))
             {
@@ -45,9 +45,11 @@ namespace CoBuilder.Core.Authentication
             {
                 DeleteCredentialsFromCache(session);
             }
-
-            session = await GetAuthenticationResultAsync();
-
+            if (!NoUi)
+            {
+                session = await GetAuthenticationResultAsync();
+            }
+            
             if (string.IsNullOrEmpty(session?.AccessToken))
             {
                 throw new CoBuilderException(
@@ -57,7 +59,7 @@ namespace CoBuilder.Core.Authentication
                         Message = "Failed to retrieve a valid authentication token for the user."
                     });
             }
-
+            session.AppId = serviceInfo.AppId;
             CacheSession(session);
 
             return session;
@@ -69,7 +71,7 @@ namespace CoBuilder.Core.Authentication
                 return CurrentSession;
             }
 
-            var session = GetAuthenticationResultFromCache(serviceInfo.UserId, serviceInfo.AppId);
+            var session = GetAuthenticationResultFromCache("1", serviceInfo.AppId);
 
             if (ProcessCachedSession(session))
             {

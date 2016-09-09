@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using CoBuilder.Service.Domain;
-using CoBuilder.Service.Enums;
-using CoBuilder.Service.Interfaces;
+﻿using CoBuilder.Service.Interfaces;
 using CoBuilder.Service.Interfaces.App;
 using CoBuilder.Service.Repositories;
 

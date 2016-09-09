@@ -34,7 +34,7 @@
             this.lblNameValue = new System.Windows.Forms.Label();
             this.LblAuthor = new System.Windows.Forms.Label();
             this.LblName = new System.Windows.Forms.Label();
-            this.lstConfig = new System.Windows.Forms.ListBox();
+            this.LstConfig = new System.Windows.Forms.ListBox();
             this.CmbEdit = new System.Windows.Forms.Button();
             this.CmbNew = new System.Windows.Forms.Button();
             this.CmbImport = new System.Windows.Forms.Button();
@@ -109,16 +109,17 @@
             this.LblName.TabIndex = 0;
             this.LblName.Text = "Name";
             // 
-            // lstConfig
+            // LstConfig
             // 
-            this.lstConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LstConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lstConfig.FormattingEnabled = true;
-            this.lstConfig.Location = new System.Drawing.Point(12, 139);
-            this.lstConfig.Name = "lstConfig";
-            this.lstConfig.Size = new System.Drawing.Size(172, 173);
-            this.lstConfig.TabIndex = 17;
+            this.LstConfig.FormattingEnabled = true;
+            this.LstConfig.Location = new System.Drawing.Point(12, 139);
+            this.LstConfig.Name = "LstConfig";
+            this.LstConfig.Size = new System.Drawing.Size(172, 173);
+            this.LstConfig.TabIndex = 17;
+            this.LstConfig.SelectedIndexChanged += new System.EventHandler(this.LstConfig_SelectedIndexChanged);
             // 
             // CmbEdit
             // 
@@ -145,6 +146,7 @@
             // CmbImport
             // 
             this.CmbImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmbImport.Enabled = false;
             this.CmbImport.Location = new System.Drawing.Point(190, 249);
             this.CmbImport.Name = "CmbImport";
             this.CmbImport.Size = new System.Drawing.Size(72, 24);
@@ -156,6 +158,7 @@
             // CmbExport
             // 
             this.CmbExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmbExport.Enabled = false;
             this.CmbExport.Location = new System.Drawing.Point(190, 279);
             this.CmbExport.Name = "CmbExport";
             this.CmbExport.Size = new System.Drawing.Size(72, 24);
@@ -217,12 +220,13 @@
             this.Controls.Add(this.CmbImport);
             this.Controls.Add(this.CmbNew);
             this.Controls.Add(this.CmbEdit);
-            this.Controls.Add(this.lstConfig);
+            this.Controls.Add(this.LstConfig);
             this.Controls.Add(this.GbxCurrent);
             this.Controls.Add(this.PbxCoBuilder);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ConfigDialog";
             this.Text = "Configuration Select";
+            this.Load += new System.EventHandler(this.ConfigDialog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PbxCoBuilder)).EndInit();
             this.GbxCurrent.ResumeLayout(false);
             this.GbxCurrent.PerformLayout();
@@ -239,7 +243,7 @@
         private System.Windows.Forms.Label LblName;
         private System.Windows.Forms.Label lblAuthorValue;
         private System.Windows.Forms.Label lblNameValue;
-        private System.Windows.Forms.ListBox lstConfig;
+        private System.Windows.Forms.ListBox LstConfig;
         private System.Windows.Forms.Button CmbEdit;
         private System.Windows.Forms.Button CmbNew;
         private System.Windows.Forms.Button CmbImport;
