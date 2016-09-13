@@ -11,14 +11,17 @@ using CoBuilder.Service.Helpers;
 
 namespace CoBuilder.Service.GUI
 {
-    public partial class LoginDialog : Form, IAuthenticationUi
+    public partial class LoginDialog : Form
     {
         private readonly Settings _settings;
         private IHttpProvider _httpProvider;
 
-        public LoginDialog(Settings settings)
+        public LoginDialog(IHttpProvider httpProvider, Settings settings)
         {
+            if (httpProvider == null) throw new ArgumentNullException(nameof(httpProvider));
+
             _settings = settings;
+            _httpProvider = httpProvider;
             InitializeComponent();
         }
 
@@ -140,13 +143,6 @@ namespace CoBuilder.Service.GUI
             DialogResult = DialogResult.Cancel;
             Session = null;
             Close();
-        }
-
-        public Task<ISession> AuthenticateAsync(IHttpProvider httpProvider)
-        {
-            _httpProvider = httpProvider;
-            ShowDialog();
-            return Task.FromResult(Session);
         }
     }
 }

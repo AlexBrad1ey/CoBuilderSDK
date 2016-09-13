@@ -19,7 +19,7 @@ namespace CoBuilder.Navisworks.Plugins
     [RibbonTab("CoBuilderMainTab", DisplayName = "CoBuilder Pro", LoadForCanExecute = true)]
     [Command("WebsiteCommand", DisplayName = "CoBuilder Website", LargeIcon = "Resources//CoBuilder_loginSmall.png")]
     [Command("WebsiteCommand2", DisplayName = "CoBuilder Website", LargeIcon = "Resources//CoBuilder_loginSmall.png")]
-    [Command("WorkplaceCommand", DisplayName = "Change Workplace", LargeIcon = "Resources//Globe-icon_Small.png")]
+    [Command("WorkplaceCommand", DisplayName = "Set Workplace", LargeIcon = "Resources//Globe-icon_Small.png")]
     [Command("LoginCommand", DisplayName = "CoBuilder Login", LargeIcon = "Resources//logIn-icon-Small.png")]
     [Command("LogOutCommand", DisplayName = "CoBuilder Logout", LargeIcon = "Resources//logout-icon-Small.png")]
     [Command("ConnectCommand", DisplayName = "Link Product to Elements", LargeIcon = "Resources//logIn-icon-Small.png")]
@@ -125,7 +125,7 @@ namespace CoBuilder.Navisworks.Plugins
                 case "ConnectCommand":
                 case "RemoveCommand":
                 {
-                    return new CommandState(!Application.ActiveDocument.CurrentSelection.IsEmpty);
+                    return new CommandState(!Application.ActiveDocument.CurrentSelection.IsEmpty || _coBuilderService.Session.WorkplaceSet);
                 }
                 default:
                 {

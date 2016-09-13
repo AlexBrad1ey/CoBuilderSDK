@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoBuilder.Core.Authentication;
 using CoBuilder.Core.Enums;
+using CoBuilder.Core.RestModels;
 
 namespace CoBuilder.Core.Interfaces
 {
@@ -12,5 +14,8 @@ namespace CoBuilder.Core.Interfaces
         PluginApp AppId { get; set; }
         Guid ContactId { get; set; }
         UserInfo UserInfo { get; set; }
+        void Clear();
+        void Update (LoginResult result, string username, bool canSignOut);
+        void Update(ISession session);
     }
 }

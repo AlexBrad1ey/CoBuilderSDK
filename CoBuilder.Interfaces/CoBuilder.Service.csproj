@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="Core\Enums\OpenState.cs" />
     <Compile Include="Core\Enums\ConfigEditState.cs" />
+    <Compile Include="GUI\CoBuilderAuthenticationUi.cs" />
     <Compile Include="Infrastructure\Config\BaseConfiguration.cs" />
     <Compile Include="GUI\ConfigDialog.cs">
       <SubType>Form</SubType>

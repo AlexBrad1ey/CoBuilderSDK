@@ -14,8 +14,8 @@ namespace CoBuilder.Core
         public CoBuilderClient(
             IAppConfig appConfig,
             IHttpProvider httpProvider,
-            IServiceInfoProvider serviceInfoProvider)
-            : base(appConfig, httpProvider, serviceInfoProvider)
+            IAuthenticationProvider authenticationProvider)
+            : base(appConfig,httpProvider,authenticationProvider)
         {
         }
 

@@ -10,6 +10,11 @@ namespace CoBuilder.Core
 {
     public class RestSharpHttpProvider : IHttpProvider
     {
+        public RestSharpHttpProvider(string baseUrl)
+        {
+            BaseUrl = baseUrl;
+        }
+
         public string BaseUrl { get; set; }
         public IAuthenticator Authenticator { get; set; }
 
