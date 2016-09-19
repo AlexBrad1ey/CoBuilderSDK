@@ -29,9 +29,9 @@ namespace CoBuilder.Service.Repositories
                     .Select(kvp => kvp.Key);
         }
 
-        public void Add(Connection<TElement> item)
+        public bool Add(Connection<TElement> item)
         {
-            _objectSet.TryAdd(item, new ConnectionState());
+            return _objectSet.TryAdd(item, new ConnectionState());
         }
 
         public void Clear()

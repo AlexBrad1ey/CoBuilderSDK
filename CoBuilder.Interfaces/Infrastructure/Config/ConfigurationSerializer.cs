@@ -7,16 +7,13 @@ namespace CoBuilder.Service.Infrastructure.Config
 
     public class ConfigurationSerializer
     {
-        public void Serialize(IConfiguration configuration, string filePath)    
+        public void Serialize(IConfiguration configuration, string filePath)
         {
-            using (StreamWriter file = File.CreateText(filePath))
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Serialize(file, configuration);
-                }
+            var json = JsonConvert.SerializeObject(configuration);
+            File.WriteAllText(filePath,json);
         }
 
-        public IConfiguration Deserialize(string filepath)
+        public Configuration Deserialize(string filepath)
         {
             using (StreamReader file = File.OpenText(filepath))
             {

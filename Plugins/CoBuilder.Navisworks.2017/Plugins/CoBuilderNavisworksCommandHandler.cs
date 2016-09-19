@@ -66,7 +66,7 @@ namespace CoBuilder.Navisworks.Plugins
                     case "LogOutCommand":
                     {
                         new LogOutCommand().Execute();
-                        _loggedIn = _coBuilderService.Session?.LoggedIn ?? false;
+                        _loggedIn = false;
                         break;
                     }
                     case "WorkplaceCommand":
@@ -125,7 +125,7 @@ namespace CoBuilder.Navisworks.Plugins
                 case "ConnectCommand":
                 case "RemoveCommand":
                 {
-                    return new CommandState(!Application.ActiveDocument.CurrentSelection.IsEmpty || _coBuilderService.Session.WorkplaceSet);
+                    return new CommandState(!Application.ActiveDocument.CurrentSelection.IsEmpty && _coBuilderService.Session.WorkplaceSet);
                 }
                 default:
                 {

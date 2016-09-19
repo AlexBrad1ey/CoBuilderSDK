@@ -198,7 +198,6 @@
             // 
             this.CmbSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbSelect.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.CmbSelect.Enabled = false;
             this.CmbSelect.Location = new System.Drawing.Point(85, 17);
             this.CmbSelect.Margin = new System.Windows.Forms.Padding(2);
             this.CmbSelect.Name = "CmbSelect";

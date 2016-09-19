@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CoBuilder.Navisworks</name>
+    </assembly>
+    <members>
+        <member name="T:CoBuilder.Navisworks.Extensions.ModelItemExtensions">
+            <summary>
+            Class ModelItemExtensions.
+            </summary>
+        </member>
+        <member name="T:CoBuilder.Navisworks.Plugins.CoBuilderNavisworksCommandHandler">
+            <summary>
+            Class CoBuilderNavisworksCommandHandler.
+            </summary>
+            <seealso cref="T:Autodesk.Navisworks.Api.Plugins.CommandHandlerPlugin" />
+        </member>
+    </members>
+</doc>

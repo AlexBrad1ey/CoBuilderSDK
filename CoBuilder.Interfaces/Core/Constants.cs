@@ -33,6 +33,7 @@
                 public const string ProductId = PropertySets.Base + ".ProductId";
                 public const string WorkplaceId = PropertySets.CoBuilderMaster + ".WorkplaceId";
                 public const string WorkplaceName = PropertySets.CoBuilderMaster + ".WorkplaceName";
+                public const string BaseWorkplaceId = PropertySets.Base + ".WorkplaceId";
             }
         }
 

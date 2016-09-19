@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using CoBuilder.Service.Infrastructure.Config;
 
 namespace CoBuilder.Service.Interfaces
 {
     public interface IConfigDefinition :IDefinition
     {
-        IObservableDictionary<DefinitionKey,IPropertySetDefinition> PropertySets { get;}
+        IDictionary<string, PropertySetDefinition> PropertySets { get;}
         IPropertySetDefinition AddPropertySet(IPropertySetDefinition pSet);
         bool RemovePropertySet(IPropertySetDefinition propertySet);
     }

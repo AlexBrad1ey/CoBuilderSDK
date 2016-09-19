@@ -89,6 +89,7 @@
   <ItemGroup>
     <Reference Include="AdWindows">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2017\AdWindows.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Autodesk.Navisworks.Api">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2017\Autodesk.Navisworks.Api.dll</HintPath>
@@ -101,9 +102,11 @@
     <Reference Include="Autodesk.Navisworks.Interop.ComApi">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2017\Autodesk.Navisworks.Interop.ComApi.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
     </Reference>
     <Reference Include="OCSLRevitUtils">
       <HintPath>..\..\Dlls\OCSLRevitUtils.dll</HintPath>
@@ -140,6 +143,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Configurations\Base\placeholder.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="en-US\CoBuilderRibbon.xaml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -158,6 +164,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Configurations\3c007ea5-7b39-41a7-bae2-999559246cc2.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\b3cc8072-e6dc-446f-8075-627c986f4f1f.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\Base\CoBuilderBase.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

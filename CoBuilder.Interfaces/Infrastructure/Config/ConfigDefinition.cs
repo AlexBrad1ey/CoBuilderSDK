@@ -7,7 +7,7 @@ using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.Infrastructure.Config
 {
-    public class ConfigDefinition : IConfigDefinition, IDisposable
+    public class ConfigDefinition : IConfigDefinition
     {
         private readonly DefinitionType _definitionType;
 
@@ -43,47 +43,35 @@ namespace CoBuilder.Service.Infrastructure.Config
         public ConfigDefinition(Configuration config) : this(DefinitionType.Configuration)
         {
             _config = config;
-            PropertySets = new ObservableDictionary<DefinitionKey, IPropertySetDefinition>();
-            PropertySets.CollectionChanged += PropertySetsOnCollectionChanged;
+            PropertySets = new Dictionary<string, PropertySetDefinition>();
         }
 
 
-        public IObservableDictionary<DefinitionKey, IPropertySetDefinition> PropertySets { get; }
+        public IDictionary<string, PropertySetDefinition> PropertySets { get; }
         public IPropertySetDefinition AddPropertySet(IPropertySetDefinition pSet)
         {
             if (pSet == null) throw new ArgumentNullException(nameof(pSet));
-            var key = KeyBuilder.Build(pSet);
+            var key = pSet.Identifier;
 
             if (PropertySets.ContainsKey(key)) throw new ArgumentException("Property Set Definition with the Same Key Identifier already Present", nameof(pSet));
-            PropertySets.Add(KeyBuilder.Build(pSet),pSet);
+            PropertySets.Add(key,(PropertySetDefinition) pSet);
             return pSet;
         }
 
         public bool RemovePropertySet(IPropertySetDefinition propertySet)
         {
             if (propertySet == null) throw new ArgumentNullException(nameof(propertySet));
-            var key = KeyBuilder.Build(propertySet);
+            var key = propertySet.Identifier;
             return PropertySets.Remove(key);
         }
 
         public IPropertySetDefinition GetPropertySetByName(string name)
         {
-            return PropertySets.FirstOrDefault(k => k.Key.DisplayName == name).Value;
+            return PropertySets.FirstOrDefault(k => k.Value.DisplayName == name).Value;
         }
         public IPropertySetDefinition GetPropertySetByIdentifier(string identifier)
         {
-            return PropertySets.FirstOrDefault(k => k.Key.Identifier == identifier).Value;
-        }
-        public void Dispose()
-        {
-            if (PropertySets != null)
-            {
-                PropertySets.CollectionChanged -= PropertySetsOnCollectionChanged;
-            }
-        }
-
-        private void PropertySetsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
-        {
+            return PropertySets.FirstOrDefault(k => k.Value.Identifier == identifier).Value;
         }
     }
 }

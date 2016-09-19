@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Linq;
+using System.Windows.Forms;
 using CoBuilder.Service.Interfaces;
 using CoBuilder.Service.Interfaces.App;
 
@@ -18,6 +20,10 @@ namespace CoBuilder.Service.Commands
 
         public bool Execute()
         {
+            if (CoBuilderService.CurrentService.Session.CurrentConfiguration ==null)
+            {
+                MessageBox.Show("Please Set a Configuration First");
+            }
             var productSelector = CoBuilderService.CurrentService.ServiceFactory<IProductSelectionUi>();
 
             var product = productSelector.SelectProduct();
@@ -28,6 +34,7 @@ namespace CoBuilder.Service.Commands
 
             var connector = CoBuilderService.CurrentService.ServiceFactory<IConnector<TElement>>();
             var connections = connector.Connect(selection,product);
+            if (connections == null || !connections.Any()) return false;
 
             var attacher = CoBuilderService.CurrentService.ServiceFactory<IAttacher<TElement>>();
             attacher.RefreshAttachments();

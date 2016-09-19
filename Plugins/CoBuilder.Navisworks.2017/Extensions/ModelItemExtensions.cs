@@ -62,36 +62,9 @@ namespace CoBuilder.Navisworks.Extensions
 
             foreach (InwGUIAttribute2 oAttribute in oNode.GUIAttributes())
             {
-                if (oAttribute.UserDefined) continue;
-
-                if (oAttribute.ClassName != pCatIdentifier)
-                {
-                    index++;
-                    continue;
-                }
-
-                oNode.RemoveUserDefined(index);
-                return true;
-            }
-            return false;
-        }
-
-        public static bool RemovePropertyCategories(this ModelItem item, string pCatIdentifierSegment)
-        {
-            if (item == null) throw new ArgumentNullException(nameof(item));
-            if (string.IsNullOrWhiteSpace(pCatIdentifierSegment))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(pCatIdentifierSegment));
-
-            var oState = ComApiBridge.State;
-            var oPath = ComApiBridge.ToInwOaPath(item);
-            var oNode = (InwGUIPropertyNode2) oState.GetGUIPropertyNode(oPath, true);
-            var index = 1;
-
-            foreach (InwGUIAttribute2 oAttribute in oNode.GUIAttributes())
-            {
                 if (!oAttribute.UserDefined) continue;
 
-                if (!oAttribute.ClassUserName.Contains(pCatIdentifierSegment))
+                if (oAttribute.ClassUserName != pCatIdentifier)
                 {
                     index++;
                     continue;
@@ -102,5 +75,6 @@ namespace CoBuilder.Navisworks.Extensions
             }
             return false;
         }
+
     }
 }

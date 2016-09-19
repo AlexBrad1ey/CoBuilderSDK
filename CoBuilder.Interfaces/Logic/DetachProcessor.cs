@@ -28,7 +28,7 @@ namespace CoBuilder.Service.Logic
 
         public RemovalResult Process(Connection<TElement> connection)
         {
-            return _attacher.Remove(connection.AppElement, Identifier.Generate(connection.BimProduct.Id))
+            return _attacher.Remove(connection.AppElement, connection.BimProduct.Id)
                 ? RemovalResult.AllElementsDisconnected
                 : RemovalResult.NoElementsDisconnected;
         }

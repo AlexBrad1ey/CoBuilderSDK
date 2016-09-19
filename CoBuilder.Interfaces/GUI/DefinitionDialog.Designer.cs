@@ -33,11 +33,11 @@
             this.CmbOK = new System.Windows.Forms.Button();
             this.PbxCoBuilder = new System.Windows.Forms.PictureBox();
             this.D = new System.Windows.Forms.GroupBox();
-            this.cbxVisible = new System.Windows.Forms.CheckBox();
-            this.LblDisplayName = new System.Windows.Forms.Label();
-            this.txbDisplayName = new System.Windows.Forms.TextBox();
-            this.LblIdentifier = new System.Windows.Forms.Label();
             this.LblIdentifierValue = new System.Windows.Forms.Label();
+            this.LblIdentifier = new System.Windows.Forms.Label();
+            this.txbDisplayName = new System.Windows.Forms.TextBox();
+            this.LblDisplayName = new System.Windows.Forms.Label();
+            this.cbxVisible = new System.Windows.Forms.CheckBox();
             this.GbxCommands.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxCoBuilder)).BeginInit();
             this.D.SuspendLayout();
@@ -74,7 +74,6 @@
             // 
             this.CmbOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.CmbOK.Enabled = false;
             this.CmbOK.Location = new System.Drawing.Point(95, 17);
             this.CmbOK.Margin = new System.Windows.Forms.Padding(2);
             this.CmbOK.Name = "CmbOK";
@@ -112,31 +111,14 @@
             this.D.TabStop = false;
             this.D.Text = "Definition Details";
             // 
-            // cbxVisible
+            // LblIdentifierValue
             // 
-            this.cbxVisible.AutoSize = true;
-            this.cbxVisible.Location = new System.Drawing.Point(85, 87);
-            this.cbxVisible.Name = "cbxVisible";
-            this.cbxVisible.Size = new System.Drawing.Size(56, 17);
-            this.cbxVisible.TabIndex = 0;
-            this.cbxVisible.Text = "Visible";
-            this.cbxVisible.UseVisualStyleBackColor = true;
-            // 
-            // LblDisplayName
-            // 
-            this.LblDisplayName.AutoSize = true;
-            this.LblDisplayName.Location = new System.Drawing.Point(7, 28);
-            this.LblDisplayName.Name = "LblDisplayName";
-            this.LblDisplayName.Size = new System.Drawing.Size(72, 13);
-            this.LblDisplayName.TabIndex = 1;
-            this.LblDisplayName.Text = "Display Name";
-            // 
-            // txbDisplayName
-            // 
-            this.txbDisplayName.Location = new System.Drawing.Point(85, 25);
-            this.txbDisplayName.Name = "txbDisplayName";
-            this.txbDisplayName.Size = new System.Drawing.Size(159, 20);
-            this.txbDisplayName.TabIndex = 2;
+            this.LblIdentifierValue.AutoSize = true;
+            this.LblIdentifierValue.Location = new System.Drawing.Point(85, 63);
+            this.LblIdentifierValue.Name = "LblIdentifierValue";
+            this.LblIdentifierValue.Size = new System.Drawing.Size(14, 13);
+            this.LblIdentifierValue.TabIndex = 4;
+            this.LblIdentifierValue.Text = "A";
             // 
             // LblIdentifier
             // 
@@ -147,14 +129,31 @@
             this.LblIdentifier.TabIndex = 3;
             this.LblIdentifier.Text = "Identifier";
             // 
-            // LblIdentifierValue
+            // txbDisplayName
             // 
-            this.LblIdentifierValue.AutoSize = true;
-            this.LblIdentifierValue.Location = new System.Drawing.Point(85, 63);
-            this.LblIdentifierValue.Name = "LblIdentifierValue";
-            this.LblIdentifierValue.Size = new System.Drawing.Size(14, 13);
-            this.LblIdentifierValue.TabIndex = 4;
-            this.LblIdentifierValue.Text = "A";
+            this.txbDisplayName.Location = new System.Drawing.Point(85, 25);
+            this.txbDisplayName.Name = "txbDisplayName";
+            this.txbDisplayName.Size = new System.Drawing.Size(159, 20);
+            this.txbDisplayName.TabIndex = 2;
+            // 
+            // LblDisplayName
+            // 
+            this.LblDisplayName.AutoSize = true;
+            this.LblDisplayName.Location = new System.Drawing.Point(7, 28);
+            this.LblDisplayName.Name = "LblDisplayName";
+            this.LblDisplayName.Size = new System.Drawing.Size(72, 13);
+            this.LblDisplayName.TabIndex = 1;
+            this.LblDisplayName.Text = "Display Name";
+            // 
+            // cbxVisible
+            // 
+            this.cbxVisible.AutoSize = true;
+            this.cbxVisible.Location = new System.Drawing.Point(85, 87);
+            this.cbxVisible.Name = "cbxVisible";
+            this.cbxVisible.Size = new System.Drawing.Size(56, 17);
+            this.cbxVisible.TabIndex = 0;
+            this.cbxVisible.Text = "Visible";
+            this.cbxVisible.UseVisualStyleBackColor = true;
             // 
             // DefinitionDialog
             // 

@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{112D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoBuilder.Navisworls.2017", "Plugins\CoBuilder.Navisworks.2017\CoBuilder.Navisworls.2017.csproj", "{058BE7B3-11B6-4ADA-8541-AD516A0F3C5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoBuilder.Navisworks.2016", "Plugins\CoBuilder.Navisworks.2016\CoBuilder.Navisworks.2016.csproj", "{67E25A56-B6E2-44FC-931C-942F893B1255}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,11 +65,24 @@ Global
 		{058BE7B3-11B6-4ADA-8541-AD516A0F3C5E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{058BE7B3-11B6-4ADA-8541-AD516A0F3C5E}.Release|x64.ActiveCfg = Release|x64
 		{058BE7B3-11B6-4ADA-8541-AD516A0F3C5E}.Release|x64.Build.0 = Release|x64
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Debug|x64.ActiveCfg = Debug|x64
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Debug|x64.Build.0 = Debug|x64
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Release to Package|Any CPU.ActiveCfg = Release to Package|Any CPU
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Release to Package|Any CPU.Build.0 = Release to Package|Any CPU
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Release to Package|x64.ActiveCfg = Release to Package|x64
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Release to Package|x64.Build.0 = Release to Package|x64
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Release|x64.ActiveCfg = Release|x64
+		{67E25A56-B6E2-44FC-931C-942F893B1255}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{058BE7B3-11B6-4ADA-8541-AD516A0F3C5E} = {112D80E9-5233-416E-B923-1F9B9D2AB243}
+		{67E25A56-B6E2-44FC-931C-942F893B1255} = {112D80E9-5233-416E-B923-1F9B9D2AB243}
 	EndGlobalSection
 EndGlobal

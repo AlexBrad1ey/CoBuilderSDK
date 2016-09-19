@@ -1,4 +1,5 @@
 ﻿using System;
+using CoBuilder.Service.Infrastructure.Config;
 
 namespace CoBuilder.Service.Interfaces
 {
@@ -7,7 +8,7 @@ namespace CoBuilder.Service.Interfaces
         string Author { get; set; }
         Guid ConfigId { get; }
         string Name { get; set; }
-        IConfigDefinition Root { get; }
+        ConfigDefinition Root { get; }
 
         IPropertyDefinition AddProperty(IPropertyDefinition property, IPropertySetDefinition pSet);
         IPropertySetDefinition AddPropertySet(IPropertySetDefinition pSet);
