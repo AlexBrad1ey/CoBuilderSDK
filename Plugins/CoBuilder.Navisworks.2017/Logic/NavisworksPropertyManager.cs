@@ -21,9 +21,9 @@ namespace CoBuilder.Navisworks.Logic
         public ProjectPropertySetInfo GetProjectPropertySet(string identifier)
         {
             var workplaceName = _active.Models[0].RootItem.PropertyCategories.FindPropertyByDisplayName(identifier,
-                "ContactId");
+                "Workplace Name");
             var workplaceId = _active.Models[0].RootItem.PropertyCategories.FindPropertyByDisplayName(identifier,
-                "WorkplaceId");
+                "Workplace Id");
 
             var info = new ProjectPropertySetInfo
             {
@@ -59,7 +59,7 @@ namespace CoBuilder.Navisworks.Logic
             var list = new List<ProductKey>();
             foreach (var propertyCategory in element.PropertyCategories)
             {
-                if (propertyCategory.Name.Contains(Constants.Identifiers.PropertySets.Base))
+                if (propertyCategory.Properties.FindPropertyByName(Constants.Identifiers.Properties.ProductId) != null)
                 {
                     int pId =
                         int.Parse(
@@ -67,7 +67,7 @@ namespace CoBuilder.Navisworks.Logic
                                 .Value.ToDisplayString());
                     int wId =
                         int.Parse(
-                            propertyCategory.Properties.FindPropertyByName(Constants.Identifiers.Properties.WorkplaceId)
+                            propertyCategory.Properties.FindPropertyByName(Constants.Identifiers.Properties.BaseWorkplaceId)
                                 .Value.ToDisplayString());
 
                     list.Add(new ProductKey(wId, pId));
@@ -95,11 +95,22 @@ namespace CoBuilder.Navisworks.Logic
             return Attach(_active.Models[0].RootItem, pSetInfo);
         }
 
-        public bool Remove(ModelItem appElement, string pSetIdentifierSegment)
+        public bool Remove(ModelItem appElement, int  productId)
         {
             try
             {
-                appElement.RemovePropertyCategories(pSetIdentifierSegment);
+                foreach (var category in appElement.PropertyCategories)
+                {
+                    if (category.Properties.FindPropertyByName(Constants.Identifiers.Properties.ProductId) != null)
+                    {
+                        if (
+                            category.Properties.FindPropertyByName(Constants.Identifiers.Properties.ProductId)
+                                .Value.ToDisplayString() == productId.ToString())
+                        {
+                            appElement.RemovePropertyCategory(category.DisplayName);
+                        }
+                    }
+                }
                 return true;
             }
             catch (Exception)
@@ -120,6 +131,7 @@ namespace CoBuilder.Navisworks.Logic
             {
                 var data = new DataProperty(pair.Value.Identifier, pair.Value.DisplayName,
                     new VariantData(pair.Value.Value));
+
                 yield return data;
             }
         }

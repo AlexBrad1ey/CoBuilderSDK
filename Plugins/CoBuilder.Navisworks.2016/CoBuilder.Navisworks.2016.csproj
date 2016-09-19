@@ -72,17 +72,21 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autodesk.Navisworks.Api">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2017\Autodesk.Navisworks.Api.dll</HintPath>
+    <Reference Include="Autodesk.Navisworks.Api, Version=13.0.1240.52, Culture=neutral, PublicKeyToken=d85e58fa5af9b484, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2016\Autodesk.Navisworks.Api.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Autodesk.Navisworks.ComApi">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2017\Autodesk.Navisworks.ComApi.dll</HintPath>
+    <Reference Include="Autodesk.Navisworks.ComApi, Version=13.0.1240.52, Culture=neutral, PublicKeyToken=d85e58fa5af9b484, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2016\Autodesk.Navisworks.ComApi.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Autodesk.Navisworks.Interop.ComApi">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2017\Autodesk.Navisworks.Interop.ComApi.dll</HintPath>
+    <Reference Include="Autodesk.Navisworks.Interop.ComApi, Version=13.0.1240.52, Culture=neutral, PublicKeyToken=d85e58fa5af9b484, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2016\Autodesk.Navisworks.Interop.ComApi.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -108,8 +112,11 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\CoBuilder.Navisworks.2017\Extensions\ExtPropertyCategoryCollection.cs">
-      <Link>Extensions\ExtPropertyCategoryCollection.cs</Link>
+    <Compile Include="..\CoBuilder.Navisworks.2017\Common\NavisworksAppConfig.cs">
+      <Link>Common\NavisworksAppConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\CoBuilder.Navisworks.2017\Common\NavisworksRegistry.cs">
+      <Link>Common\NavisworksRegistry.cs</Link>
     </Compile>
     <Compile Include="..\CoBuilder.Navisworks.2017\Extensions\ModelItemExtensions.cs">
       <Link>Extensions\ModelItemExtensions.cs</Link>
@@ -123,7 +130,6 @@
     <Compile Include="..\CoBuilder.Navisworks.2017\Plugins\CoBuilderNavisworksCommandHandler.cs">
       <Link>Plugins\CoBuilderNavisworksCommandHandler.cs</Link>
     </Compile>
-    <Compile Include="Common\NavisworksAppConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -132,8 +138,20 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Configurations\Base\placeholder.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Configurations\3c007ea5-7b39-41a7-bae2-999559246cc2.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\b3cc8072-e6dc-446f-8075-627c986f4f1f.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\Base\CoBuilderBase.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

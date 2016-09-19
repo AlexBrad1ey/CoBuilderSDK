@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using CoBuilder.Service.Enums;
 using CoBuilder.Service.Infrastructure.Config;
 using CoBuilder.Service.Interfaces;
+using CoBuilder.Service.Logic;
+using Microsoft.Win32;
 
 namespace CoBuilder.Service.GUI
 {
@@ -16,22 +18,30 @@ namespace CoBuilder.Service.GUI
 
         #region Constructors
 
-        public ConfigEditorDialog(IConfiguration configuration, IConfiguration baseConfiguration, OpenState state)
+        public ConfigEditorDialog(IConfiguration configuration, OpenState state)
         {
             _configuration = configuration;
-            _baseConfiguration = baseConfiguration;
+            _baseConfiguration = BaseConfiguration.BaseLoad();
             _openState = state;
             InitializeComponent();
         }
 
-        public ConfigEditorDialog(IConfiguration configuration, IConfiguration baseConfiguration)
-            : this(configuration, baseConfiguration, OpenState.Edit)
+        public ConfigEditorDialog(IConfiguration configuration)
+            : this(configuration, OpenState.Edit)
         {
+            tbxName.Text = configuration.Name;
+            tbxAuthor.Text = configuration.Author;
         }
 
-        public ConfigEditorDialog(IConfiguration baseConfiguration)
-            : this(new Configuration(), baseConfiguration, OpenState.New)
+        public ConfigEditorDialog()
+            : this(new Configuration(), OpenState.New)
         {
+            _configuration.AddPropertySet(new PropertySetDefinition()
+            {
+                DisplayName = "CoBuilderProduct",
+                Identifier = "CoBuilderProduct",
+                Visible = true
+            });
         }
 
         #endregion
@@ -46,7 +56,19 @@ namespace CoBuilder.Service.GUI
 
         private void ConfigEditorDialog_Load(object sender, EventArgs e)
         {
-            SwitchConfigEditState(ConfigEditState.Viewing);
+            switch (_openState)
+            {
+                case OpenState.Edit:
+                    SwitchConfigEditState(ConfigEditState.Editing);
+                    break;
+                case OpenState.New:
+                    SwitchConfigEditState(ConfigEditState.Viewing);
+                    break;
+                default:
+                    SwitchConfigEditState(ConfigEditState.Viewing);
+                    break;
+            }
+            
             UpdateTreeView(TrvRoot, _baseConfiguration);
             UpdateTreeView(TrvConfiguration, _configuration);
         }
@@ -71,9 +93,7 @@ namespace CoBuilder.Service.GUI
             switch (definition.DefinitionType)
             {
                 case DefinitionType.Property:
-                    destinationNode = TrvConfiguration.SelectedNode == null || TrvConfiguration.SelectedNode.Level != 0
-                        ? TrvConfiguration.TopNode.FirstNode
-                        : TrvConfiguration.SelectedNode;
+                    destinationNode = TrvConfiguration.SelectedNode == null || TrvConfiguration.SelectedNode.Level != 0 ? TrvConfiguration.TopNode.FirstNode : TrvConfiguration.SelectedNode;
                     AddProperty(destinationNode, (PropertyDefinition) definition);
                     break;
 
@@ -88,7 +108,6 @@ namespace CoBuilder.Service.GUI
                 default:
                     return;
             }
-
         }
 
         private void CmdEdit_Click(object sender, EventArgs e)
@@ -124,7 +143,6 @@ namespace CoBuilder.Service.GUI
 
                 default:
                     return;
-
             }
         }
 
@@ -140,6 +158,13 @@ namespace CoBuilder.Service.GUI
             Configuration = null;
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void CmbGenerate_Click(object sender, EventArgs e)
+        {
+            var config = new BaseConfigurationGenerator(CoBuilderService.CurrentService.ServiceFactory<ICoBuilderContext>()).Process(_baseConfiguration);
+            config.BaseSave();
+            UpdateTreeView(TrvRoot, _baseConfiguration);
         }
 
         #endregion
@@ -219,12 +244,11 @@ namespace CoBuilder.Service.GUI
         private void AddProperty(TreeNode destinationNode, PropertyDefinition definition)
         {
             var pSet = (PropertySetDefinition) destinationNode.Tag;
-            var copy = definition.DeepCopy();
-            pSet.AddProperty(copy);
+            pSet.AddProperty(definition);
 
             TrvConfiguration.BeginUpdate();
-            var propNode = destinationNode.Nodes.Add(copy.Identifier, copy.DisplayName);
-            propNode.Tag = copy;
+            var propNode = destinationNode.Nodes.Add(definition.Identifier, definition.DisplayName);
+            propNode.Tag = definition;
 
             TrvConfiguration.EndUpdate();
         }
@@ -232,15 +256,14 @@ namespace CoBuilder.Service.GUI
         private void AddPropertySet(TreeNode destinationNode, PropertySetDefinition definition)
         {
             var root = (ConfigDefinition) destinationNode.Tag;
-            var copy = definition.DeepCopy();
-            root.AddPropertySet(copy);
+            root.AddPropertySet(definition);
 
             TrvConfiguration.BeginUpdate();
 
-            var pSetNode = destinationNode.Nodes.Add(copy.Identifier, copy.DisplayName);
-            pSetNode.Tag = copy;
+            var pSetNode = destinationNode.Nodes.Add(definition.Identifier, definition.DisplayName);
+            pSetNode.Tag = definition;
 
-            foreach (var property in copy.Properties.Values)
+            foreach (var property in definition.Properties.Values)
             {
                 var propNode = pSetNode.Nodes.Add(property.Identifier, property.DisplayName);
                 propNode.Tag = property;
@@ -268,6 +291,7 @@ namespace CoBuilder.Service.GUI
                     propNode.Tag = property;
                 }
             }
+            root.ExpandAll();
 
             treeView.EndUpdate();
         }

@@ -1,5 +1,6 @@
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using CoBuilder.Core.Enums;
+using CoBuilder.Core.Exceptions;
 using CoBuilder.Core.Interfaces;
 using CoBuilder.Core.Requests;
 using CoBuilder.Core.RestModels;
@@ -7,59 +8,87 @@ using RestSharp.Authenticators;
 
 namespace CoBuilder.Core.Authentication
 {
-    public class CoBuilderAuthenticationProvider : AuthenticationProvider
+    public class CoBuilderAuthenticationProvider : IAuthenticationProvider
     {
-        protected AuthenticationProviderType AuthenticationProviderType;
+        protected ISession _session;
+        protected IAuthenticationUi AuthenticationUi;
 
-
-        public CoBuilderAuthenticationProvider(IHttpProvider httpProvider) :base(null, null)
+        public CoBuilderAuthenticationProvider(ISession session, IAuthenticationUi authenticationUi, IHttpProvider httpProvider)
         {
+            CurrentSession = session;
             HttpProvider = httpProvider;
-            AuthenticationProviderType = AuthenticationProviderType.Basic;
-        }
-        public CoBuilderAuthenticationProvider(CredentialCache credentialCache, IHttpProvider httpProvider) : base(credentialCache, null)
-        {
-            HttpProvider = httpProvider;
-            AuthenticationProviderType = AuthenticationProviderType.CacheOnly;
-        }
-        public CoBuilderAuthenticationProvider(IAuthenticationUi authenticationUi, IHttpProvider httpProvider) : base(null, authenticationUi)
-        {
-            HttpProvider = httpProvider;
-            AuthenticationProviderType = AuthenticationProviderType.AuthenticationUI;
-        }
-        public CoBuilderAuthenticationProvider(CredentialCache credentialCache, IAuthenticationUi authenticationUi, IHttpProvider httpProvider) : base(credentialCache, authenticationUi)
-        {
-            HttpProvider = httpProvider;
-            AuthenticationProviderType = AuthenticationProviderType.CacheWithUI;
+            AuthenticationUi = authenticationUi;
         }
 
+        public ISession CurrentSession { get; set; }
 
-        public override IAuthenticator GetAuthenticator()
-        {
-            return new CoBuilderAuthenticator(CurrentSession.AccessToken);
-        }
 #pragma warning disable 1998
-        public override async Task SignOutAsync()
+        public async Task SignOutAsync()
 #pragma warning restore 1998
         {
             if (CurrentSession.CanSignOut)
             {
-                DeleteCredentialsFromCache(CurrentSession);
+                CurrentSession.Clear();
                 CurrentSession = null;
             }
         }
-        protected override async Task<ISession> GetAuthenticationResultAsync()
-        {
-            ISession session = null;
 
-            session = await GetAccessTokenAsync();
-            
+        public virtual async Task<ISession> AuthenticateAsync()
+        {
+
+            await GetAuthenticationResultAsync();
+                    
+            if (string.IsNullOrEmpty(CurrentSession?.AccessToken))
+            {
+                throw new CoBuilderException(
+                    new Error
+                    {
+                        Code = CoBuilderErrorCode.AuthenticationFailure.ToString(),
+                        Message = "Failed to retrieve a valid authentication token for the user."
+                    });
+            }
+
+            return CurrentSession;
+        }
+
+        public async Task<ISession> AuthenticateAsync(string username, string password)
+        {
+            await GetAuthenticationResultAsync(username, password);
+
+            if (string.IsNullOrEmpty(CurrentSession?.AccessToken))
+            {
+                throw new CoBuilderException(
+                    new Error
+                    {
+                        Code = CoBuilderErrorCode.AuthenticationFailure.ToString(),
+                        Message = "Failed to retrieve a valid authentication token for the user."
+                    });
+            }
+
+            return CurrentSession;
+        }
+
+        protected Task<ISession> GetAuthenticationResultAsync()
+        {
+            if (AuthenticationUi == null)
+            {
+                throw new CoBuilderException(
+                    new Error
+                    {
+                        Code = CoBuilderErrorCode.AuthenticationFailure.ToString(),
+                        Message = "No Authentication Ui Set"
+                    });
+            }
+            var session = AuthenticationUi.AuthenticateAsync(HttpProvider);
+            if (session != null)
+            {
+                CurrentSession.Update(session.Result);
+            }
             return session;
         }
 
-        protected override async Task<ISession> GetAuthenticationResultAsync(string username, string password)
+        protected async Task<ISession> GetAuthenticationResultAsync(string username, string password)
         {
-            
             var request = new LoginRequestBuilder("Login", HttpProvider).Request(username, password);
             LoginResult result = null;
             try
@@ -71,28 +100,16 @@ namespace CoBuilder.Core.Authentication
                 return null;
             }
 
-            var session = new Session(result, username) {CanSignOut = true};
+            CurrentSession.Update(result, username, true);
 
-            return session;
+            return CurrentSession;
         }
 
-        private Task<ISession> GetAccessTokenAsync()
+        public IHttpProvider HttpProvider { get; set; }
+
+        public IAuthenticator GetAuthenticator()
         {
-            if (AuthenticationUi != null)
-            {
-                return AuthenticationUi.AuthenticateAsync(HttpProvider);
-            }
-            return null;
+            return new CoBuilderAuthenticator(CurrentSession.AccessToken);
         }
-
-        public IHttpProvider HttpProvider { get; private set; }
-    }
-
-    public enum AuthenticationProviderType
-    {
-        Basic,
-        CacheOnly,
-        AuthenticationUI,
-        CacheWithUI
     }
 }

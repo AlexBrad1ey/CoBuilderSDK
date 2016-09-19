@@ -121,6 +121,7 @@ namespace CoBuilder.Service.GUI
             this.CboSupplier.Name = "CboSupplier";
             this.CboSupplier.Size = new System.Drawing.Size(447, 21);
             this.CboSupplier.TabIndex = 0;
+            this.CboSupplier.SelectionChangeCommitted += new System.EventHandler(this.Filters_Changed);
             // 
             // CboProduct
             // 

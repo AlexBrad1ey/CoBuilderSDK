@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using CoBuilder.Core.Authentication;
 using CoBuilder.Core.Enums;
 using CoBuilder.Core.Exceptions;
 using CoBuilder.Core.Interfaces;
@@ -11,40 +9,38 @@ namespace CoBuilder.Core
     public class BaseClient : IBaseClient
     {
         internal readonly IAppConfig AppConfig;
-        internal readonly IServiceInfoProvider ServiceInfoProvider;
+        internal readonly IAuthenticationProvider _authenticationProvider;
         private string _baseUrl;
 
         public BaseClient(IAppConfig appConfig, IHttpProvider httpProvider,
-            IServiceInfoProvider serviceInfoProvider)
+            IAuthenticationProvider authenticationProvider)
         {
             if (appConfig == null) throw new ArgumentNullException(nameof(appConfig));
             if (httpProvider == null) throw new ArgumentNullException(nameof(httpProvider));
-            if (serviceInfoProvider == null) throw new ArgumentNullException(nameof(serviceInfoProvider));
+            if (authenticationProvider == null) throw new ArgumentNullException(nameof(authenticationProvider));
 
             AppConfig = appConfig;
+            _authenticationProvider = authenticationProvider;
             HttpProvider = httpProvider;
-            ServiceInfoProvider = serviceInfoProvider;
-            try
-            {
-                var result = AuthenticateAsync(true).Result;
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
         }
-
 
         public IAuthenticationProvider AuthenticationProvider
         {
             get
             {
-                return ServiceInfo?.AuthenticationProvider;
+                return _authenticationProvider;
             }
         }
         public string BaseUrl
         {
-            get { return _baseUrl; }
+            get
+            {
+                if (string.IsNullOrEmpty( _baseUrl))
+                {
+                    _baseUrl = HttpProvider.BaseUrl;
+                }
+                return _baseUrl;
+            }
             set
             {
                 if (string.IsNullOrEmpty(value))
@@ -65,10 +61,9 @@ namespace CoBuilder.Core
         {
             get
             {
-                return ServiceInfo?.AuthenticationProvider?.CurrentSession != null && !string.IsNullOrEmpty(BaseUrl);
+                return AuthenticationProvider?.CurrentSession.AccessToken != null && !string.IsNullOrEmpty(BaseUrl);
             }
         }
-        public IServiceInfo ServiceInfo { get; internal set; }
 
         public ISession CurrentSession
         {
@@ -77,44 +72,37 @@ namespace CoBuilder.Core
 
 
         //Use when AuthUi is Set
-        public async Task<ISession> AuthenticateAsync(bool noUi = false)
+        public async Task<ISession> AuthenticateAsync()
         {
-            if (ServiceInfo == null)
-            {
-                ServiceInfo = await ServiceInfoProvider.GetServiceInfoAsync(
-                    AppConfig,
-                    HttpProvider
-                    );
-            }
 
             if (string.IsNullOrEmpty(BaseUrl))
             {
-                BaseUrl = ServiceInfo.BaseUrl;
-                HttpProvider.BaseUrl = BaseUrl;
+                throw new CoBuilderException(
+                    new Error
+                    {
+                        Code = CoBuilderErrorCode.InvalidRequest.ToString(),
+                        Message = "Base URL cannot be null or empty"
+                    });
             }
 
-            var authResult = await ServiceInfo.AuthenticationProvider.AuthenticateAsync(ServiceInfo, noUi);
+            var authResult = await AuthenticationProvider.AuthenticateAsync();
 
             return authResult;
         }
         //Pure Code Invocation so Id and Pass required.
         public async Task<ISession> AuthenticateAsync(string username, string password)
         {
-            if (ServiceInfo == null)
-            {
-                ServiceInfo = await ServiceInfoProvider.GetServiceInfoAsync(
-                    AppConfig,
-                    HttpProvider
-                    );
-            }
-
             if (string.IsNullOrEmpty(BaseUrl))
             {
-                BaseUrl = ServiceInfo.BaseUrl;
-                HttpProvider.BaseUrl = BaseUrl;
+                throw new CoBuilderException(
+                    new Error
+                    {
+                        Code = CoBuilderErrorCode.InvalidRequest.ToString(),
+                        Message = "Base URL cannot be null or empty"
+                    });
             }
 
-            var authResult = await ServiceInfo.AuthenticationProvider.AuthenticateAsync(ServiceInfo, username, password);
+            var authResult = await AuthenticationProvider.AuthenticateAsync(username, password);
 
             return authResult;
         }

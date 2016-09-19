@@ -13,7 +13,7 @@ namespace CoBuilder.Core.Requests
         {
             ProductId = productId;
             var cBClient = client as CoBuilderClient;
-            if (cBClient != null) _propertySetIds = cBClient.PropertySetIds;
+            //if (cBClient != null) _propertySetIds = cBClient.PropertySetIds;
         }
 
 

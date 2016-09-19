@@ -21,10 +21,13 @@ namespace CoBuilder.Service.Logic
             if (elements == null) throw new ArgumentNullException(nameof(elements));
             if (product == null) throw new ArgumentNullException(nameof(product));
 
+            var result = new List<Connection<TElement>>();
             foreach (var element in elements)
             {
-                yield return Connect(element, product);
+                result.Add(Connect(element, product));
             }
+
+            return result;
         }
 
         public Connection<TElement> Connect(TElement element, BimProduct product)
@@ -102,6 +105,12 @@ namespace CoBuilder.Service.Logic
         {
             if (connection == null) throw new ArgumentNullException(nameof(connection));
             _connections.Remove(connection);
+        }
+
+        public void Clear()
+        {
+            _connections.Clear();
+            _connections.Clean();
         }
     }
 }

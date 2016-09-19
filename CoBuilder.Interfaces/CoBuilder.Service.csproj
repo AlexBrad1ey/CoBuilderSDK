@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="Core\Enums\OpenState.cs" />
     <Compile Include="Core\Enums\ConfigEditState.cs" />
+    <Compile Include="GUI\CoBuilderAuthenticationUi.cs" />
     <Compile Include="Infrastructure\Config\BaseConfiguration.cs" />
     <Compile Include="GUI\ConfigDialog.cs">
       <SubType>Form</SubType>
@@ -91,6 +92,7 @@
     <Compile Include="Interfaces\Repositories\IReadOnlyRepository.cs" />
     <Compile Include="Interfaces\Repositories\IWorkplacesRepository.cs" />
     <Compile Include="Interfaces\Logic\IConnector.cs" />
+    <Compile Include="Logic\BaseConfigurationGenerator.cs" />
     <Compile Include="Repositories\WorkPlacesRepository.cs" />
     <Compile Include="Repositories\ProductsRepository.cs" />
     <Compile Include="Domain\Interfaces\ICoBuilderUser.cs" />
@@ -241,49 +243,79 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\C4C.png" />
+    <None Include="Resources\C4C.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\C4C1.png" />
+    <None Include="Resources\C4C1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CoBuilder_login.png" />
+    <None Include="Resources\CoBuilder_login.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CoBuilder_loginSmall.png" />
+    <None Include="Resources\CoBuilder_loginSmall.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CoBuilder_logo.png" />
+    <None Include="Resources\CoBuilder_logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericMaterial.png" />
+    <None Include="Resources\GenericMaterial.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Globe-icon_Small.png" />
+    <None Include="Resources\Globe-icon_Small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Help_Small.png" />
+    <None Include="Resources\Help_Small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Help_Small1.png" />
+    <None Include="Resources\Help_Small1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\logIn-icon-Small.png" />
+    <None Include="Resources\logIn-icon-Small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\logout-icon-Small.png" />
+    <None Include="Resources\logout-icon-Small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Materials_Icon.bmp" />
+    <None Include="Resources\Materials_Icon.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Select_Arrow.bmp" />
+    <None Include="Resources\Select_Arrow.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\setting-Small.png" />
+    <None Include="Resources\setting-Small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Styles_Icon.bmp" />
+    <None Include="Resources\Styles_Icon.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GUI\Controls\" />

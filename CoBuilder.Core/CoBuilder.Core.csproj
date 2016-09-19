@@ -52,20 +52,11 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Authentication\AuthenticationProvider.cs" />
     <Compile Include="Authentication\CoBuilderAuthenticationProvider.cs" />
     <Compile Include="Authentication\CobuilderAuthenticator.cs" />
-    <Compile Include="Authentication\CoBuilderServiceInfo.cs" />
-    <Compile Include="Authentication\CredentialCache.cs" />
-    <Compile Include="Authentication\CredentialCacheKey.cs" />
-    <Compile Include="Authentication\CredentialCacheNotification.cs" />
-    <Compile Include="Authentication\CredentialCacheNotificationArgs.cs" />
     <Compile Include="Domain\Interfaces\IBimProduct.cs" />
     <Compile Include="Domain\Implementations\PluginUsageLog.cs" />
     <Compile Include="Interfaces\Authentication\ISession.cs" />
-    <Compile Include="Authentication\ServiceInfo.cs" />
-    <Compile Include="Authentication\CoBuilderServiceInfoProvider.cs" />
-    <Compile Include="Authentication\ServiceInfoProvider.cs" />
     <Compile Include="Authentication\UserInfo.cs" />
     <Compile Include="Collections\ProductsCollection.cs" />
     <Compile Include="Collections\PropertiesCollection.cs" />
@@ -99,8 +90,6 @@
     <Compile Include="Exceptions\Error.cs" />
     <Compile Include="Interfaces\Authentication\IAuthenticationProvider.cs" />
     <Compile Include="Interfaces\Authentication\IAuthenticationUi.cs" />
-    <Compile Include="Interfaces\Authentication\IServiceInfo.cs" />
-    <Compile Include="Interfaces\Authentication\IServiceInfoProvider.cs" />
     <Compile Include="Interfaces\Builders\IProductRequestBuilder.cs" />
     <Compile Include="Interfaces\Builders\IProductsCollectionRequestBuilder.cs" />
     <Compile Include="Interfaces\Builders\IPropertiesCollectionRequestBuilder.cs" />

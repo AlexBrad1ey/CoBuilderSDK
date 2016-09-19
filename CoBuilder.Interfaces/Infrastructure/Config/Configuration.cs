@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using CoBuilder.Service.Helpers;
 using CoBuilder.Service.Interfaces;
 using IConfiguration = CoBuilder.Service.Interfaces.IConfiguration;
@@ -9,7 +11,7 @@ namespace CoBuilder.Service.Infrastructure.Config
     public class Configuration : IConfiguration
     {
         //private readonly IDictionary<DefinitionKey, IDefinition> _definitions;
-        private readonly IConfigDefinition _root;
+        private ConfigDefinition _root;
         
 
         public Configuration()
@@ -17,9 +19,10 @@ namespace CoBuilder.Service.Infrastructure.Config
             ConfigId = Guid.NewGuid();
         }
 
-        private IConfigDefinition GenerateRoot()
+        private ConfigDefinition GenerateRoot()
         {
-            return new ConfigDefinition(this);
+            _root = new ConfigDefinition(this);
+            return _root;
 
         }
 
@@ -29,7 +32,7 @@ namespace CoBuilder.Service.Infrastructure.Config
 
         public string Author { get; set; }
 
-        public IConfigDefinition Root
+        public ConfigDefinition Root
         {
             get { return _root ?? GenerateRoot(); }
         }
@@ -38,14 +41,12 @@ namespace CoBuilder.Service.Infrastructure.Config
         {
             if (property == null) throw new ArgumentNullException(nameof(property));
             if (pSet == null) throw new ArgumentNullException(nameof(pSet));
-            if (!Root.PropertySets.ContainsKey(KeyBuilder.Build(pSet))) throw new ArgumentException("Property Set Definition Not Present within Configuration",nameof(pSet));
 
             return pSet.AddProperty(property);
         }
         public IPropertySetDefinition AddPropertySet(IPropertySetDefinition pSet)
         {
             if (pSet == null) throw new ArgumentNullException(nameof(pSet));
-            //if (_definitions.ContainsKey(KeyBuilder.Build(pSet))) throw new ArgumentException("Property Set Definition Already Present within Configuration", nameof(pSet));
 
             return Root.AddPropertySet(pSet);
         }
@@ -53,7 +54,11 @@ namespace CoBuilder.Service.Infrastructure.Config
         public IConfiguration Save()
         {
             var serializer = new ConfigurationSerializer();
-            serializer.Serialize(this, Constants.FilePathBase + ConfigId + Constants.ConfigFileType);
+            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            string path = Uri.UnescapeDataString(uri.Path);
+            var dirPath = Path.Combine(Path.GetDirectoryName(path), "Configurations", ConfigId + Constants.ConfigFileType);
+            serializer.Serialize(this, dirPath);
             return this;
         }
 

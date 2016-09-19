@@ -13,7 +13,7 @@ namespace CoBuilder.Core.Requests
 
         public int ProductId { get; set; }
 
-
+        
         public IPropertySetCollectionRequestBuilder PropertySets
         {
             get { return new PropertySetCollectionRequestBuilder(Constants.Url.PropertySets, Client, ProductId); }

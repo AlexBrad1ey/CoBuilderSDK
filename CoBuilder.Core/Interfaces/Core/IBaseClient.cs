@@ -11,8 +11,8 @@ namespace CoBuilder.Core.Interfaces
         bool IsAuthenticated { get; }
 
         ISession CurrentSession { get; }
-        IServiceInfo ServiceInfo { get; }
-        Task<ISession> AuthenticateAsync(bool noUi = false);
+
+        Task<ISession> AuthenticateAsync();
         Task<ISession> AuthenticateAsync(string username, string password);
         Task SignOutAsync();
     }

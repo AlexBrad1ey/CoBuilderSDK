@@ -15,13 +15,11 @@ namespace CoBuilder.Service.GUI
         private readonly IServiceSession _session;
         public IConfiguration SelectedConfiguration { get; set; }
         private IList<IConfiguration> _configurations;
-        private IConfiguration _base;
 
         public ConfigDialog(IServiceSession session, Settings settings)
         {
             _settings = settings;
             SelectedConfiguration = session.CurrentConfiguration;
-            _base = new BaseConfiguration();
             InitializeComponent();
         }
 
@@ -34,7 +32,7 @@ namespace CoBuilder.Service.GUI
 
                 _configurations.Remove(config);
 
-                var editor = new ConfigEditorDialog(config, _base);
+                var editor = new ConfigEditorDialog(config);
                 var result = editor.ShowDialog();
                 switch(result)
                 {
@@ -50,11 +48,12 @@ namespace CoBuilder.Service.GUI
 
         private void CmbNew_Click(object sender, EventArgs e)
         {
-            var editor = new ConfigEditorDialog(_base);
+            var editor = new ConfigEditorDialog();
             var result = editor.ShowDialog();
 
             if (editor.Configuration != null)
                 _configurations.Add(editor.Configuration);
+            ListRefresh();
             
         }
 
@@ -147,7 +146,8 @@ namespace CoBuilder.Service.GUI
             foreach (var file in files)
             {
                 var config = serializer.Deserialize(file);
-                 
+                if (config == null) continue;
+                result.Add(config);
             }
             return result;
         }

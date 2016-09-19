@@ -6,8 +6,8 @@ namespace CoBuilder.Service.Interfaces
     public interface IDefinition
     {
         DefinitionType DefinitionType { get; }
-        string DisplayName { get; }
-        string Identifier { get; }
+        string DisplayName { get; set; }
+        string Identifier { get; set; }
         IList<IConstraint> Constraints { get; }
         bool Visible { get; set; }
     }

@@ -55,7 +55,7 @@ namespace CoBuilder.Core.Requests
             // We will generate a new auth token later if that isn't set on the client, so not calling
             // IsAuthenticated. Instead, verify the service info and base URL are initialized to make sure
             // AuthenticateAsync has previously been called on the client.
-            if (Client.ServiceInfo == null || string.IsNullOrEmpty(Client.BaseUrl))
+            if (string.IsNullOrEmpty(Client.BaseUrl))
             {
                 throw new CoBuilderException(
                     new Error

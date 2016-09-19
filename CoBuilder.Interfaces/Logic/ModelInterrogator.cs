@@ -41,6 +41,7 @@ namespace CoBuilder.Service.Logic
                 var projectPropertySetInfo = _accessor.GetProjectPropertySet(Constants.Identifiers.PropertySets.CoBuilderMaster);
 
                 UpdateSession(_session, projectPropertySetInfo);
+                _connector.Clear();
                 Interrogate(_selector.All());
                     return true;
                 
@@ -95,7 +96,7 @@ namespace CoBuilder.Service.Logic
             {
                 var workplaceRepo = _coBuilderService.WorkPlaces;
                 var workplace = workplaceRepo.Get(projectPropertySetInfo.WorkplaceId);
-                ((ServiceSession) session).CurrentWorkplace = workplace;
+                _coBuilderService.SetWorkplace(workplace);
             }
             else
             {

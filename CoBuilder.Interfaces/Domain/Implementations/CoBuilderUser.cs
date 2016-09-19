@@ -7,9 +7,9 @@ namespace CoBuilder.Service.Domain
     {
         public CoBuilderUser(ISession session)
         {
-            AdminName = session.UserInfo.AdminName;
-            CanWrite = session.UserInfo.CanWrite;
-            CompanyName = session.UserInfo.CompanyName;
+            AdminName = session.UserInfo?.AdminName;
+            CanWrite = session.UserInfo?.CanWrite ?? false;
+            CompanyName = session.UserInfo?.CompanyName;
             ContactId = session.ContactId;
             Username = session.UserId;
         }

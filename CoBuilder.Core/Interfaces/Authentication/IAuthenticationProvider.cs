@@ -1,8 +1,7 @@
 using System.Threading.Tasks;
-using CoBuilder.Core.Interfaces;
 using RestSharp.Authenticators;
 
-namespace CoBuilder.Core.Authentication
+namespace CoBuilder.Core.Interfaces
 {
     public interface IAuthenticationProvider
     {
@@ -10,8 +9,8 @@ namespace CoBuilder.Core.Authentication
 
 
         Task SignOutAsync();
-        Task<ISession> AuthenticateAsync(IServiceInfo serviceInfo, bool NoUi);
-        Task<ISession> AuthenticateAsync(IServiceInfo serviceInfo, string username, string password);
+        Task<ISession> AuthenticateAsync();
+        Task<ISession> AuthenticateAsync(string username, string password);
         IAuthenticator GetAuthenticator();
     }
 }

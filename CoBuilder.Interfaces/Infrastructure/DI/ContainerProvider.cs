@@ -1,3 +1,5 @@
+using System;
+using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Interfaces;
 using StructureMap;
 
@@ -25,7 +27,9 @@ namespace CoBuilder.Service.Infrastructure.DI
         }
         public void Reset()
         {
-            _activeContainer?.Dispose();
+            _activeContainer.EjectAllInstancesOf<ISession>();
+            _activeContainer.Dispose();
+            _activeContainer = _rootContainer.CreateChildContainer();
         }
 
         public void Dispose()

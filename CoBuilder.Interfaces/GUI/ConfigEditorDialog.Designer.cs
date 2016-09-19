@@ -32,6 +32,7 @@
             this.CmdRemove = new System.Windows.Forms.Button();
             this.CmdEdit = new System.Windows.Forms.Button();
             this.TrvConfiguration = new System.Windows.Forms.TreeView();
+            this.CmbGenerate = new System.Windows.Forms.Button();
             this.CmdAdd = new System.Windows.Forms.Button();
             this.TrvRoot = new System.Windows.Forms.TreeView();
             this.gbxConfigEdit = new System.Windows.Forms.GroupBox();
@@ -73,6 +74,7 @@
             // 
             // SpCForm.Panel2
             // 
+            this.SpCForm.Panel2.Controls.Add(this.CmbGenerate);
             this.SpCForm.Panel2.Controls.Add(this.CmdAdd);
             this.SpCForm.Panel2.Controls.Add(this.TrvRoot);
             this.SpCForm.Panel2.Margin = new System.Windows.Forms.Padding(3);
@@ -119,10 +121,22 @@
             this.TrvConfiguration.Size = new System.Drawing.Size(282, 374);
             this.TrvConfiguration.TabIndex = 0;
             // 
+            // CmbGenerate
+            // 
+            this.CmbGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmbGenerate.Location = new System.Drawing.Point(169, 398);
+            this.CmbGenerate.Margin = new System.Windows.Forms.Padding(6);
+            this.CmbGenerate.Name = "CmbGenerate";
+            this.CmbGenerate.Size = new System.Drawing.Size(117, 27);
+            this.CmbGenerate.TabIndex = 5;
+            this.CmbGenerate.Text = "Generate BaseConfig";
+            this.CmbGenerate.UseVisualStyleBackColor = true;
+            this.CmbGenerate.Click += new System.EventHandler(this.CmbGenerate_Click);
+            // 
             // CmdAdd
             // 
             this.CmdAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CmdAdd.Location = new System.Drawing.Point(239, 398);
+            this.CmdAdd.Location = new System.Drawing.Point(106, 398);
             this.CmdAdd.Margin = new System.Windows.Forms.Padding(6);
             this.CmdAdd.Name = "CmdAdd";
             this.CmdAdd.Size = new System.Drawing.Size(51, 27);
@@ -216,7 +230,7 @@
             // cmdConfigEdit
             // 
             this.cmdConfigEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdConfigEdit.Location = new System.Drawing.Point(244, 39);
+            this.cmdConfigEdit.Location = new System.Drawing.Point(299, 39);
             this.cmdConfigEdit.Margin = new System.Windows.Forms.Padding(6);
             this.cmdConfigEdit.Name = "cmdConfigEdit";
             this.cmdConfigEdit.Size = new System.Drawing.Size(51, 27);
@@ -350,5 +364,6 @@
         private System.Windows.Forms.Label lblNameValue;
         private System.Windows.Forms.Button cmdConfigEdit;
         private System.Windows.Forms.Button cmdConfigCancel;
+        private System.Windows.Forms.Button CmbGenerate;
     }
 }
