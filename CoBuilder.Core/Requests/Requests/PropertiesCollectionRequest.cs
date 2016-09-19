@@ -37,7 +37,7 @@ namespace CoBuilder.Core.Requests
 
             if (response != null)
             {
-                return new PropertiesCollection(response.Properties);
+                return new PropertiesCollection(response.Properties, ProductId);
             }
 
             return null;

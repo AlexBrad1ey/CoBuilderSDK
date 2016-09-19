@@ -2,7 +2,7 @@
 
 namespace CoBuilder.Core.Domain
 {
-    public class BimProduct
+    public class BimProduct : IBimProduct
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -14,6 +14,5 @@ namespace CoBuilder.Core.Domain
         public bool IsRiskAssessed { get; set; }
         public bool? DOP { get; set; }
         public bool IsCreatedFromScan { get; set; }
-        public PropertySetCollection PropertySets { get; set; }
     }
 }

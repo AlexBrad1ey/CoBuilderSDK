@@ -1,19 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using CoBuilder.Core.Interfaces;
+﻿using System.Threading.Tasks;
 
-namespace CoBuilder.Core.Authentication
+namespace CoBuilder.Core.Interfaces
 {
     public interface IAuthenticationUi
     {
         Task<ISession> AuthenticateAsync(IHttpProvider httpProvider);
-    }
-
-    public class CoBuilderAuthenticationUi : IAuthenticationUi
-    {
-        public Task<ISession> AuthenticateAsync(IHttpProvider httpProvider)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

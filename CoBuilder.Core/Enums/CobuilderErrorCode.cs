@@ -5,6 +5,8 @@
         InvalidRequest,
         AuthenticationFailure,
         HttpException,
-        GeneralException
+        GeneralException,
+        UnInitiatedService,
+        InvalidConfiguration
     }
 }

@@ -46,6 +46,14 @@ namespace CoBuilder.Core
             }
         }
 
+        public IProductsCollectionRequestBuilder Products
+        {
+            get
+            {
+                return new ProductsCollectionRequestBuilder(Constants.Url.Products, this);
+            }
+        }
+
         public IProductsCollectionRequestBuilder ProductsByCountryIndex(int countryIndex)
         {
             if (countryIndex <= 0) throw new ArgumentOutOfRangeException(nameof(countryIndex));
@@ -53,5 +61,7 @@ namespace CoBuilder.Core
             return new ProductsCollectionRequestBuilder(Constants.Url.Products, this, ProductRequestType.CountryIndex,
                 CountryIndex: countryIndex);
         }
+
+
     }
 }

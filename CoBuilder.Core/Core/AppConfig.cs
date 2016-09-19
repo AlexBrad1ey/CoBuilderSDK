@@ -1,4 +1,5 @@
 ﻿using CoBuilder.Core.Enums;
+using CoBuilder.Core.Interfaces;
 
 namespace CoBuilder.Core
 {

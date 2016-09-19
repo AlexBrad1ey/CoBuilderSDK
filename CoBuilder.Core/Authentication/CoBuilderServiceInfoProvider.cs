@@ -5,7 +5,7 @@ namespace CoBuilder.Core.Authentication
 {
     public class CoBuilderServiceInfoProvider : ServiceInfoProvider, IServiceInfoProvider
     {
-        public CoBuilderServiceInfoProvider(AuthenticationProvider authenticationProvider, IAuthenticationUi authenticationUi = null) : base(authenticationProvider, authenticationUi)
+        public CoBuilderServiceInfoProvider(IAuthenticationProvider authenticationProvider, IAuthenticationUi authenticationUi = null) : base(authenticationProvider, authenticationUi)
         {
         }
 

@@ -24,6 +24,14 @@ namespace CoBuilder.Core
             AppConfig = appConfig;
             HttpProvider = httpProvider;
             ServiceInfoProvider = serviceInfoProvider;
+            try
+            {
+                var result = AuthenticateAsync(true).Result;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
 
@@ -69,7 +77,7 @@ namespace CoBuilder.Core
 
 
         //Use when AuthUi is Set
-        public async Task<ISession> AuthenticateAsync()
+        public async Task<ISession> AuthenticateAsync(bool noUi = false)
         {
             if (ServiceInfo == null)
             {
@@ -79,12 +87,13 @@ namespace CoBuilder.Core
                     );
             }
 
-            var authResult = await ServiceInfo.AuthenticationProvider.AuthenticateAsync(ServiceInfo);
-
             if (string.IsNullOrEmpty(BaseUrl))
             {
                 BaseUrl = ServiceInfo.BaseUrl;
+                HttpProvider.BaseUrl = BaseUrl;
             }
+
+            var authResult = await ServiceInfo.AuthenticationProvider.AuthenticateAsync(ServiceInfo, noUi);
 
             return authResult;
         }
