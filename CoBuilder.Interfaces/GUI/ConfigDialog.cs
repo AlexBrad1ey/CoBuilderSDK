@@ -12,7 +12,6 @@ namespace CoBuilder.Service.GUI
     public partial class ConfigDialog : Form, IConfigSelectionUi
     {
         private readonly Settings _settings;
-        private readonly IServiceSession _session;
         public IConfiguration SelectedConfiguration { get; set; }
         private IList<IConfiguration> _configurations;
 
@@ -33,6 +32,7 @@ namespace CoBuilder.Service.GUI
                 _configurations.Remove(config);
 
                 var editor = new ConfigEditorDialog(config);
+
                 var result = editor.ShowDialog();
                 switch(result)
                 {
@@ -40,7 +40,7 @@ namespace CoBuilder.Service.GUI
                         _configurations.Add(editor.Configuration);
                         break;
                     case DialogResult.Cancel:
-                        _configurations.Add(Configuration.Load(Constants.FilePathBase + config.ConfigId + Constants.ConfigFileType));
+                        _configurations.Add(Configuration.Load(Constants.FilePaths.ConfigPathGenerate(config.ConfigId.ToString())));
                         break;
                 }
             }
@@ -131,24 +131,26 @@ namespace CoBuilder.Service.GUI
 
         private IList<IConfiguration> GetConfigurations()
         {
-
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            var dirPath = Path.Combine(Path.GetDirectoryName(path),"Configurations");
-
-            var files = Directory.GetFiles(dirPath, "*" + Constants.ConfigFileType);
-
-            var serializer = new ConfigurationSerializer();
-
             var result = new List<IConfiguration>();
 
-            foreach (var file in files)
+            try
             {
-                var config = serializer.Deserialize(file);
-                if (config == null) continue;
-                result.Add(config);
+                var files = Directory.GetFiles(Constants.FilePaths.ConfigDirectory(), "*" + Constants.FilePaths.ConfigFileType);
+
+                var serializer = new ConfigurationSerializer();
+
+                foreach (var file in files)
+                {
+                    var config = serializer.Deserialize(file);
+                    if (config == null) continue;
+                    result.Add(config);
+                }
             }
+            catch (Exception)
+            {
+                // ignored
+            }
+
             return result;
         }
     }

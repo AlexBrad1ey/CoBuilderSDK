@@ -49,6 +49,7 @@
             this.GbxCommands = new System.Windows.Forms.GroupBox();
             this.CmbCancel = new System.Windows.Forms.Button();
             this.CmbOK = new System.Windows.Forms.Button();
+            this.cmdAddNew = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.SpCForm)).BeginInit();
             this.SpCForm.Panel1.SuspendLayout();
             this.SpCForm.Panel2.SuspendLayout();
@@ -67,6 +68,7 @@
             // 
             // SpCForm.Panel1
             // 
+            this.SpCForm.Panel1.Controls.Add(this.cmdAddNew);
             this.SpCForm.Panel1.Controls.Add(this.CmdRemove);
             this.SpCForm.Panel1.Controls.Add(this.CmdEdit);
             this.SpCForm.Panel1.Controls.Add(this.TrvConfiguration);
@@ -120,6 +122,9 @@
             this.TrvConfiguration.Name = "TrvConfiguration";
             this.TrvConfiguration.Size = new System.Drawing.Size(282, 374);
             this.TrvConfiguration.TabIndex = 0;
+            this.TrvConfiguration.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_ItemDrag);
+            this.TrvConfiguration.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView_DragDrop);
+            this.TrvConfiguration.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView_DragEnter);
             // 
             // CmbGenerate
             // 
@@ -156,6 +161,7 @@
             this.TrvRoot.Name = "TrvRoot";
             this.TrvRoot.Size = new System.Drawing.Size(282, 374);
             this.TrvRoot.TabIndex = 1;
+            this.TrvRoot.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_ItemDrag);
             // 
             // gbxConfigEdit
             // 
@@ -230,7 +236,7 @@
             // cmdConfigEdit
             // 
             this.cmdConfigEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdConfigEdit.Location = new System.Drawing.Point(299, 39);
+            this.cmdConfigEdit.Location = new System.Drawing.Point(244, 39);
             this.cmdConfigEdit.Margin = new System.Windows.Forms.Padding(6);
             this.cmdConfigEdit.Name = "cmdConfigEdit";
             this.cmdConfigEdit.Size = new System.Drawing.Size(51, 27);
@@ -317,6 +323,18 @@
             this.CmbOK.UseVisualStyleBackColor = true;
             this.CmbOK.Click += new System.EventHandler(this.CmbOK_Click);
             // 
+            // cmdAddNew
+            // 
+            this.cmdAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmdAddNew.Location = new System.Drawing.Point(137, 398);
+            this.cmdAddNew.Margin = new System.Windows.Forms.Padding(6);
+            this.cmdAddNew.Name = "cmdAddNew";
+            this.cmdAddNew.Size = new System.Drawing.Size(109, 27);
+            this.cmdAddNew.TabIndex = 4;
+            this.cmdAddNew.Text = "&New Property Set";
+            this.cmdAddNew.UseVisualStyleBackColor = true;
+            this.cmdAddNew.Click += new System.EventHandler(this.cmdAddNew_Click);
+            // 
             // ConfigEditorDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -365,5 +383,6 @@
         private System.Windows.Forms.Button cmdConfigEdit;
         private System.Windows.Forms.Button cmdConfigCancel;
         private System.Windows.Forms.Button CmbGenerate;
+        private System.Windows.Forms.Button cmdAddNew;
     }
 }

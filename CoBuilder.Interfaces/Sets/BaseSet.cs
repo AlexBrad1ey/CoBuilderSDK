@@ -10,5 +10,10 @@ namespace CoBuilder.Service.Sets
         internal BaseSet(IList<TEntity> entitySet) : base(entitySet)
         {
         }
+
+        internal BaseSet() : base(new List<TEntity>())
+        {
+            
+        }
     }
 }

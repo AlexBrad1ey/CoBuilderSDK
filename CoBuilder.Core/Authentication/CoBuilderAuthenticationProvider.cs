@@ -80,7 +80,7 @@ namespace CoBuilder.Core.Authentication
                     });
             }
             var session = AuthenticationUi.AuthenticateAsync(HttpProvider);
-            if (session != null)
+            if (session.Result != null)
             {
                 CurrentSession.Update(session.Result);
             }

@@ -15,7 +15,7 @@ namespace CoBuilder.Service.Domain
             PropertySetId = propertySetId;
         }
 
-        public BimProperty(Core.Domain.IBimProperty property, int productId, string propertySetId, CoBuilderContext ctx): this(property,productId,propertySetId)
+        public BimProperty(Core.Domain.IBimProperty property, int productId, string propertySetId, ICoBuilderContext ctx): this(property,productId,propertySetId)
         {
             Context = ctx;
         }

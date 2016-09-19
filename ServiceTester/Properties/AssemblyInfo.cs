@@ -1,12 +1,18 @@
-﻿using System.Runtime.CompilerServices;
-using System.Reflection;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CoBuilder.Core")]
-[assembly: AssemblyDescription("Core interaction Assembly for communicating with CoBuilder REST API")]
+[assembly: AssemblyTitle("ServiceTester")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ServiceTester")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -14,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ad7e6096-b8ea-46dc-95b3-36367343454c")]
+[assembly: Guid("cb501056-2744-4bee-9938-a4006c60e759")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -25,8 +31,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("2.0.*")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
-[assembly: InternalsVisibleTo("CoBuilder.Core.Tests")]
-[assembly: InternalsVisibleTo("CoBuilderV2.Explorables")]
-
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

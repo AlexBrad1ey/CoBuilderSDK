@@ -45,5 +45,9 @@ namespace CoBuilder.Service.Infrastructure.Config
             return Properties.FirstOrDefault(k => k.Value.Identifier == identifier).Value;
         }
 
+        public bool HasProperty(PropertyDefinition definition)
+        {
+            return definition != null && Properties.ContainsKey(definition.Identifier);
+        }
     }
 }

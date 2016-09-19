@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using CoBuilder.Service.Infrastructure.Config;
 using CoBuilder.Service.Interfaces;
 
 namespace CoBuilder.Service.GUI
@@ -40,6 +41,14 @@ namespace CoBuilder.Service.GUI
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void txbDisplayName_TextChanged(object sender, EventArgs e)
+        {
+            if (_definition.DefinitionType == DefinitionType.PropertySet)
+            {
+                LblIdentifierValue.Text = string.Join(".", Constants.Identifiers.IdentifierBase,txbDisplayName.Text);
+            }
         }
     }
 }

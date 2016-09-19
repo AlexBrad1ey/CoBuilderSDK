@@ -35,9 +35,17 @@ namespace CoBuilder.Service.Infrastructure
 
             var result = _client.Workplaces.Request().GetAsync().Result;
 
-            objectSet = new WorkplacesSet(result, this);
 
-            AddToCache(KeyBuilder.Build(KeyType.Workplaces, id), objectSet);
+            if (result != null)
+            {
+                objectSet = new WorkplacesSet(result, this);
+
+                AddToCache(KeyBuilder.Build(KeyType.Workplaces, id), objectSet);
+            }
+            else
+            {
+                objectSet = new WorkplacesSet(this);
+            }
 
             return objectSet;
         }
@@ -50,9 +58,17 @@ namespace CoBuilder.Service.Infrastructure
 
             var result =  _client.Workplaces[workplaceId].Products.Request().GetAsync().Result;
 
-            objectSet = new ProductsSet(result, workplaceId, this);
 
-            AddToCache(KeyBuilder.Build(KeyType.Products, workplaceId.ToString()), objectSet);
+            if (result != null)
+            {
+                objectSet = new ProductsSet(result, workplaceId, this);
+
+                AddToCache(KeyBuilder.Build(KeyType.Products, workplaceId.ToString()), objectSet);
+            }
+            else
+            {
+                objectSet = new ProductsSet(workplaceId, this);
+            }
 
             return objectSet;
         }
@@ -65,9 +81,16 @@ namespace CoBuilder.Service.Infrastructure
 
             var result = _client.Products[productId].PropertySets.Request().PostAsync().Result;
 
-            objectSet = new PropertySetsSet(result, productId, this);
+            if (result != null)
+            {
+                objectSet = new PropertySetsSet(result, productId, this);
 
-            AddToCache(KeyBuilder.Build(KeyType.PropertySets, productId.ToString()), objectSet);
+                AddToCache(KeyBuilder.Build(KeyType.PropertySets, productId.ToString()), objectSet);
+            }
+            else
+            {
+                objectSet = new PropertySetsSet(productId, this);
+            }
 
             return objectSet;
         }
@@ -81,9 +104,16 @@ namespace CoBuilder.Service.Infrastructure
 
             var result = _client.Products[productId].PropertySets[propertySetId].Properties.Request().PostAsync().Result;
 
-            objectSet = new PropertiesSet(result, productId, propertySetId, this);
+            if (result != null)
+            {
+                objectSet = new PropertiesSet(result, productId, propertySetId, this);
 
-            AddToCache(KeyBuilder.Build(KeyType.Properties, $"{productId}-{propertySetId}"), objectSet);
+                AddToCache(KeyBuilder.Build(KeyType.Properties, $"{productId}-{propertySetId}"), objectSet);
+            }
+            else
+            {
+                objectSet = new PropertiesSet(productId, propertySetId, this);
+            }
 
             return objectSet;
         }
