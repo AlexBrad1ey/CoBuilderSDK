@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+
 namespace CoBuilder.Service.Interfaces
 {
-    public interface ICBSet<T>
+    public interface ICBSet<out T> : IReadOnlyCollection<T>
     {
+        
     }
 }

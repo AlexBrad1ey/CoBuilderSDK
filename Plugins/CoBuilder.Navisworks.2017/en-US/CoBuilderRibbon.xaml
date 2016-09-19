@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!-- BEGIN STANDARD SECTION DO NOT EDIT -->
+<RibbonControl
+    x:Uid="CustomRibbonTab" xmlns="clr-namespace:Autodesk.Windows;assembly=AdWindows"
+    xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:adwi="clr-namespace:Autodesk.Internal.Windows;assembly=AdWindows"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Autodesk.Navisworks.Gui.Roamer.AIRLook;assembly=navisworks.gui.roamer">
+    <!-- END STANDARD SECTION DO NOT EDIT -->
+
+    <RibbonTab Id="CoBuilderStartTab" Title="CoBuilder" KeyTip="C1" Name="CoBuilderStartTab">
+        <RibbonPanel x:Uid="LoginRibbonPanel">
+            <RibbonPanelSource x:Uid="LoginRibbonPanelSource" KeyTip="C1" Title="Login" Name="LoginPanel">
+                <local:NWRibbonButton x:Uid="WebsiteCommand" Id="WebsiteCommand" Size="Large" KeyTip="B1"
+                                      ShowText="True" Orientation="Vertical" />
+                <local:NWRibbonButton x:Uid="LoginCommand" Id="LoginCommand" Size="Large" KeyTip="B1" ShowText="True"
+                                      Orientation="Vertical" />
+            </RibbonPanelSource>
+        </RibbonPanel>
+    </RibbonTab>
+
+    <RibbonTab Id="CoBuilderMainTab" KeyTip="C1" Name="CoBuilderMainTab">
+        <RibbonPanel x:Uid="LogOutRibbonPanel">
+            <RibbonPanelSource x:Uid="LogOutRibbonPanelSource" KeyTip="C1" Title="Logout" Name="LogoutPanel">
+                <local:NWRibbonButton x:Uid="WebsiteCommand2" Id="WebsiteCommand2" Size="Large" KeyTip="B1"
+                                      ShowText="True" Orientation="Vertical" />
+                <local:NWRibbonButton x:Uid="LogOutCommand" Id="LogOutCommand" Size="Large" KeyTip="B1" ShowText="True"
+                                      Orientation="Vertical" />
+            </RibbonPanelSource>
+        </RibbonPanel>
+        <RibbonPanel x:Uid="WorkplaceRibbonPanel">
+            <RibbonPanelSource x:Uid="WorkplaceRibbonPanelSource" KeyTip="C1" Title="Worplace Selection"
+                               Name="workplacePanel">
+                <local:NWRibbonButton x:Uid="WorkplaceCommand" Id="WorkplaceCommand" Size="Large" KeyTip="B1"
+                                      ShowText="True" Orientation="Vertical" />
+            </RibbonPanelSource>
+        </RibbonPanel>
+        <RibbonPanel x:Uid="ConfigurationRibbonPanel">
+            <RibbonPanelSource x:Uid="ConfigurationRibbonPanelSource" KeyTip="C1" Title="CoBuilder Configuration"
+                               Name="ConfigurationPanel">
+                <local:NWRibbonButton x:Uid="ConfigurationCommand" Id="ConfigurationCommand" Size="Large" KeyTip="B1"
+                                      ShowText="True" Orientation="Vertical" />
+            </RibbonPanelSource>
+        </RibbonPanel>
+        <RibbonPanel x:Uid="LinkingRibbonPanel">
+            <RibbonPanelSource x:Uid="LinkingPanelSource" KeyTip="C1" Title="CoBuilder Linking" Name="LinkingPanel">
+                <local:NWRibbonButton x:Uid="ConnectCommand" Id="ConnectCommand" Size="Large" KeyTip="B1" ShowText="True"
+                                      Orientation="Vertical" />
+                <local:NWRibbonButton x:Uid="RemoveCommand" Id="RemoveCommand" Size="Large" KeyTip="B1" ShowText="True"
+                                      Orientation="Vertical" />
+            </RibbonPanelSource>
+        </RibbonPanel>
+    </RibbonTab>
+
+    <!-- BEGIN STANDARD SECTION DO NOT EDIT -->
+</RibbonControl>
+<!-- END STANDARD SECTION DO NOT EDIT -->

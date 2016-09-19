@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CoBuilder.Service</RootNamespace>
     <AssemblyName>CoBuilder.Service</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OCSLRevitUtils">
+      <HintPath>..\Dlls\OCSLRevitUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap, Version=4.3.0.449, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.0\lib\net45\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -46,18 +58,107 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Core\CoBuilderService.cs" />
-    <Compile Include="Core\Constants.cs" />
-    <Compile Include="Dialogs\LoginDialog.cs">
+    <Compile Include="Core\Enums\OpenState.cs" />
+    <Compile Include="Core\Enums\ConfigEditState.cs" />
+    <Compile Include="Infrastructure\Config\BaseConfiguration.cs" />
+    <Compile Include="GUI\ConfigDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\LoginDialog.Designer.cs">
+    <Compile Include="GUI\ConfigDialog.Designer.cs">
+      <DependentUpon>ConfigDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Infrastructure\Config\ConfigurationSerializer.cs" />
+    <Compile Include="Core\ServiceConfiguration.cs" />
+    <Compile Include="Interfaces\Ui\IWorkplaceSelectionUi.cs" />
+    <Compile Include="Interfaces\Ui\IProductSelectionUi.cs" />
+    <Compile Include="Interfaces\Ui\IConfigSelectionUi.cs" />
+    <Compile Include="Commands\RefreshCommand.cs" />
+    <Compile Include="Commands\ConnectCommand.cs" />
+    <Compile Include="Commands\ChangeWorkplaceCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\LoginCommand.cs" />
+    <Compile Include="Commands\LogOutCommand.cs" />
+    <Compile Include="Commands\RemoveCommand.cs" />
+    <Compile Include="Commands\ConfigurationCommand.cs" />
+    <Compile Include="Core\CoBuilderServiceExtensions.cs" />
+    <Compile Include="Core\Enums\ConnectionState.cs" />
+    <Compile Include="Infrastructure\PTO\ProjectPropertySetInfo.cs" />
+    <Compile Include="Infrastructure\ProductKey.cs" />
+    <Compile Include="Interfaces\IServiceSession.cs" />
+    <Compile Include="Core\ServiceSession.cs" />
+    <Compile Include="Interfaces\Repositories\IProductsRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IReadOnlyRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IWorkplacesRepository.cs" />
+    <Compile Include="Interfaces\Logic\IConnector.cs" />
+    <Compile Include="Repositories\WorkPlacesRepository.cs" />
+    <Compile Include="Repositories\ProductsRepository.cs" />
+    <Compile Include="Domain\Interfaces\ICoBuilderUser.cs" />
+    <Compile Include="GUI\ConfigEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ConfigEditorDialog.Designer.cs">
+      <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\Enums\SignInResult.cs" />
+    <Compile Include="GUI\DefinitionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\DefinitionDialog.Designer.cs">
+      <DependentUpon>DefinitionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\WorkplaceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\WorkplaceDialog.Designer.cs">
+      <DependentUpon>WorkplaceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\LoginDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\LoginDialog.Designer.cs">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ProductDialog.cs">
+    <Compile Include="Infrastructure\Config\DefinitionKey.cs" />
+    <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Infrastructure\Config\ConfigDefinition.cs" />
+    <Compile Include="Infrastructure\Config\Configuration.cs" />
+    <Compile Include="Infrastructure\Config\Definition.cs" />
+    <Compile Include="Infrastructure\Config\DefinitionType.cs" />
+    <Compile Include="Core\Enums\AttachmentResult.cs" />
+    <Compile Include="Interfaces\Infrastructure\IConfigurator.cs" />
+    <Compile Include="Interfaces\Infrastructure\IMapper.cs" />
+    <Compile Include="Interfaces\Infrastructure\IConfiguration.cs" />
+    <Compile Include="Infrastructure\PTO\PropertyInfo.cs" />
+    <Compile Include="Infrastructure\PTO\Info.cs" />
+    <Compile Include="Infrastructure\PTO\PropertySetInfo.cs" />
+    <Compile Include="Interfaces\App\IAppSelector.cs" />
+    <Compile Include="Interfaces\Logic\IAttacher.cs" />
+    <Compile Include="Interfaces\Infrastructure\IConfigDefinition.cs" />
+    <Compile Include="Interfaces\Infrastructure\IConstraint.cs" />
+    <Compile Include="Interfaces\Infrastructure\IDefinition.cs" />
+    <Compile Include="Interfaces\Infrastructure\IObservableDictionary.cs" />
+    <Compile Include="Interfaces\Infrastructure\IPropertyDefinition.cs" />
+    <Compile Include="Interfaces\Infrastructure\IPropertySetDefinition.cs" />
+    <Compile Include="Infrastructure\Config\ObservableDictionary.cs" />
+    <Compile Include="Infrastructure\Config\PropertyDefinition.cs" />
+    <Compile Include="Infrastructure\Config\PropertySetDefinition.cs" />
+    <Compile Include="Infrastructure\DI\ContainerProvider.cs" />
+    <Compile Include="Interfaces\Infrastructure\IContainerProvider.cs" />
+    <Compile Include="Infrastructure\ServiceBuilder.cs" />
+    <Compile Include="Infrastructure\CoBuilderCacheItemPolicy.cs" />
+    <Compile Include="Infrastructure\DI\CoBuilderCoreRegistry.cs" />
+    <Compile Include="Core\CoBuilderService.cs" />
+    <Compile Include="Infrastructure\DI\CoBuilderServiceRegistry.cs" />
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Interfaces\Infrastructure\ICachePolicy.cs" />
+    <Compile Include="Infrastructure\DI\ScanningRegistry.cs" />
+    <Compile Include="Infrastructure\DI\ServiceRegistry.cs" />
+    <Compile Include="Interfaces\Infrastructure\IServiceConfiguration.cs" />
+    <Compile Include="GUI\ProductDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\ProductDialog.Designer.cs">
+    <Compile Include="GUI\ProductDialog.Designer.cs">
       <DependentUpon>ProductDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Domain\Implementations\BimProduct.cs" />
@@ -66,18 +167,30 @@
     <Compile Include="Domain\Implementations\Connection.cs" />
     <Compile Include="Domain\Implementations\BimPropertySet.cs" />
     <Compile Include="Domain\Interfaces\IBimPropertySet.cs" />
-    <Compile Include="Core\KeyType.cs" />
+    <Compile Include="Helpers\KeyType.cs" />
     <Compile Include="Helpers\KeyBuilder.cs" />
+    <Compile Include="Core\Enums\RemovalResult.cs" />
+    <Compile Include="Interfaces\Logic\IInterrogator.cs" />
+    <Compile Include="Logic\Identifier.cs" />
     <Compile Include="Interfaces\Sets\IPropertiesSet.cs" />
     <Compile Include="Domain\Interfaces\IBimProperty.cs" />
     <Compile Include="Domain\Interfaces\IWorkplace.cs" />
     <Compile Include="Domain\Implementations\Workplace.cs" />
     <Compile Include="Domain\Interfaces\IBimProduct.cs" />
     <Compile Include="Interfaces\Sets\IPropertySetsSet.cs" />
-    <Compile Include="Interfaces\ICoBuilderContext.cs" />
+    <Compile Include="Interfaces\Infrastructure\ICoBuilderContext.cs" />
     <Compile Include="Interfaces\Sets\IWorkplacesSet.cs" />
     <Compile Include="Domain\Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\Sets\ICBSet.cs" />
+    <Compile Include="Logic\AttachmentManager.cs" />
+    <Compile Include="Logic\AttachProcessor.cs" />
+    <Compile Include="Logic\ConnectionManager.cs" />
+    <Compile Include="Interfaces\App\IAppAttacher.cs" />
+    <Compile Include="Interfaces\App\IAppAccessor.cs" />
+    <Compile Include="Logic\DetachProcessor.cs" />
+    <Compile Include="Logic\Mapper.cs" />
+    <Compile Include="Logic\ModelInterrogator.cs" />
+    <Compile Include="Repositories\ConnectionRepository.cs" />
     <Compile Include="Sets\BaseSet.cs" />
     <Compile Include="Interfaces\Sets\IProductsSet.cs" />
     <Compile Include="Sets\ProductsSet.cs" />
@@ -98,7 +211,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Dialogs\LoginDialog.resx">
+    <EmbeddedResource Include="GUI\ConfigDialog.resx">
+      <DependentUpon>ConfigDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ConfigEditorDialog.resx">
+      <DependentUpon>ConfigEditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\DefinitionDialog.resx">
+      <DependentUpon>DefinitionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ProductDialog.resx">
+      <DependentUpon>ProductDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\WorkplaceDialog.resx">
+      <DependentUpon>WorkplaceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -107,6 +235,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -156,8 +286,7 @@
     <None Include="Resources\Styles_Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
-    <Folder Include="Repositories\" />
+    <Folder Include="GUI\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoBuilder.Core\CoBuilder.Core.csproj">

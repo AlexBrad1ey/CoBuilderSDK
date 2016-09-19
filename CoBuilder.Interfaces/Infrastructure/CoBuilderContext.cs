@@ -4,7 +4,6 @@ using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Helpers;
 using CoBuilder.Service.Interfaces;
 using CoBuilder.Service.Sets;
-using System;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
 
@@ -27,14 +26,14 @@ namespace CoBuilder.Service.Infrastructure
                 });
         }
 
-        public async Task<IWorkplacesSet> WorkplacesAsync()
+        public IWorkplacesSet Workplaces()
         {
             var id = _client.CurrentSession.ContactId.ToString();
             var objectSet = GetFromCache<IWorkplacesSet>(KeyBuilder.Build(KeyType.Workplaces, id));
 
             if (objectSet != null) return objectSet;
 
-            var result = await _client.Workplaces.Request().GetAsync();
+            var result = _client.Workplaces.Request().GetAsync().Result;
 
             objectSet = new WorkplacesSet(result, this);
 
@@ -43,28 +42,28 @@ namespace CoBuilder.Service.Infrastructure
             return objectSet;
         }
 
-        public async Task<IProductsSet> ProductsAsync(int workplaceId)
+        public IProductsSet Products(int workplaceId)
         {
             var objectSet = GetFromCache<IProductsSet>(KeyBuilder.Build(KeyType.Products, workplaceId.ToString()));
 
             if (objectSet != null) return objectSet;
 
-            var result = await _client.Workplaces[workplaceId].Products.Request().GetAsync();
+            var result =  _client.Workplaces[workplaceId].Products.Request().GetAsync().Result;
 
-            objectSet = new ProductsSet(result, this);
+            objectSet = new ProductsSet(result, workplaceId, this);
 
             AddToCache(KeyBuilder.Build(KeyType.Products, workplaceId.ToString()), objectSet);
 
             return objectSet;
         }
 
-        public async Task<IPropertySetsSet> PropertySetsAsync(int productId)
+        public IPropertySetsSet PropertySets(int productId)
         {
             var objectSet = GetFromCache<IPropertySetsSet>(KeyBuilder.Build(KeyType.PropertySets, productId.ToString()));
 
             if (objectSet != null) return objectSet;
 
-            var result = await _client.Products[productId].PropertySets.Request().PostAsync();
+            var result = _client.Products[productId].PropertySets.Request().PostAsync().Result;
 
             objectSet = new PropertySetsSet(result, productId, this);
 
@@ -73,16 +72,16 @@ namespace CoBuilder.Service.Infrastructure
             return objectSet;
         }
 
-        public async Task<IPropertiesSet> PropertiesAsync(int productId, string propertySetId)
+        public IPropertiesSet Properties(int productId, string propertySetId)
         {
             var objectSet =
                 GetFromCache<PropertiesSet>(KeyBuilder.Build(KeyType.Properties, $"{productId}-{propertySetId}"));
 
             if (objectSet != null) return objectSet;
 
-            var result = await _client.Products[productId].PropertySets[propertySetId].Properties.Request().PostAsync();
+            var result = _client.Products[productId].PropertySets[propertySetId].Properties.Request().PostAsync().Result;
 
-            objectSet = new PropertiesSet(result, this);
+            objectSet = new PropertiesSet(result, productId, propertySetId, this);
 
             AddToCache(KeyBuilder.Build(KeyType.Properties, $"{productId}-{propertySetId}"), objectSet);
 
@@ -91,11 +90,7 @@ namespace CoBuilder.Service.Infrastructure
 
         private void AddToCache<T>(string key, T item)
         {
-            var policy = new CacheItemPolicy()
-            {
-                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(Constants.Caching.AbsoluteEvictionMinutes),
-                SlidingExpiration = TimeSpan.FromMinutes(Constants.Caching.SlidingEvictionMinutes)
-            };
+            var policy = new CoBuilderCacheItemPolicy();
 
             _cache.Add(key, item, policy);
         }

@@ -4,7 +4,28 @@ namespace CoBuilder.Service.Domain
 {
     public class BimProduct : IBimProduct
     {
-        public ICoBuilderContext Context { get; set; }
+        public BimProduct(Core.Domain.IBimProduct product, int workplaceId)
+        {
+
+            Id = product.Id;
+            Identifier = product.Identifier;
+            IsCreatedFromScan = product.IsCreatedFromScan;
+            IsRiskAssessed = product.IsRiskAssessed;
+            DeliveredBy = product.DeliveredBy;
+            DOP = product.DOP;
+            Link = product.Link;
+            Name = product.Name;
+            ProductTypes = product.ProductTypes;
+            SupplierName = product.SupplierName;
+            WorkplaceId = workplaceId;
+        }
+
+        public BimProduct(Core.Domain.IBimProduct product, int workplaceId, ICoBuilderContext ctx) : this(product, workplaceId)
+        {
+            Context = ctx;
+        }
+
+        public ICoBuilderContext Context { get; }
         public string DeliveredBy { get; internal set; }
         public bool? DOP { get; internal set; }
         public int Id { get; internal set; }
@@ -20,25 +41,14 @@ namespace CoBuilder.Service.Domain
         {
             get
             {
-                return Context.PropertySetsAsync(Id).Result;
+                return Context?.PropertySets(Id);
             }
         }
 
-        public static explicit operator BimProduct(Core.Domain.BimProduct product)
+        public int WorkplaceId { get; }
+        public int ProductId
         {
-            return new BimProduct()
-            {
-                Id = product.Id,
-                Identifier = product.Identifier,
-                IsCreatedFromScan = product.IsCreatedFromScan,
-                IsRiskAssessed = product.IsRiskAssessed,
-                DeliveredBy = product.DeliveredBy,
-                DOP = product.DOP,
-                Link = product.Link,
-                Name = product.Name,
-                ProductTypes = product.ProductTypes,
-                SupplierName = product.SupplierName
-            };
+            get { return Id; }
         }
     }
 }

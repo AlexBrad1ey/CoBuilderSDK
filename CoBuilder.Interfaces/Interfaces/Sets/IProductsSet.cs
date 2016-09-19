@@ -1,6 +1,10 @@
-﻿namespace CoBuilder.Service.Interfaces
+﻿using CoBuilder.Service.Domain;
+using CoBuilder.Service.Sets;
+
+namespace CoBuilder.Service.Interfaces
 {
-    public interface IProductsSet
+    public interface IProductsSet: ICBSet<IBimProduct>
     {
+        SupplierSet Suppliers { get; }
     }
 }

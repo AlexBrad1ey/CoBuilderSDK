@@ -1,71 +1,205 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Reflection;
+using CoBuilder.Core.Enums;
+using CoBuilder.Core.Exceptions;
+using CoBuilder.Core.Interfaces;
+using CoBuilder.Service.Domain;
+using CoBuilder.Service.Infrastructure;
+using CoBuilder.Service.Interfaces;
+using CoBuilder.Service.Repositories;
+using StructureMap.Pipeline;
 
 namespace CoBuilder.Service
 {
-    public class CoBuilderService
+    public class CoBuilderService : IDisposable
     {
-        public CoBuilderService()
+        private const string InvalidOperationMessage =
+            "CoBuilder Service not initiated. Call Initiate with appropriate configuration. This applies to both the static service API and the Instance API";
+
+        private const string InvalidConfigurationMessage =
+            "CoBuilder Service Configuration is invalid. a Application Configuration (AppConfig) is Required";
+
+        private static IServiceConfiguration _config;
+        private static CoBuilderService _instance;
+
+        #region Static API
+
+        public static CoBuilderService CurrentService
         {
+            get
+            {
+                if (_instance == null)
+                    throw new CoBuilderException(new Error()
+                    {
+                        Code = CoBuilderErrorCode.UnInitiatedService.ToString(),
+                        Message = InvalidOperationMessage
+                    }, new InvalidOperationException(InvalidOperationMessage));
+
+                return _instance;
+
+            }
+            private set { _instance = value; }
         }
 
-        public static void Close()
+        public static IServiceConfiguration Config
         {
-            Factory<ISession>().Close();
+            get {
+                if (_config == null)
+                    throw new CoBuilderException(new Error()
+                    {
+                        Code = CoBuilderErrorCode.UnInitiatedService.ToString(),
+                        Message = InvalidOperationMessage
+                    }, new InvalidOperationException(InvalidOperationMessage));
+
+                return _config;
+            }
+            private set { _config = value; }
         }
 
-        #region Private Fields
-
-        private static Registry _configuration;
-
-        private static bool _initialised;
-
-        #endregion Private Fields
-
-        #region Constructors
-
-        static CoBuilderService()
+        public static CoBuilderService Initiate(IServiceConfiguration serviceConfiguration)
         {
-            _configuration = new CoBuilderConfig();
+            if (serviceConfiguration == null) throw new ArgumentNullException(nameof(serviceConfiguration));
+            if (serviceConfiguration.AppConfig == null)
+                throw new CoBuilderException(new Error()
+                {
+                    Code = CoBuilderErrorCode.InvalidConfiguration.ToString(),
+                    Message = InvalidConfigurationMessage
+                }, new InvalidOperationException(InvalidConfigurationMessage));
+
+            _config = serviceConfiguration;
+            var serviceBuilder = new ServiceBuilder(serviceConfiguration);
+
+            _instance = serviceBuilder.Build();
+            return CurrentService;
+        }
+        #endregion
+
+        #region Instance API
+
+        private readonly IContainerProvider _containerProvider;
+        private IServiceSession _serviceSession;
+
+
+        internal CoBuilderService(IContainerProvider containerProvider)
+        {
+            if (containerProvider == null) throw new ArgumentNullException(nameof(containerProvider));
+            _containerProvider = containerProvider;
         }
 
-        public CoBuilderService(CoBuilderConfig appConfig) : this(appConfig, false)
+        public ProductsRepository Products
         {
+            get
+            {
+                if (Session.LoggedIn && Session.WorkplaceSet)
+                {
+                    return ServiceFactory<ProductsRepository>();
+                }
+
+                throw new CoBuilderException(new Error()
+                {
+                    Code = CoBuilderErrorCode.GeneralException.ToString(),
+                    Message = "Access to Products only available when Service is both Logged In and Current Workplace Set"
+                });
+            }
         }
 
-        public CoBuilderService(CoBuilderConfig appConfig, bool autoInitialise)
+        public WorkPlacesRepository WorkPlaces
         {
-            SetConfiguration(appConfig);
-            if (autoInitialise) Initialise();
+            get
+            {
+                if (Session.LoggedIn)
+                {
+                    return ServiceFactory<WorkPlacesRepository>();
+                }
+
+                throw new CoBuilderException(new Error()
+                {
+                    Code = CoBuilderErrorCode.GeneralException.ToString(),
+                    Message = "Access to Workplaces only available when Service is Logged In "
+                });
+            }
+        }
+        
+        public ICoBuilderUser User { get { return Session.User; } }
+
+        public IServiceSession Session
+        {
+            get { return _serviceSession ?? InitiateSession(); }
         }
 
-        #endregion Constructors
+        #region Public Methods
 
-        #region Public Properties
-
-        public bool Initialised => _initialised;
-
-        public ProductStore Products
+        public CoBuilderService LoginAsync()
         {
-            get { return Factory<ProductStore>(); }
+            var client = ServiceFactory<ICoBuilderClient>();
+            var session = client.AuthenticateAsync().Result;
+            InitiateSession(client);
+            return this;
         }
 
-        public WorkPlaceStore WorkPlaces => Factory<WorkPlaceStore>();
-        public ICoBuilderUser User => Factory<ICoBuilderUser>();
-        public ISession Session => Factory<ISession>();
-
-        #endregion Public Properties
-
-        #region Public Events
-
-#pragma warning disable RECS0154 // Parameter is never used
-
-        public void App_DocumentLoadEventHandler<TElement>(object sender, EventArgs e) where TElement : class
-#pragma warning restore RECS0154 // Parameter is never used
+        public CoBuilderService LoginAsync(string username, string password)
         {
-            InterrogateModel<TElement>();
+            var client = ServiceFactory<ICoBuilderClient>();
+            var session = client.AuthenticateAsync(username, password);
+            InitiateSession(client);
+            return this;
         }
+
+        public void Close()
+        {
+            _serviceSession = null;
+            _containerProvider.Reset();
+        }
+
+        #region DI Methods
+
+        public T ServiceFactory<T>()
+        {
+           return  _containerProvider.Container.GetInstance<T>();
+        }
+
+        public T ServiceFactory<T>(ExplicitArguments args)
+        {
+            return _containerProvider.Container.GetInstance<T>(args);
+        }
+
+        public string whatDoIHave()
+        {
+            return _containerProvider.Container.WhatDoIHave();
+        }
+        #endregion
+      
+        public void Dispose()
+        {
+            _containerProvider.Dispose();
+            _config.Dispose();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private IServiceSession InitiateSession()
+        {
+            var client = ServiceFactory<ICoBuilderClient>();
+
+            return InitiateSession(client);
+        }
+
+        private IServiceSession InitiateSession(ICoBuilderClient client)
+        {
+            if (client.CurrentSession != null)
+            {
+                _serviceSession = new ServiceSession(client.CurrentSession, this) {LoggedIn = client.IsAuthenticated};
+                return _serviceSession;
+            }
+            return null;
+        }
+
+        #endregion
+        
+        #endregion
+        /*
+       
 
         public void InterrogateModel<TElement>() where TElement : class
         {
@@ -98,15 +232,6 @@ namespace CoBuilder.Service
                 commonSettings.WriteLogFile(exception, GetType().Name, MethodBase.GetCurrentMethod().Name);
                 Session.LoginStatus = LoginStatus.NotLoggedIn;
             }
-        }
-
-        #endregion Public Events
-
-        #region Startup Methods
-
-        public void SetConfiguration(CoBuilderConfig appConfig)
-        {
-            _configuration = appConfig;
         }
 
         public void Initialise()
@@ -143,23 +268,6 @@ namespace CoBuilder.Service
 
         #region Static Factories for object generation
 
-        public static T Factory<T>()
-        {
-            if (_initialised)
-            {
-                return _diContainer.GetInstance<T>();
-            }
-            throw new Exception("Service Uninitialised");
-        }
-
-        public static T Factory<T>(ExplicitArguments args)
-        {
-            if (_initialised)
-            {
-                return _diContainer.GetInstance<T>(args);
-            }
-            throw new Exception("Service Uninitialized");
-        }
 
         public static T Factory<T>(string key)
         {
@@ -215,6 +323,7 @@ namespace CoBuilder.Service
             return _diContainer.Model.For<T>().Default.DescribeBuildPlan(5);
         }
 
-        #endregion DI Testing Methods
+        #endregion DI Testing Methods */
+
     }
 }

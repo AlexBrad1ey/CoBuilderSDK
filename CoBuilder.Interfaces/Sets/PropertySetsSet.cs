@@ -1,3 +1,4 @@
+using System;
 using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Domain;
 using CoBuilder.Service.Interfaces;
@@ -6,19 +7,20 @@ using System.Linq;
 
 namespace CoBuilder.Service.Sets
 {
-    public class PropertySetsSet : BaseSet<BimPropertySet>, IPropertySetsSet
+    public class PropertySetsSet : BaseSet<IBimPropertySet>, IPropertySetsSet
     {
         public PropertySetsSet(IPropertySetCollection collection, int productId, ICoBuilderContext ctx)
-            : this((IList<BimPropertySet>)collection.Select(x => (BimPropertySet)x), ctx)
+            : base(collection.Select(x => (IBimPropertySet)new BimPropertySet(x,productId,ctx)).ToList())
         {
-            foreach (var item in Items)
-            {
-                item.ProductId = productId;
-            }
+
         }
 
-        public PropertySetsSet(IList<BimPropertySet> entitySet, ICoBuilderContext ctx) : base(entitySet, ctx)
+        public IBimPropertySet this[string id]
         {
+            get
+            {
+                return Items.FirstOrDefault(pSet => pSet.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
+            }
         }
     }
 }

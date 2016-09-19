@@ -7,15 +7,8 @@ namespace CoBuilder.Service.Sets
 {
     public class BaseSet<TEntity> : ReadOnlyCollection<TEntity>, ICBSet<TEntity> where TEntity : class, IEntity
     {
-        protected readonly ICoBuilderContext Ctx;
-
-        internal BaseSet(IList<TEntity> entitySet, ICoBuilderContext ctx) : base(entitySet)
+        internal BaseSet(IList<TEntity> entitySet) : base(entitySet)
         {
-            Ctx = ctx;
-            foreach (var entity in this)
-            {
-                entity.Context = Ctx;
-            }
         }
     }
 }

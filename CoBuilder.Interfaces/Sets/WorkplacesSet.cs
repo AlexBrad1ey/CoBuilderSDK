@@ -9,12 +9,9 @@ namespace CoBuilder.Service.Sets
     public class WorkplacesSet : BaseSet<IWorkplace>, IWorkplacesSet
     {
         public WorkplacesSet(IWorkplacesCollection collection, ICoBuilderContext ctx)
-            : base((IList<IWorkplace>)collection.Select(x => (Workplace)x), ctx)
+            : base(collection.Select(x => (IWorkplace)new Workplace(x,ctx)).ToList())
         {
-        }
 
-        public WorkplacesSet(IList<IWorkplace> entitySet, ICoBuilderContext ctx) : base(entitySet, ctx)
-        {
         }
     }
 }

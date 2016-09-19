@@ -53,8 +53,7 @@ namespace CoBuilder.Core.Authentication
             ISession session = null;
 
             session = await GetAccessTokenAsync();
-            session.CanSignOut = true;
-
+            
             return session;
         }
 
