@@ -146,7 +146,6 @@
             // CmbImport
             // 
             this.CmbImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CmbImport.Enabled = false;
             this.CmbImport.Location = new System.Drawing.Point(190, 249);
             this.CmbImport.Name = "CmbImport";
             this.CmbImport.Size = new System.Drawing.Size(72, 24);
@@ -158,7 +157,6 @@
             // CmbExport
             // 
             this.CmbExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CmbExport.Enabled = false;
             this.CmbExport.Location = new System.Drawing.Point(190, 279);
             this.CmbExport.Name = "CmbExport";
             this.CmbExport.Size = new System.Drawing.Size(72, 24);

@@ -11,9 +11,10 @@ namespace CoBuilder.Core.Authentication
     {
         public Session() { }
 
-        public Session(LoginResult loginResult, string username)
+        public Session(LoginResult loginResult, string username, string pass)
         {
             UserId = username;
+            Pass = pass;
             AccessToken = loginResult.TokenData;
             ContactId = loginResult.ContactId;
             UserInfo = new UserInfo
@@ -25,6 +26,7 @@ namespace CoBuilder.Core.Authentication
         }
 
         public string UserId { get; set; }
+        public string Pass { get; set; }
         public string AccessToken { get; set; }
         public bool CanSignOut { get; set; }
         public PluginApp AppId { get; set; }
@@ -41,7 +43,7 @@ namespace CoBuilder.Core.Authentication
             UserInfo = null;
         }
 
-        public void Update(LoginResult result, string username, bool canSignOut)
+        public void Update(LoginResult result, string username, string pass, bool canSignOut)
         {
             UserId = username;
             AccessToken = result.TokenData;
@@ -52,7 +54,7 @@ namespace CoBuilder.Core.Authentication
                 CanWrite = result.CanWrite,
                 CompanyName = result.CompanyName
             };
-
+            Pass = pass;
             CanSignOut = canSignOut;
         }
 
@@ -64,6 +66,7 @@ namespace CoBuilder.Core.Authentication
             AppId = session.AppId;
             ContactId = session.ContactId;
             UserInfo = session.UserInfo;
+            Pass = session.Pass;
         }
     }
 }

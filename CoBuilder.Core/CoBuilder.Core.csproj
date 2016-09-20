@@ -158,6 +158,7 @@
     <Compile Include="RestModels\GetProductsDataResult.cs" />
     <Compile Include="RestModels\GetPropertySetTagsResult.cs" />
     <Compile Include="RestModels\GetWorkplaceDataResult.cs" />
+    <Compile Include="RestModels\IAuthenticatedResult.cs" />
     <Compile Include="RestModels\LoginResult.cs" />
     <Compile Include="RestModels\PluginWritebackResult.cs" />
     <Compile Include="Serialization\Serializer.cs" />

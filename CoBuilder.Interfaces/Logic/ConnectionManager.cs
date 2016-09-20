@@ -41,6 +41,17 @@ namespace CoBuilder.Service.Logic
             _connections.Add(connection);
             return connection;
         }
+        public Connection<TElement> InterrogateConnect(TElement element, BimProduct product)
+        {
+            if (element == null) throw new ArgumentNullException(nameof(element));
+            if (product == null) throw new ArgumentNullException(nameof(product));
+
+            //if (_connections.Exists(c => c.AppElement == element)) return null;
+
+            var connection = new Connection<TElement>(element, product);
+            _connections.Add(connection, true);
+            return connection;
+        }
 
         public IEnumerable<Connection<TElement>> ConnectionsWith(TElement element)
         {
@@ -77,6 +88,8 @@ namespace CoBuilder.Service.Logic
 
             return _connections.Find(c => c.BimProduct.Id == product.Id && elements.Any(e => e == c.AppElement));
         }
+
+        
 
         public Connection<TElement> ConnectionBetween(TElement element, BimProduct product)
         {

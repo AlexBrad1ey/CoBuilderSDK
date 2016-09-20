@@ -22,10 +22,11 @@ namespace CoBuilder.Navisworks.Plugins
     [Command("WorkplaceCommand", DisplayName = "Set Workplace", LargeIcon = "Resources//Globe-icon_Small.png")]
     [Command("LoginCommand", DisplayName = "CoBuilder Login", LargeIcon = "Resources//logIn-icon-Small.png")]
     [Command("LogOutCommand", DisplayName = "CoBuilder Logout", LargeIcon = "Resources//logout-icon-Small.png")]
-    [Command("ConnectCommand", DisplayName = "Link Product to Elements", LargeIcon = "Resources//logIn-icon-Small.png")]
+    [Command("ConnectCommand", DisplayName = "Link Product to Elements", LargeIcon = "Resources//Select_Arrow.bmp")]
     [Command("RemoveCommand", DisplayName = "Remove Products from Elements",
-        LargeIcon = "Resources//logIn-icon-Small.png")]
+        LargeIcon = "Resources//Remove.png")]
     [Command("ConfigurationCommand", DisplayName = "CoBuilder Configuration", LargeIcon = "Resources//Setting-Small.png")]
+    [Command("RefreshCommand", DisplayName = "Refresh Products", LargeIcon = "Resources//Globe-icon_Small.png")]
     public class CoBuilderNavisworksCommandHandler : CommandHandlerPlugin
     {
         private readonly CoBuilderService _coBuilderService;
@@ -92,6 +93,12 @@ namespace CoBuilder.Navisworks.Plugins
                     case "ConfigurationCommand":
                     {
                         var command = new ConfigurationCommand();
+                        command.Execute();
+                        break;
+                    }
+                    case "RefreshCommand":
+                    {
+                        var command = new RefreshCommand<ModelItem>();
                         command.Execute();
                         break;
                     }

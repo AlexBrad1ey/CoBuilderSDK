@@ -34,6 +34,7 @@ namespace CoBuilder.Service.Logic
                 throw new CoBuilderException(new Error() {Code = CoBuilderErrorCode.GeneralException.ToString(), Message = "To Interrogate model, User Must be Logged In"});
             }
 
+            _connector.Clear();
             var hasProject = _accessor.HasProjectPropertySet(Constants.Identifiers.PropertySets.CoBuilderMaster);
 
             if (hasProject)
@@ -41,7 +42,6 @@ namespace CoBuilder.Service.Logic
                 var projectPropertySetInfo = _accessor.GetProjectPropertySet(Constants.Identifiers.PropertySets.CoBuilderMaster);
 
                 UpdateSession(_session, projectPropertySetInfo);
-                _connector.Clear();
                 Interrogate(_selector.All());
                     return true;
                 
@@ -66,7 +66,7 @@ namespace CoBuilder.Service.Logic
                             var product = (BimProduct) productsRepo[key.ProductId];
                             if (product != null)
                             {
-                                _connector.Connect(element, product);
+                                _connector.InterrogateConnect(element, product);
                             }
                             else
                             {

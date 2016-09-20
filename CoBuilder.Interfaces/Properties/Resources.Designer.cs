@@ -73,16 +73,6 @@ namespace CoBuilder.Service.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap C4C1 {
-            get {
-                object obj = ResourceManager.GetObject("C4C1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap CoBuilder_login {
             get {
                 object obj = ResourceManager.GetObject("CoBuilder_login", resourceCulture);
@@ -152,16 +142,6 @@ namespace CoBuilder.Service.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Help_Small1 {
-            get {
-                object obj = ResourceManager.GetObject("Help_Small1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap logIn_icon_Small {
             get {
                 object obj = ResourceManager.GetObject("logIn_icon_Small", resourceCulture);
@@ -185,6 +165,16 @@ namespace CoBuilder.Service.Properties {
         internal static System.Drawing.Bitmap Materials_Icon {
             get {
                 object obj = ResourceManager.GetObject("Materials_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Remove {
+            get {
+                object obj = ResourceManager.GetObject("Remove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -100,7 +100,7 @@ namespace CoBuilder.Core.Authentication
                 return null;
             }
 
-            CurrentSession.Update(result, username, true);
+            CurrentSession.Update(result, username, password, true);
 
             return CurrentSession;
         }

@@ -59,6 +59,21 @@ namespace CoBuilder.Service.Infrastructure.Config
             return this;
         }
 
+        public IConfiguration Save(string filePath)
+        {
+            try
+            {
+                var serializer = new ConfigurationSerializer();
+
+                serializer.Serialize(this, filePath);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+            return this;
+        }
+
         public static IConfiguration Load(string filename)
         {
             var serializer = new ConfigurationSerializer();

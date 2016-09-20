@@ -266,11 +266,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\C4C1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\CoBuilder_login.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -297,11 +292,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Help_Small.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Help_Small1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -335,12 +325,28 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Remove.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoBuilder.Core\CoBuilder.Core.csproj">
       <Project>{AD7E6096-B8EA-46DC-95B3-36367343454C}</Project>
       <Name>CoBuilder.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Globe_icon_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logIn_icon_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logout_icon_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\setting_Small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

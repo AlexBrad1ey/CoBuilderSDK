@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
+using CoBuilder.Service.Helpers;
 using CoBuilder.Service.Interfaces;
 using CoBuilder.Service.Interfaces.App;
 
@@ -20,26 +22,36 @@ namespace CoBuilder.Service.Commands
 
         public bool Execute()
         {
-            if (CoBuilderService.CurrentService.Session.CurrentConfiguration ==null)
+            try
             {
-                MessageBox.Show("Please Set a Configuration First");
+                if (CoBuilderService.CurrentService.Session.CurrentConfiguration ==null)
+                {
+                    MessageBox.Show("Please Set a Configuration First");
+                    return false;
+                }
+                var productSelector = CoBuilderService.CurrentService.ServiceFactory<IProductSelectionUi>();
+
+                var product = productSelector.SelectProduct();
+                if (product == null) return false;
+
+                var selector = CoBuilderService.CurrentService.ServiceFactory<IAppSelector<TElement>>();
+                var selection = selector.GetSelection();
+
+                var connector = CoBuilderService.CurrentService.ServiceFactory<IConnector<TElement>>();
+                var connections = connector.Connect(selection,product);
+                if (connections == null || !connections.Any()) return false;
+
+                var attacher = CoBuilderService.CurrentService.ServiceFactory<IAttacher<TElement>>();
+                attacher.RefreshAttachments();
+
+                MessageBox.Show("Process Complete");
             }
-            var productSelector = CoBuilderService.CurrentService.ServiceFactory<IProductSelectionUi>();
-
-            var product = productSelector.SelectProduct();
-            if (product == null) return false;
-
-            var selector = CoBuilderService.CurrentService.ServiceFactory<IAppSelector<TElement>>();
-            var selection = selector.GetSelection();
-
-            var connector = CoBuilderService.CurrentService.ServiceFactory<IConnector<TElement>>();
-            var connections = connector.Connect(selection,product);
-            if (connections == null || !connections.Any()) return false;
-
-            var attacher = CoBuilderService.CurrentService.ServiceFactory<IAttacher<TElement>>();
-            attacher.RefreshAttachments();
-
-            MessageBox.Show("Process Complete");
+            catch (Exception exception)
+            {
+                var commonSettings = new Settings();
+                commonSettings.WriteLogFile(exception, GetType().Name, MethodBase.GetCurrentMethod().Name);
+                return false;
+            }
 
             return true;
         }

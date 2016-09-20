@@ -31,7 +31,6 @@ namespace CoBuilder.Service.Infrastructure.DI
         {
             _activeContainer.Model.For<IServiceSession>().Default.EjectObject();
             _activeContainer.Model.For<ISession>().Default.EjectObject();
-            _activeContainer.Model.For(typeof(ConnectionRepository<>)).Default.EjectObject();
         }
 
         public void Dispose()

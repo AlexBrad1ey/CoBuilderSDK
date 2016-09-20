@@ -4,7 +4,7 @@ using CoBuilder.Core.Enums;
 
 namespace CoBuilder.Core.RestModels
 {
-    public class GetProductPropertiesResult
+    public class GetProductPropertiesResult : IAuthenticatedResult
     {
         public AuthenticationRequestStatus Status { get; set; }
         public int ErrorCode { get; set; }
