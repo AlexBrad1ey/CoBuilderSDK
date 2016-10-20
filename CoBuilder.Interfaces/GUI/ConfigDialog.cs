@@ -12,7 +12,6 @@ namespace CoBuilder.Service.GUI
     public partial class ConfigDialog : Form, IConfigSelectionUi
     {
         private readonly Settings _settings;
-        private readonly IServiceSession _session;
         public IConfiguration SelectedConfiguration { get; set; }
         private IList<IConfiguration> _configurations;
 
@@ -25,24 +24,22 @@ namespace CoBuilder.Service.GUI
 
         private void CmbEdit_Click(object sender, EventArgs e)
         {
-            if (LstConfig.SelectedItem != null)
+            var config = LstConfig.SelectedItem as IConfiguration;
+            if (config == null) return;
+
+            _configurations.Remove(config);
+
+            var editor = new ConfigEditorDialog(config);
+
+            var result = editor.ShowDialog();
+            switch(result)
             {
-                var config = LstConfig.SelectedItem as IConfiguration;
-                if (config == null) return;
-
-                _configurations.Remove(config);
-
-                var editor = new ConfigEditorDialog(config);
-                var result = editor.ShowDialog();
-                switch(result)
-                {
-                    case DialogResult.OK:
-                        _configurations.Add(editor.Configuration);
-                        break;
-                    case DialogResult.Cancel:
-                        _configurations.Add(Configuration.Load(Constants.FilePathBase + config.ConfigId + Constants.ConfigFileType));
-                        break;
-                }
+                case DialogResult.OK:
+                    _configurations.Add(editor.Configuration);
+                    break;
+                case DialogResult.Cancel:
+                    _configurations.Add(Configuration.Load(Constants.FilePaths.ConfigPathGenerate(config.ConfigId.ToString())));
+                    break;
             }
         }
 
@@ -59,12 +56,53 @@ namespace CoBuilder.Service.GUI
 
         private void CmbImport_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "CoBuilder Configuration (*" + Constants.FilePaths.ConfigFileType + ")|*" + Constants.FilePaths.ConfigFileType,
+                FilterIndex = 1,
+                Multiselect = false
+            };
+
+            var result = openFileDialog.ShowDialog();
+
+            if (result != DialogResult.OK) return;
+
+            try
+            {
+                var config = Configuration.Load(openFileDialog.FileName);
+                config.Save();
+                _configurations.Add(config);
+                ListRefresh();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private void CmbExport_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var config = LstConfig.SelectedItem as IConfiguration;
+            if (config == null) return;
+
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CoBuilder Configuration (*" + Constants.FilePaths.ConfigFileType + ")|*" + Constants.FilePaths.ConfigFileType,
+                Title = "Export Configuration",
+                FileName = config.Name
+            };
+            var result = saveFileDialog.ShowDialog();
+
+            if (result != DialogResult.OK) return;
+
+            try
+            {
+                config.Save(saveFileDialog.FileName);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Export Error");
+            }
         }
 
         private void CmbSelect_Click(object sender, EventArgs e)
@@ -118,9 +156,7 @@ namespace CoBuilder.Service.GUI
                 }
                 else
                 {
-                    MessageBox.Show(
-                        "No Configurations found",
-                        "No Configurations found", MessageBoxButtons.OK);
+                    MessageBox.Show("No Configurations found", "No Configurations found", MessageBoxButtons.OK);
                 }
             }
             catch (Exception exception)
@@ -131,24 +167,26 @@ namespace CoBuilder.Service.GUI
 
         private IList<IConfiguration> GetConfigurations()
         {
-
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            var dirPath = Path.Combine(Path.GetDirectoryName(path),"Configurations");
-
-            var files = Directory.GetFiles(dirPath, "*" + Constants.ConfigFileType);
-
-            var serializer = new ConfigurationSerializer();
-
             var result = new List<IConfiguration>();
 
-            foreach (var file in files)
+            try
             {
-                var config = serializer.Deserialize(file);
-                if (config == null) continue;
-                result.Add(config);
+                var files = Directory.GetFiles(Constants.FilePaths.ConfigDirectory(), "*" + Constants.FilePaths.ConfigFileType);
+
+                var serializer = new ConfigurationSerializer();
+
+                foreach (var file in files)
+                {
+                    var config = serializer.Deserialize(file);
+                    if (config == null) continue;
+                    result.Add(config);
+                }
             }
+            catch (Exception)
+            {
+                // ignored
+            }
+
             return result;
         }
     }

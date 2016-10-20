@@ -33,6 +33,7 @@ namespace CoBuilder.Service.Logic
                 {
                     Debug.WriteLine($"{product.Id} - {product.Name}");
                     
+                    
 
                     foreach (var set in product.PropertySets)
                     {
@@ -82,8 +83,9 @@ namespace CoBuilder.Service.Logic
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.WriteLine(e.ToString());
                 return baseIn;
             }
 

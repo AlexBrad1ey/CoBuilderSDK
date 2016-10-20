@@ -54,11 +54,23 @@ namespace CoBuilder.Service.Infrastructure.Config
         public IConfiguration Save()
         {
             var serializer = new ConfigurationSerializer();
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            var dirPath = Path.Combine(Path.GetDirectoryName(path), "Configurations", ConfigId + Constants.ConfigFileType);
-            serializer.Serialize(this, dirPath);
+
+            serializer.Serialize(this, Constants.FilePaths.ConfigPathGenerate(ConfigId.ToString()));
+            return this;
+        }
+
+        public IConfiguration Save(string filePath)
+        {
+            try
+            {
+                var serializer = new ConfigurationSerializer();
+
+                serializer.Serialize(this, filePath);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
             return this;
         }
 

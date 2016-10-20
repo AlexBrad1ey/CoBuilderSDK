@@ -17,6 +17,11 @@ namespace CoBuilder.Service.Commands
 
         public bool Execute()
         {
+            if (CoBuilderService.CurrentService.Session.CurrentConfiguration == null || !CoBuilderService.CurrentService.Session.WorkplaceSet)
+            {
+                MessageBox.Show("Please Set a Configuration First & Choose a Workplace");
+                return false;
+            }
             var attacher = CoBuilderService.CurrentService.ServiceFactory<IAttacher<TElement>>();
             attacher.RefreshAllAttachments();
 

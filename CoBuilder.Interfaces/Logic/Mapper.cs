@@ -89,7 +89,7 @@ namespace CoBuilder.Service.Logic
                 DisplayName = Constants.Identifiers.PropertySets.CoBuilderMaster,
                 Identifier = Constants.Identifiers.PropertySets.CoBuilderMaster,
                 WorkplaceId = session.CurrentWorkplaceId,
-                WorkplaceName = session.CurrentWorkplace.WorkplaceName,
+                WorkplaceName = session.CurrentWorkplace.Name,
                 Visible = true
             };
 

@@ -36,10 +36,10 @@ namespace CoBuilder.Service.Helpers
         {
             _utils = new OCADUtils();
             UpdateErrorPath(Properties.Settings.Default.ErrorPath);
-#if DEBUG
+
             _logging = true;
             _fixed = true;
-#endif
+
         }
 
         #endregion
@@ -95,10 +95,6 @@ namespace CoBuilder.Service.Helpers
         /// </summary>
         private static string _name = "Name";
         /// <summary>
-        /// The _navis works path
-        /// </summary>
-        private static string _navisWorksPath = "Software\\cobuilder\\NavisLink";
-        /// <summary>
         /// The _password
         /// </summary>
         private static string _password = "Password*";
@@ -106,10 +102,6 @@ namespace CoBuilder.Service.Helpers
         /// The _path
         /// </summary>
         private static string _path = "Software\\cobuilder";
-        /// <summary>
-        /// The _revit path
-        /// </summary>
-        private static string _revitPath = "Software\\cobuilder\\RevLink";
         /// <summary>
         /// The _save code
         /// </summary>
@@ -130,7 +122,9 @@ namespace CoBuilder.Service.Helpers
         /// <summary>
         /// The _fixed
         /// </summary>
+#pragma warning disable 414
         private bool _fixed;
+#pragma warning restore 414
         /// <summary>
         /// The _logging
         /// </summary>

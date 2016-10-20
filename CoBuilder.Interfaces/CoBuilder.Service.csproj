@@ -30,6 +30,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -60,7 +78,7 @@
     </Compile>
     <Compile Include="Core\Enums\OpenState.cs" />
     <Compile Include="Core\Enums\ConfigEditState.cs" />
-    <Compile Include="GUI\CoBuilderAuthenticationUi.cs" />
+    <Compile Include="GUI\Implementations\CoBuilderAuthenticationUi.cs" />
     <Compile Include="Infrastructure\Config\BaseConfiguration.cs" />
     <Compile Include="GUI\ConfigDialog.cs">
       <SubType>Form</SubType>
@@ -248,11 +266,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\C4C1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\CoBuilder_login.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -279,11 +292,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Help_Small.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Help_Small1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -318,13 +326,27 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GUI\Controls\" />
+    <None Include="Resources\Remove.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoBuilder.Core\CoBuilder.Core.csproj">
       <Project>{AD7E6096-B8EA-46DC-95B3-36367343454C}</Project>
       <Name>CoBuilder.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Globe_icon_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logIn_icon_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logout_icon_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\setting_Small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

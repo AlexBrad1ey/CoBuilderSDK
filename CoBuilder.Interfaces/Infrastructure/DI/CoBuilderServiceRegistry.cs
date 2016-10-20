@@ -19,7 +19,7 @@ namespace CoBuilder.Service.Infrastructure.DI
             For(typeof(IInterrogator<>)).Use(typeof(ModelInterrogator<>));
             For(typeof(IAttacher<>)).Use(typeof(AttachmentManager<>));
             For(typeof(IConnector<>)).Use(typeof(ConnectionManager<>));
-            For<IServiceSession>().Use(() => CoBuilderService.CurrentService.Session).Singleton();
+            For<IServiceSession>().Use(() => CoBuilderService.CurrentService.Session);
 
         }
     }

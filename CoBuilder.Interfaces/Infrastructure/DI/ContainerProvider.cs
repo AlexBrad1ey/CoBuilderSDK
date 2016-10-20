@@ -1,6 +1,7 @@
 using System;
 using CoBuilder.Core.Interfaces;
 using CoBuilder.Service.Interfaces;
+using CoBuilder.Service.Repositories;
 using StructureMap;
 
 namespace CoBuilder.Service.Infrastructure.DI
@@ -25,11 +26,11 @@ namespace CoBuilder.Service.Infrastructure.DI
                 return _activeContainer;
             }
         }
+
         public void Reset()
         {
-            _activeContainer.EjectAllInstancesOf<ISession>();
-            _activeContainer.Dispose();
-            _activeContainer = _rootContainer.CreateChildContainer();
+            _activeContainer.Model.For<IServiceSession>().Default.EjectObject();
+            _activeContainer.Model.For<ISession>().Default.EjectObject();
         }
 
         public void Dispose()

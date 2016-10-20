@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CoBuilder.Core.Enums;
 using CoBuilder.Core.Exceptions;
 using CoBuilder.Core.Interfaces;
+using CoBuilder.Core.RestModels;
 using RestSharp;
 
 namespace CoBuilder.Core.Requests
@@ -33,6 +34,12 @@ namespace CoBuilder.Core.Requests
 
             if (response.Data != null)
             {
+                var auth = response.Data as IAuthenticatedResult;
+                if (auth?.Status != AuthenticationRequestStatus.NoSuchToken) return response.Data;
+
+                //GetHashCode new token and try again
+                await Client.AuthenticateAsync(Client.CurrentSession.UserId, Client.CurrentSession.Pass);
+                response = await SendRequestAsync<T>();
                 return response.Data;
             }
 

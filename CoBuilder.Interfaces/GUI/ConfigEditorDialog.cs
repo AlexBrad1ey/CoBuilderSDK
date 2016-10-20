@@ -93,10 +93,9 @@ namespace CoBuilder.Service.GUI
             switch (definition.DefinitionType)
             {
                 case DefinitionType.Property:
-                    destinationNode = TrvConfiguration.SelectedNode == null || TrvConfiguration.SelectedNode.Level != 0 ? TrvConfiguration.TopNode.FirstNode : TrvConfiguration.SelectedNode;
+                    destinationNode = TrvConfiguration.SelectedNode == null || TrvConfiguration.SelectedNode.Level != 1 ? TrvConfiguration.TopNode.FirstNode : TrvConfiguration.SelectedNode;
                     AddProperty(destinationNode, (PropertyDefinition) definition);
                     break;
-
                 case DefinitionType.PropertySet:
                     destinationNode = TrvConfiguration.TopNode;
                     AddPropertySet(destinationNode, (PropertySetDefinition) definition);
@@ -114,8 +113,33 @@ namespace CoBuilder.Service.GUI
         {
             if (TrvConfiguration.SelectedNode == null || TrvConfiguration.SelectedNode.Level == 0) return;
 
-            var editor = new DefinitionDialog((IDefinition) TrvConfiguration.SelectedNode.Tag);
-            editor.ShowDialog();
+            var definition = (IDefinition) TrvConfiguration.SelectedNode.Tag;
+            var key = definition.Identifier;
+
+            var editor = new DefinitionDialog(definition);
+
+            if (definition.DefinitionType == DefinitionType.PropertySet)
+            {
+                var result = editor.ShowDialog();
+
+
+                while (result == DialogResult.OK && definition.Identifier != key &&
+                       _configuration.Root.HasPropertySet((PropertySetDefinition) definition))
+                {
+                    MessageBox.Show("Cannot Change Name As will cause duplicate Identifiers");
+                    result = editor.ShowDialog();
+                }
+                if (result == DialogResult.Cancel) return;
+                _configuration.Root.PropertySets.Remove(key);
+                _configuration.AddPropertySet((IPropertySetDefinition) editor.Definition);
+
+            }
+            else if (definition.DefinitionType == DefinitionType.Property)
+            {
+                editor.ShowDialog();
+            }
+
+            UpdateTreeView(TrvConfiguration, _configuration);
         }
 
         private void CmdRemove_Click(object sender, EventArgs e)
@@ -192,7 +216,7 @@ namespace CoBuilder.Service.GUI
                     lblAuthorValue.Text = _configuration.Author;
 
                     cmdConfigEdit.Text = "&Edit";
-                    cmdConfigEdit.Location = new Point(cmdConfigEdit.Location.X + 55, cmdConfigEdit.Location.Y);
+                    cmdConfigEdit.Location = new Point(299, cmdConfigEdit.Location.Y);
                     cmdConfigCancel.Visible = false;
 
                     SpCForm.Enabled = true;
@@ -210,7 +234,7 @@ namespace CoBuilder.Service.GUI
                     lblAuthorValue.Visible = false;
 
                     cmdConfigEdit.Text = "&Save";
-                    cmdConfigEdit.Location = new Point(cmdConfigEdit.Location.X - 55, cmdConfigEdit.Location.Y);
+                    cmdConfigEdit.Location = new Point(244, cmdConfigEdit.Location.Y);
                     cmdConfigCancel.Visible = true;
 
                     SpCForm.Enabled = false;
@@ -244,6 +268,12 @@ namespace CoBuilder.Service.GUI
         private void AddProperty(TreeNode destinationNode, PropertyDefinition definition)
         {
             var pSet = (PropertySetDefinition) destinationNode.Tag;
+
+            if (pSet.HasProperty(definition))
+            {
+                MessageBox.Show("Cannot add the same property twice within the same Property Set");
+                return;
+            }
             pSet.AddProperty(definition);
 
             TrvConfiguration.BeginUpdate();
@@ -256,6 +286,13 @@ namespace CoBuilder.Service.GUI
         private void AddPropertySet(TreeNode destinationNode, PropertySetDefinition definition)
         {
             var root = (ConfigDefinition) destinationNode.Tag;
+
+            if (root.HasPropertySet(definition))
+            {
+                MessageBox.Show("Cannot add a PropertySet with duplicate Identifier (Name)");
+                return;
+            }
+
             root.AddPropertySet(definition);
 
             TrvConfiguration.BeginUpdate();
@@ -292,10 +329,94 @@ namespace CoBuilder.Service.GUI
                 }
             }
             root.ExpandAll();
-
             treeView.EndUpdate();
         }
 
         #endregion
+
+        private void treeView_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            DoDragDrop(e.Item, DragDropEffects.Move);
+        }
+
+        private void treeView_DragEnter(object sender,
+            System.Windows.Forms.DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void treeView_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            var treeView = (TreeView) sender;
+
+            //Check if dragged item is a node (if true new node therefore cannot be null)
+            if (!e.Data.GetDataPresent(typeof(TreeNode))) return;
+
+            //Get Destination Node
+            var pt = treeView.PointToClient(new Point(e.X, e.Y));
+            var destinationNode = treeView.GetNodeAt(pt);
+
+            //Get the Dragged Node
+            var newNode = (TreeNode) e.Data.GetData(typeof(TreeNode));
+
+            //Check nodes are not equal (e.g. dropped on itself)
+            if (destinationNode == newNode) return;
+
+            var definition = (IDefinition) newNode.Tag;
+
+            if (sender != newNode.TreeView)
+            {
+                switch (definition.DefinitionType)
+                {
+                    case DefinitionType.Property:
+                        if (destinationNode != null && destinationNode.Level == 1)
+                            AddProperty(destinationNode, (PropertyDefinition) definition);
+                        break;
+                    case DefinitionType.PropertySet:
+                        AddPropertySet(treeView.TopNode, (PropertySetDefinition) definition);
+                        break;
+                    case DefinitionType.Configuration:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                if (destinationNode == null || definition.DefinitionType != DefinitionType.Property ||
+                    destinationNode.Level != 1 || destinationNode.Equals(newNode.Parent)) return;
+
+                var pSet = (IPropertySetDefinition) newNode.Parent.Tag;
+                var property = (IPropertyDefinition) definition;
+                pSet.RemoveProperty(property);
+                TrvConfiguration.SelectedNode.Remove();
+                AddProperty(destinationNode, (PropertyDefinition) definition);
+            }
+        }
+
+        private void cmdAddNew_Click(object sender, EventArgs e)
+        {
+            var newdefinition = new PropertySetDefinition()
+            {
+                DisplayName = "Property Set",
+                Identifier = string.Join(Constants.Identifiers.IdentifierBase, "Property Set"),
+                Visible = true
+            };
+
+            var editor = new DefinitionDialog(newdefinition);
+            var result = editor.ShowDialog();
+
+            while (result == DialogResult.OK &&
+                   _configuration.Root.HasPropertySet((PropertySetDefinition) newdefinition))
+            {
+                MessageBox.Show("Cannot Change Name As will cause duplicate Identifiers");
+                result = editor.ShowDialog();
+            }
+
+            if (result == DialogResult.Cancel) return;
+            _configuration.AddPropertySet((IPropertySetDefinition) editor.Definition);
+            
+            UpdateTreeView(TrvConfiguration, _configuration);
+        }
     }
 }

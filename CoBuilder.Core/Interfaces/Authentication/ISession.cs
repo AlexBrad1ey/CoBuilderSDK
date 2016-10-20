@@ -14,8 +14,9 @@ namespace CoBuilder.Core.Interfaces
         PluginApp AppId { get; set; }
         Guid ContactId { get; set; }
         UserInfo UserInfo { get; set; }
+        string Pass { get; set; }
         void Clear();
-        void Update (LoginResult result, string username, bool canSignOut);
+        void Update (LoginResult result, string username,string pass, bool canSignOut);
         void Update(ISession session);
     }
 }

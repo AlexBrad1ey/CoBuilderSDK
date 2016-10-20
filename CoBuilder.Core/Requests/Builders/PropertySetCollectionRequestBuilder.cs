@@ -5,7 +5,7 @@ namespace CoBuilder.Core.Requests
 {
     public class PropertySetCollectionRequestBuilder : BaseRequestBuilder, IPropertySetCollectionRequestBuilder
     {
-        private readonly IList<int> _propertySetIds;
+        //private readonly IList<int> _propertySetIds;
 
 
         public PropertySetCollectionRequestBuilder(string requestResource, IBaseClient client, int productId)
@@ -28,7 +28,7 @@ namespace CoBuilder.Core.Requests
 
         public IPropertySetCollectionRequest Request()
         {
-            return new PropertySetCollectionRequest(RequestResource, Client, ProductId, _propertySetIds);
+            return new PropertySetCollectionRequest(RequestResource, Client, ProductId);
         }
     }
 }

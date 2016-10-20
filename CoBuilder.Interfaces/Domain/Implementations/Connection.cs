@@ -1,9 +1,11 @@
-﻿namespace CoBuilder.Service.Domain
+﻿using System;
+
+namespace CoBuilder.Service.Domain
 {
     public class Connection<TElement> where TElement : class
     {
-        private TElement _element;
-        private BimProduct _product;
+        private readonly TElement _element;
+        private readonly BimProduct _product;
 
         public Connection()
         {
@@ -25,10 +27,23 @@
         public BimProduct BimProduct
         {
             get { return _product; }
-            internal set
-            {
-                _product = value;
-            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            var Item = obj as Connection<TElement>;
+            if (Item == null) return false;
+
+            return Item.GetHashCode() == GetHashCode();
+        }
+
+        public override int GetHashCode()
+        {
+            int hc = _element.GetHashCode() ^ _product.Id;
+            return hc.GetHashCode();
         }
     }
 }

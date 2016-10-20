@@ -2,7 +2,7 @@
 
 namespace CoBuilder.Service.Domain
 {
-    public class BimProduct : IBimProduct
+    public class BimProduct :IBimProduct
     {
         public BimProduct(Core.Domain.IBimProduct product, int workplaceId)
         {

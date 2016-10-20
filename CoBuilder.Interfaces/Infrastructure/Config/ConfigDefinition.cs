@@ -73,5 +73,10 @@ namespace CoBuilder.Service.Infrastructure.Config
         {
             return PropertySets.FirstOrDefault(k => k.Value.Identifier == identifier).Value;
         }
+
+        public bool HasPropertySet(PropertySetDefinition definition)
+        {
+            return definition != null && PropertySets.ContainsKey(definition.Identifier);
+        }
     }
 }

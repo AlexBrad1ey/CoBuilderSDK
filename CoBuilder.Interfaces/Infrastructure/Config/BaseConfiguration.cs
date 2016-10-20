@@ -10,16 +10,12 @@ namespace CoBuilder.Service.Infrastructure.Config
 
         public static Configuration BaseLoad()
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            var dirPath = Path.Combine(Path.GetDirectoryName(path), "Configurations", "Base", "CoBuilderBase" + Constants.ConfigFileType);
 
             var serializer = new ConfigurationSerializer();
             Configuration con;
             try
             {
-                con = serializer.Deserialize(dirPath);
+                con = serializer.Deserialize(Constants.FilePaths.ConfigBasePath());
             }
             catch (Exception)
             {
@@ -31,14 +27,8 @@ namespace CoBuilder.Service.Infrastructure.Config
 
         public static void BaseSave(this IConfiguration config)
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            var dirPath = Path.Combine(Path.GetDirectoryName(path), "Configurations", "Base", "CoBuilderBase" + Constants.ConfigFileType);
-
             var serializer = new ConfigurationSerializer();
-            serializer.Serialize(config, dirPath);
-
+            serializer.Serialize(config, Constants.FilePaths.ConfigBasePath());
         }
     }
 }

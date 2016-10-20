@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Text;
 
 namespace CoBuilder.Service
 {
@@ -50,6 +51,26 @@ namespace CoBuilder.Service
             }
             else
                 throw new ArgumentException("Unknown type");
+        }
+
+        public static string ReplaceAllSpaces(this string input, string replacement)
+        {
+            var builder = new StringBuilder();
+            bool continuousSpace = false;
+            foreach (var c in input)
+            {
+                if (!continuousSpace && char.IsWhiteSpace(c))
+                {
+                    builder.Append(replacement);
+                    continuousSpace = true;
+                }
+                else if (!char.IsWhiteSpace(c))
+                {
+                    builder.Append(c);
+                    continuousSpace = false;
+                }
+            }
+            return builder.ToString();
         }
 
     }

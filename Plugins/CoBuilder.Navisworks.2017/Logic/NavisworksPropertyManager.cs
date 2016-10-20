@@ -99,6 +99,7 @@ namespace CoBuilder.Navisworks.Logic
         {
             try
             {
+                var Removals = new List<string>();
                 foreach (var category in appElement.PropertyCategories)
                 {
                     if (category.Properties.FindPropertyByName(Constants.Identifiers.Properties.ProductId) != null)
@@ -107,10 +108,16 @@ namespace CoBuilder.Navisworks.Logic
                             category.Properties.FindPropertyByName(Constants.Identifiers.Properties.ProductId)
                                 .Value.ToDisplayString() == productId.ToString())
                         {
-                            appElement.RemovePropertyCategory(category.DisplayName);
+                            Removals.Add(category.DisplayName);
                         }
                     }
                 }
+
+                foreach (var removal in Removals)
+                {
+                    appElement.RemovePropertyCategory(removal);
+                }
+
                 return true;
             }
             catch (Exception)

@@ -41,7 +41,7 @@ namespace CoBuilder.Service.GUI
             try
             {
                 result = request.GetAsync().Result;
-                Session = new Session(result, username) {CanSignOut = true};
+                Session = new Session(result, username, password) {CanSignOut = true};
                 return Session.AccessToken == null ? SignInResult.Failed : SignInResult.Succeeded;
             }
             catch(Exception e)

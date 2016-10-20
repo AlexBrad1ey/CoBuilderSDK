@@ -135,6 +135,7 @@
             this.txbDisplayName.Name = "txbDisplayName";
             this.txbDisplayName.Size = new System.Drawing.Size(159, 20);
             this.txbDisplayName.TabIndex = 2;
+            this.txbDisplayName.TextChanged += new System.EventHandler(this.txbDisplayName_TextChanged);
             // 
             // LblDisplayName
             // 

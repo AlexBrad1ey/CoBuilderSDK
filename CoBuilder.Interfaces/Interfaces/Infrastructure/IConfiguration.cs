@@ -12,6 +12,7 @@ namespace CoBuilder.Service.Interfaces
 
         IPropertyDefinition AddProperty(IPropertyDefinition property, IPropertySetDefinition pSet);
         IPropertySetDefinition AddPropertySet(IPropertySetDefinition pSet);
-        IConfiguration Save();   
+        IConfiguration Save();
+        IConfiguration Save(string filePath);
     }
-}
+}   

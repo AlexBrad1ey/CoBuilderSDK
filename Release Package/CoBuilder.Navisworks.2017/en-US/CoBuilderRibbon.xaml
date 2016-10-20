@@ -50,6 +50,8 @@
                                       Orientation="Vertical" />
                 <local:NWRibbonButton x:Uid="RemoveCommand" Id="RemoveCommand" Size="Large" KeyTip="B1" ShowText="True"
                                       Orientation="Vertical" />
+                <local:NWRibbonButton x:Uid="RefreshCommand" Id="RefreshCommand" Size="Large" KeyTip="B1" ShowText="True"
+                                      Orientation="Vertical" />
             </RibbonPanelSource>
         </RibbonPanel>
     </RibbonTab>
