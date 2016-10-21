@@ -25,7 +25,7 @@ namespace CoBuilder.Core.Requests
                     break;
                 case ProductRequestType.CountryIndex:
                     if (CountryIndex <= 0) ThrowError(buildType);
-                    Parameters.Add(new Parameter {Name = Constants.Parameters.CountryIndex, Value = countryIndex, Type = ParameterType.GetOrPost});
+                    Parameters.Add(new Parameter {Name = Constants.Parameters.CountryIndex, Value = countryIndex, Type = ParameterType.QueryString});
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(buildType), buildType, null);

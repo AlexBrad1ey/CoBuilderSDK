@@ -15,7 +15,7 @@ namespace CoBuilder.Service.Infrastructure.DI
             For<IAppConfig>().Use<AppConfig>().Singleton();
             For<IHttpProvider>().Use<RestSharpHttpProvider>().Ctor<string>().Is(Core.Constants.Authentication.CoBuilderBaseUrl);
             For<IAuthenticationProvider>().Use<CoBuilderAuthenticationProvider>();
-            For<ISession>().Use<Session>().Singleton().SelectConstructor(() => new Session()); ;
+            For<ISession>().Use<Session>().Singleton().SelectConstructor(() => new Session());
         }
     }
 }

@@ -30,7 +30,6 @@ namespace CoBuilder.Service.GUI
         private void CmbOK_Click(object sender, EventArgs e)
         {
             _definition.DisplayName = txbDisplayName.Text;
-            _definition.Identifier = LblIdentifierValue.Text;
             _definition.Visible = cbxVisible.Checked;
 
             DialogResult = DialogResult.OK;

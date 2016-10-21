@@ -143,9 +143,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configurations\Base\placeholder.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="en-US\CoBuilderRibbon.xaml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -164,15 +161,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configurations\3c007ea5-7b39-41a7-bae2-999559246cc2.CoBuilderConfig">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configurations\b3cc8072-e6dc-446f-8075-627c986f4f1f.CoBuilderConfig">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Configurations\Base\CoBuilderBase.CoBuilderConfig">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Configurations\3c007ea5-7b39-41a7-bae2-999559246cc2.CoBuilderConfig" />
+    <None Include="Configurations\b3cc8072-e6dc-446f-8075-627c986f4f1f.CoBuilderConfig" />
+    <None Include="Configurations\Base\CoBuilderBase.CoBuilderConfig" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +182,7 @@
 
 xcopy /Y /R /S  "$(TargetDir)*" "%25APPDATA%25\Autodesk Navisworks Manage 2017\Plugins\$(TargetName)\"</PostBuildEvent>
   </PropertyGroup>
+  <ProjectExtensions />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

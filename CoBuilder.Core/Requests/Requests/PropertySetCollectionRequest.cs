@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoBuilder.Core.Collections;
@@ -12,13 +13,17 @@ namespace CoBuilder.Core.Requests
         public PropertySetCollectionRequest(string requestResource, IBaseClient client, int productId,
             IList<int> propertySetIds = null) : base(requestResource, client)
         {
-            Parameters.Add(new Parameter {Name = Constants.Parameters.ProductId, Value = productId, Type = ParameterType.GetOrPost });
-            Parameters.Add(new Parameter
+           Parameters.Add(new Parameter {Name = Constants.Parameters.ProductId, Value = productId, Type = ParameterType.QueryString });
+
+            if (propertySetIds != null && propertySetIds.Count > 0)
             {
-                Name = Constants.Parameters.PropertySetIds,
-                Value = propertySetIds,
-                Type = ParameterType.RequestBody
-            });
+                Parameters.Add(new Parameter
+                {
+                    Name = Constants.Parameters.PropertySetIds,
+                    Value = propertySetIds,
+                    Type = ParameterType.RequestBody
+                });
+            }
         }
 
 

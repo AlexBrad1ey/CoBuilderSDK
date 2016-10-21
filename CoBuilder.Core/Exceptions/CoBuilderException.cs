@@ -15,7 +15,7 @@ namespace CoBuilder.Core.Exceptions
         {
             if (string.IsNullOrEmpty(errorCode))
             {
-                throw new ArgumentException("errorCode cannot be null or empty", "errorCode");
+                throw new ArgumentException("errorCode cannot be null or empty", nameof(errorCode));
             }
 
             var currentError = Error;

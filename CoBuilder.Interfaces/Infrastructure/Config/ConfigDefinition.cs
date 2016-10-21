@@ -31,7 +31,7 @@ namespace CoBuilder.Service.Infrastructure.Config
         public string Identifier
         {
             get { return _config.ConfigId.ToString(); }
-            set {  }
+
         }
 
         public bool Visible { get; set; }

@@ -7,7 +7,7 @@ namespace CoBuilder.Service.Interfaces
     {
         DefinitionType DefinitionType { get; }
         string DisplayName { get; set; }
-        string Identifier { get; set; }
+        string Identifier { get; }
         IList<IConstraint> Constraints { get; }
         bool Visible { get; set; }
     }
