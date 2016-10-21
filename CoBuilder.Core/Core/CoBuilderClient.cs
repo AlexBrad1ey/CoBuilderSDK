@@ -59,7 +59,7 @@ namespace CoBuilder.Core
             if (countryIndex <= 0) throw new ArgumentOutOfRangeException(nameof(countryIndex));
 
             return new ProductsCollectionRequestBuilder(Constants.Url.Products, this, ProductRequestType.CountryIndex,
-                CountryIndex: countryIndex);
+                countryIndex: countryIndex);
         }
 
 

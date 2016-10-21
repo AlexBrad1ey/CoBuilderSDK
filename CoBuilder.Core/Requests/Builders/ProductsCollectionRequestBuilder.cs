@@ -15,19 +15,19 @@ namespace CoBuilder.Core.Requests
         }
 
         public ProductsCollectionRequestBuilder(string requestResource, IBaseClient client, ProductRequestType buildType,
-            int workplaceId = 0, int CountryIndex = 0)
+            int workplaceId = 0, int countryIndex = 0)
             : base(requestResource, client)
         {
             if (workplaceId <= 0 && buildType == ProductRequestType.Workplace)
                 throw new ArgumentOutOfRangeException(nameof(workplaceId),
                     $"For ProductResquestType.Workplace, {nameof(workplaceId)} must be greater than 0");
-            if (CountryIndex <= 0 && buildType == ProductRequestType.CountryIndex)
-                throw new ArgumentOutOfRangeException(nameof(CountryIndex),
-                    $"For ProductResquestType.CountryIndex, {nameof(CountryIndex)} must be greater than 0");
+            if (countryIndex <= 0 && buildType == ProductRequestType.CountryIndex)
+                throw new ArgumentOutOfRangeException(nameof(countryIndex),
+                    $"For ProductResquestType.CountryIndex, {nameof(countryIndex)} must be greater than 0");
 
             _buildType = buildType;
             WorkplaceId = workplaceId;
-            this.CountryIndex = CountryIndex;
+            this.CountryIndex = countryIndex;
         }
 
         public int CountryIndex { get; set; }
