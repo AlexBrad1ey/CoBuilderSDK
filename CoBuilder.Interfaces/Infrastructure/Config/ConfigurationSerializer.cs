@@ -17,8 +17,8 @@ namespace CoBuilder.Service.Infrastructure.Config
         {
             using (StreamReader file = File.OpenText(filepath))
             {
-                JsonSerializer serializer = new JsonSerializer();
-                Configuration config = (Configuration) serializer.Deserialize(file, typeof(Configuration));
+                var serializer = new JsonSerializer();
+                var config = (Configuration) serializer.Deserialize(file, typeof(Configuration));
                 return config;
             }
         }

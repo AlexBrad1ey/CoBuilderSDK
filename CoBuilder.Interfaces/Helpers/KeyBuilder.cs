@@ -18,7 +18,7 @@ namespace CoBuilder.Service.Helpers
 
         public static DefinitionKey Build(IDefinition definition )
         {
-            return new DefinitionKey()
+            return new DefinitionKey
             {
                 DisplayName = definition.DisplayName,
                 Identifier = definition.Identifier

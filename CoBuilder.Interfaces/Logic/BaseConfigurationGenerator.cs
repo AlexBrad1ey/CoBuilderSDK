@@ -50,7 +50,7 @@ namespace CoBuilder.Service.Logic
                         }
                         else
                         {
-                            pSetDef = new PropertySetDefinition() {DisplayName = set.Name, Identifier = identifier, PSetId = set.Id, Visible = true};
+                            pSetDef = new PropertySetDefinition {DisplayName = set.Name, Identifier = identifier, PSetId = set.Id, Visible = true};
                             baseIn.AddPropertySet(pSetDef);
                             Debug.WriteLine($"\t{set.Id} - {set.Name} - ADDED");
                         }
@@ -72,7 +72,7 @@ namespace CoBuilder.Service.Logic
                             {
                                 var connectedProperty = string.Join(".", "CoBUilderProduct", pSetDef.PSetId, property.Id);
 
-                                propDef = new PropertyDefinition() { DisplayName = property.Name, Identifier = propId,ConnectedProperty = connectedProperty, Visible = true };
+                                propDef = new PropertyDefinition { DisplayName = property.Name, Identifier = propId,ConnectedProperty = connectedProperty, Visible = true };
                                 pSetDef.AddProperty(propDef);
                                 Debug.WriteLine($"\t\t{property.Id} - {property.Name} - {property.Value} {property.Unit} - ADDED");
                             }
@@ -96,7 +96,7 @@ namespace CoBuilder.Service.Logic
         {
             var type = typeof(BimProduct);
 
-            var pSetDef = new PropertySetDefinition() { DisplayName = "BimProduct", Identifier = Constants.Identifiers.PropertySets.Base, Visible = true };
+            var pSetDef = new PropertySetDefinition { DisplayName = "BimProduct", Identifier = Constants.Identifiers.PropertySets.Base, Visible = true };
             try
             {
                 baseIn.AddPropertySet(pSetDef);
@@ -113,7 +113,7 @@ namespace CoBuilder.Service.Logic
                 {
                     var connectedProperty = string.Join(".", Constants.Identifiers.PropertySets.Base, property.Name);
 
-                    var propDef = new PropertyDefinition()
+                    var propDef = new PropertyDefinition
                     {
                         DisplayName = property.Name,
                         Identifier = connectedProperty,

@@ -10,8 +10,8 @@ namespace CoBuilder.Service.Sets
 {
     public class PropertySetsSet : BaseSet<IBimPropertySet>, IPropertySetsSet
     {
-        private ICoBuilderContext _ctx;
-        private int _productId;
+        private readonly ICoBuilderContext _ctx;
+        private readonly int _productId;
 
         public PropertySetsSet(int productId, ICoBuilderContext ctx)
         {

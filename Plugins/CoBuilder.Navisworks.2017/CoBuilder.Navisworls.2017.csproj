@@ -161,9 +161,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configurations\3c007ea5-7b39-41a7-bae2-999559246cc2.CoBuilderConfig" />
-    <None Include="Configurations\b3cc8072-e6dc-446f-8075-627c986f4f1f.CoBuilderConfig" />
-    <None Include="Configurations\Base\CoBuilderBase.CoBuilderConfig" />
+    <Content Include="Configurations\3c007ea5-7b39-41a7-bae2-999559246cc2.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\b3cc8072-e6dc-446f-8075-627c986f4f1f.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Base\CoBuilderBase.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

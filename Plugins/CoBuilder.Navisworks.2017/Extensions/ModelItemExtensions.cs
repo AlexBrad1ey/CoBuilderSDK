@@ -1,3 +1,16 @@
+// ***********************************************************************
+// Assembly         : CoBuilder.Navisworks
+// Author           : Alex Bradley
+// Created          : 09-09-2016
+//
+// Last Modified By : Alex Bradley
+// Last Modified On : 11-08-2016
+// ***********************************************************************
+// <copyright file="ModelItemExtensions.cs" company="AB Consulting">
+//     Copyright (c) AB Consulting. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 using System;
 using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.ComApi;
@@ -11,6 +24,24 @@ namespace CoBuilder.Navisworks.Extensions
     public static class ModelItemExtensions
     {
 
+        /// <summary>
+        /// Adds the property category.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="pCatDisplayName">Display name of the p cat.</param>
+        /// <param name="pCatInternalName">Name of the p cat internal.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns>PropertyCategory.</returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="System.ArgumentException">
+        /// Value cannot be null or whitespace.
+        /// or
+        /// Value cannot be an empty collection.
+        /// or
+        /// Property Category Already Exists Cannot add Duplicate
+        /// or
+        /// Value cannot be null or whitespace.
+        /// </exception>
         public static PropertyCategory AddPropertyCategory(this ModelItem item, string pCatDisplayName,
             string pCatInternalName,
             params DataProperty[] properties)
@@ -50,6 +81,14 @@ namespace CoBuilder.Navisworks.Extensions
         }
 
 
+        /// <summary>
+        /// Removes the property category.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="pCatIdentifier">The p cat identifier.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// </exception>
         public static bool RemovePropertyCategory(this ModelItem item, string pCatIdentifier)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));

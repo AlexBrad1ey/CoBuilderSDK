@@ -128,6 +128,7 @@ namespace CoBuilder.Service.GUI
         private void LstConfig_SelectedIndexChanged(object sender, EventArgs e)
         {
             var config = LstConfig.SelectedItem as IConfiguration;
+            if (config == null) return;
             lblNameValue.Text = config.Name;
             lblAuthorValue.Text = config.Author;
         }

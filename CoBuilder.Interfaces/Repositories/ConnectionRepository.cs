@@ -34,7 +34,7 @@ namespace CoBuilder.Service.Repositories
             ConnectionState state;
             if (existing)
             {
-                state = new ConnectionState() {State = State.Current};
+                state = new ConnectionState {State = State.Current};
             }
             else
             {

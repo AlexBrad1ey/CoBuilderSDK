@@ -10,7 +10,7 @@ namespace CoBuilder.Service
         public static T DeepCopy<T>(this T obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("Object cannot be null");
+                throw new ArgumentNullException(nameof(obj), "Object cannot be null");
             return (T)Process(obj);
         }
 
@@ -25,10 +25,10 @@ namespace CoBuilder.Service
             }
             else if (type.IsArray)
             {
-                Type elementType = Type.GetType(
+                var elementType = Type.GetType(
                      type.FullName.Replace("[]", string.Empty));
                 var array = obj as Array;
-                Array copied = Array.CreateInstance(elementType, array.Length);
+                var copied = Array.CreateInstance(elementType, array.Length);
                 for (int i = 0; i < array.Length; i++)
                 {
                     copied.SetValue(Process(array.GetValue(i)), i);
@@ -37,12 +37,12 @@ namespace CoBuilder.Service
             }
             else if (type.IsClass)
             {
-                object toret = Activator.CreateInstance(obj.GetType());
-                FieldInfo[] fields = type.GetFields(BindingFlags.Public |
+                var toret = Activator.CreateInstance(obj.GetType());
+                var fields = type.GetFields(BindingFlags.Public |
                             BindingFlags.NonPublic | BindingFlags.Instance);
                 foreach (FieldInfo field in fields)
                 {
-                    object fieldValue = field.GetValue(obj);
+                    var fieldValue = field.GetValue(obj);
                     if (fieldValue == null)
                         continue;
                     field.SetValue(toret, Process(fieldValue));

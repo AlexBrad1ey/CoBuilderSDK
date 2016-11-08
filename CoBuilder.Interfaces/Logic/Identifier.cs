@@ -39,7 +39,7 @@ namespace CoBuilder.Service.Logic
             return Convert.ToInt32(productId);
         }
 
-        public static string Generate(int bimProductId)
+        public static string Generate()
         {
             return "CBProduct";
         }

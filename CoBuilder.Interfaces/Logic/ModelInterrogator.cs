@@ -31,7 +31,7 @@ namespace CoBuilder.Service.Logic
         {
             if (!_session.LoggedIn)
             {
-                throw new CoBuilderException(new Error() {Code = CoBuilderErrorCode.GeneralException.ToString(), Message = "To Interrogate model, User Must be Logged In"});
+                throw new CoBuilderException(new Error {Code = CoBuilderErrorCode.GeneralException.ToString(), Message = "To Interrogate model, User Must be Logged In"});
             }
 
             _connector.Clear();

@@ -25,7 +25,7 @@ namespace CoBuilder.Service.Logic
             var presult = new List<PropertySetInfo>();
             foreach (var pSetDefinition in root.PropertySets.Values)
             {
-                var pSetInfo = MapPSet(pSetDefinition, bimProduct);
+                var pSetInfo = MapPSet(pSetDefinition);
                 if (pSetInfo == null) continue;
 
 
@@ -84,7 +84,7 @@ namespace CoBuilder.Service.Logic
 
         public PropertySetInfo GenerateProjectSet(IServiceSession session)
         {
-            return new ProjectPropertySetInfo()
+            return new ProjectPropertySetInfo
             {
                 DisplayName = Constants.Identifiers.PropertySets.CoBuilderMaster,
                 Identifier = Constants.Identifiers.PropertySets.CoBuilderMaster,
@@ -146,7 +146,7 @@ namespace CoBuilder.Service.Logic
                     var property = bimProduct.PropertySets[path[1]]?.Properties[path[2]];
                     if (property == null) return null;
 
-                    return new Data()
+                    return new Data
                     {
                         Value = property.Value,
                         Units = property.Unit
@@ -162,7 +162,7 @@ namespace CoBuilder.Service.Logic
             public string Units { get; set; }
         }
 
-        private PropertySetInfo MapPSet(IPropertySetDefinition definition, IBimProduct bimProduct)
+        private PropertySetInfo MapPSet(IPropertySetDefinition definition)
         {
             var pSetInfo = new PropertySetInfo
             {

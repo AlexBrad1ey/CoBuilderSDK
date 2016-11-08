@@ -55,7 +55,7 @@ namespace CoBuilder.Core.Requests
                     if (CountryIndex <= 0) ThrowError(_buildType);
                     return new ProductsCollectionRequest(RequestResource, Client, _buildType, countryIndex: CountryIndex);
                 default:
-                    throw new ArgumentOutOfRangeException("ProductRequestType Out of Range");
+                    throw new ArgumentOutOfRangeException(nameof(_buildType),"ProductRequestType Out of Range");
             }
             return null;
         }

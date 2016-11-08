@@ -19,7 +19,7 @@ namespace CoBuilder.Service.Infrastructure
             _client = client;
 
             if (!_client.IsAuthenticated)
-                throw new CoBuilderException(new Error()
+                throw new CoBuilderException(new Error
                 {
                     Code = CoBuilderErrorCode.AuthenticationFailure.ToString(),
                     Message = "Context Requires an Authenticated Client"

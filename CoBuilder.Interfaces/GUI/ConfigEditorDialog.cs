@@ -36,7 +36,7 @@ namespace CoBuilder.Service.GUI
         public ConfigEditorDialog()
             : this(new Configuration(), OpenState.New)
         {
-            _configuration.AddPropertySet(new PropertySetDefinition()
+            _configuration.AddPropertySet(new PropertySetDefinition
             {
                 DisplayName = "CoBuilderProduct",
                 Identifier = "CoBuilderProduct",
@@ -377,8 +377,6 @@ namespace CoBuilder.Service.GUI
                         break;
                     case DefinitionType.Configuration:
                         break;
-                    default:
-                        break;
                 }
             }
             else
@@ -396,7 +394,7 @@ namespace CoBuilder.Service.GUI
 
         private void cmdAddNew_Click(object sender, EventArgs e)
         {
-            var newdefinition = new PropertySetDefinition()
+            var newdefinition = new PropertySetDefinition
             {
                 DisplayName = "Property Set",
                 Identifier = string.Join(Constants.Identifiers.IdentifierBase, "Property Set"),

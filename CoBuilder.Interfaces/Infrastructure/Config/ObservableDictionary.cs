@@ -113,7 +113,7 @@ namespace CoBuilder.Service.Infrastructure.Config
         }
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            return Contains(item);
+            return Dictionary.Contains(item);
         }
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {

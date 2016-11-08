@@ -140,15 +140,18 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\CoBuilder.Navisworks.2017\Configurations\3c007ea5-7b39-41a7-bae2-999559246cc2.CoBuilderConfig">
+    <Content Include="..\CoBuilder.Navisworks.2017\Configurations\3c007ea5-7b39-41a7-bae2-999559246cc2.CoBuilderConfig">
       <Link>Configurations\3c007ea5-7b39-41a7-bae2-999559246cc2.CoBuilderConfig</Link>
-    </None>
-    <None Include="..\CoBuilder.Navisworks.2017\Configurations\b3cc8072-e6dc-446f-8075-627c986f4f1f.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoBuilder.Navisworks.2017\Configurations\b3cc8072-e6dc-446f-8075-627c986f4f1f.CoBuilderConfig">
       <Link>Configurations\b3cc8072-e6dc-446f-8075-627c986f4f1f.CoBuilderConfig</Link>
-    </None>
-    <None Include="..\CoBuilder.Navisworks.2017\Configurations\Base\CoBuilderBase.CoBuilderConfig">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CoBuilder.Navisworks.2017\Configurations\Base\CoBuilderBase.CoBuilderConfig">
       <Link>Configurations\Base\CoBuilderBase.CoBuilderConfig</Link>
-    </None>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

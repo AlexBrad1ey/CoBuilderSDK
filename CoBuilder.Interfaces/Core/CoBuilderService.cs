@@ -28,7 +28,7 @@ namespace CoBuilder.Service
             get
             {
                 if (_instance == null)
-                    throw new CoBuilderException(new Error()
+                    throw new CoBuilderException(new Error
                     {
                         Code = CoBuilderErrorCode.UnInitiatedService.ToString(),
                         Message = InvalidOperationMessage
@@ -44,7 +44,7 @@ namespace CoBuilder.Service
         {
             get {
                 if (_config == null)
-                    throw new CoBuilderException(new Error()
+                    throw new CoBuilderException(new Error
                     {
                         Code = CoBuilderErrorCode.UnInitiatedService.ToString(),
                         Message = InvalidOperationMessage
@@ -59,7 +59,7 @@ namespace CoBuilder.Service
         {
             if (serviceConfiguration == null) throw new ArgumentNullException(nameof(serviceConfiguration));
             if (serviceConfiguration.AppConfig == null)
-                throw new CoBuilderException(new Error()
+                throw new CoBuilderException(new Error
                 {
                     Code = CoBuilderErrorCode.InvalidConfiguration.ToString(),
                     Message = InvalidConfigurationMessage
@@ -94,7 +94,7 @@ namespace CoBuilder.Service
                     return ServiceFactory<ProductsRepository>();
                 }
 
-                throw new CoBuilderException(new Error()
+                throw new CoBuilderException(new Error
                 {
                     Code = CoBuilderErrorCode.GeneralException.ToString(),
                     Message = "Access to Products only available when Service is both Logged In and Current Workplace Set"
@@ -111,7 +111,7 @@ namespace CoBuilder.Service
                     return ServiceFactory<WorkPlacesRepository>();
                 }
 
-                throw new CoBuilderException(new Error()
+                throw new CoBuilderException(new Error
                 {
                     Code = CoBuilderErrorCode.GeneralException.ToString(),
                     Message = "Access to Workplaces only available when Service is Logged In "

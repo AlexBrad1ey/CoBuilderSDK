@@ -4,9 +4,176 @@
         <name>CoBuilder.Navisworks</name>
     </assembly>
     <members>
+        <member name="T:CoBuilder.Navisworks.NavisworksAppConfig">
+            <summary>
+            Class NavisworksAppConfig.
+            </summary>
+            <seealso cref="T:CoBuilder.Core.AppConfig" />
+        </member>
+        <member name="M:CoBuilder.Navisworks.NavisworksAppConfig.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CoBuilder.Navisworks.NavisworksAppConfig" /> class.
+            </summary>
+        </member>
         <member name="T:CoBuilder.Navisworks.Extensions.ModelItemExtensions">
             <summary>
             Class ModelItemExtensions.
+            </summary>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Extensions.ModelItemExtensions.AddPropertyCategory(Autodesk.Navisworks.Api.ModelItem,System.String,System.String,Autodesk.Navisworks.Api.DataProperty[])">
+            <summary>
+            Adds the property category.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="pCatDisplayName">Display name of the p cat.</param>
+            <param name="pCatInternalName">Name of the p cat internal.</param>
+            <param name="properties">The properties.</param>
+            <returns>PropertyCategory.</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException">
+            Value cannot be null or whitespace.
+            or
+            Value cannot be an empty collection.
+            or
+            Property Category Already Exists Cannot add Duplicate
+            or
+            Value cannot be null or whitespace.
+            </exception>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Extensions.ModelItemExtensions.RemovePropertyCategory(Autodesk.Navisworks.Api.ModelItem,System.String)">
+            <summary>
+            Removes the property category.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="pCatIdentifier">The p cat identifier.</param>
+            <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            </exception>
+        </member>
+        <member name="T:CoBuilder.Navisworks.Infrastructure.NavisworksSelector">
+            <summary>
+            Class NavisworksSelector.
+            </summary>
+            <seealso cref="T:CoBuilder.Service.Interfaces.App.IAppSelector`1" />
+        </member>
+        <member name="P:CoBuilder.Navisworks.Infrastructure.NavisworksSelector.Selection">
+            <summary>
+            Gets or sets the selection.
+            </summary>
+            <value>The selection.</value>
+        </member>
+        <member name="P:CoBuilder.Navisworks.Infrastructure.NavisworksSelector.SelectionCount">
+            <summary>
+            Gets the selection count.
+            </summary>
+            <value>The selection count.</value>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Infrastructure.NavisworksSelector.All">
+            <summary>
+            Alls this instance.
+            </summary>
+            <returns>IEnumerable&lt;ModelItem&gt;.</returns>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Infrastructure.NavisworksSelector.CoBuilder#Service#Interfaces#App#IAppSelector{Autodesk#Navisworks#Api#ModelItem}#GetSelection">
+            <summary>
+            Gets the selection.
+            </summary>
+            <returns>IEnumerable&lt;ModelItem&gt;.</returns>
+        </member>
+        <member name="T:CoBuilder.Navisworks.Logic.NavisworksPropertyManager">
+            <summary>
+            Class NavisworksPropertyManager.
+            </summary>
+            <seealso cref="T:CoBuilder.Service.Interfaces.App.IAppAttacher`1" />
+            <seealso cref="T:CoBuilder.Service.Interfaces.App.IAppAccessor`1" />
+        </member>
+        <member name="F:CoBuilder.Navisworks.Logic.NavisworksPropertyManager._active">
+            <summary>
+            The _active
+            </summary>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CoBuilder.Navisworks.Logic.NavisworksPropertyManager"/> class.
+            </summary>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.GetProjectPropertySet(System.String)">
+            <summary>
+            Gets the project property set.
+            </summary>
+            <param name="identifier">The identifier.</param>
+            <returns>ProjectPropertySetInfo.</returns>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.GetPropertySet(Autodesk.Navisworks.Api.ModelItem,System.String)">
+            <summary>
+            Gets the property set.
+            </summary>
+            <param name="element">The element.</param>
+            <param name="identifier">The identifier.</param>
+            <returns>PropertySetInfo.</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.GetPropertySets(Autodesk.Navisworks.Api.ModelItem)">
+            <summary>
+            Gets the property sets.
+            </summary>
+            <param name="element">The element.</param>
+            <returns>IEnumerable&lt;PropertySetInfo&gt;.</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.GetCoBuilderProductKeys(Autodesk.Navisworks.Api.ModelItem)">
+            <summary>
+            Gets the co builder product keys.
+            </summary>
+            <param name="element">The element.</param>
+            <returns>IEnumerable&lt;ProductKey&gt;.</returns>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.Attach(Autodesk.Navisworks.Api.ModelItem,CoBuilder.Service.Infrastructure.PTO.PropertySetInfo)">
+            <summary>
+            Attaches the specified application element.
+            </summary>
+            <param name="appElement">The application element.</param>
+            <param name="pSetInfo">The p set information.</param>
+            <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.AttachRoot(CoBuilder.Service.Infrastructure.PTO.PropertySetInfo)">
+            <summary>
+            Attaches the root.
+            </summary>
+            <param name="pSetInfo">The p set information.</param>
+            <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.Remove(Autodesk.Navisworks.Api.ModelItem,System.Int32)">
+            <summary>
+            Removes the specified application element.
+            </summary>
+            <param name="appElement">The application element.</param>
+            <param name="productId">The product identifier.</param>
+            <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.HasProjectPropertySet(System.String)">
+            <summary>
+            Determines whether [has project property set] [the specified identifier].
+            </summary>
+            <param name="identifier">The identifier.</param>
+            <returns><c>true</c> if [has project property set] [the specified identifier]; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Logic.NavisworksPropertyManager.CreateDataProperties(CoBuilder.Service.Infrastructure.PTO.PropertySetInfo)">
+            <summary>
+            Creates the data properties.
+            </summary>
+            <param name="pSetInfoBase">The p set information base.</param>
+            <returns>IEnumerable&lt;DataProperty&gt;.</returns>
+        </member>
+        <member name="T:CoBuilder.Navisworks.NavisworksRegistry">
+            <summary>
+            Class NavisworksRegistry.
+            </summary>
+            <seealso cref="T:CoBuilder.Service.Infrastructure.DI.CoBuilderServiceRegistry" />
+        </member>
+        <member name="M:CoBuilder.Navisworks.NavisworksRegistry.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CoBuilder.Navisworks.NavisworksRegistry" /> class.
             </summary>
         </member>
         <member name="T:CoBuilder.Navisworks.Plugins.CoBuilderNavisworksCommandHandler">
@@ -14,6 +181,43 @@
             Class CoBuilderNavisworksCommandHandler.
             </summary>
             <seealso cref="T:Autodesk.Navisworks.Api.Plugins.CommandHandlerPlugin" />
+        </member>
+        <member name="F:CoBuilder.Navisworks.Plugins.CoBuilderNavisworksCommandHandler._coBuilderService">
+            <summary>
+            The _co builder service
+            </summary>
+        </member>
+        <member name="F:CoBuilder.Navisworks.Plugins.CoBuilderNavisworksCommandHandler._loggedIn">
+            <summary>
+            The _logged in
+            </summary>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Plugins.CoBuilderNavisworksCommandHandler.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CoBuilder.Navisworks.Plugins.CoBuilderNavisworksCommandHandler"/> class.
+            </summary>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Plugins.CoBuilderNavisworksCommandHandler.ExecuteCommand(System.String,System.String[])">
+            <summary>
+            Called when a command is executed
+            </summary>
+            <param name="name">The name of the command</param>
+            <param name="parameters">Paramaters to be passed to the command</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Plugins.CoBuilderNavisworksCommandHandler.CanExecuteRibbonTab(System.String)">
+            <summary>
+            Called to determine if a ribbon tab can be executed
+            </summary>
+            <param name="name">The name of the ribbon tab</param>
+            <returns><c>true</c> if this instance [can execute ribbon tab] the specified name; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:CoBuilder.Navisworks.Plugins.CoBuilderNavisworksCommandHandler.CanExecuteCommand(System.String)">
+            <summary>
+            Called to determine if a command can be executed
+            </summary>
+            <param name="name">The name of the command</param>
+            <returns>CommandState.</returns>
         </member>
     </members>
 </doc>

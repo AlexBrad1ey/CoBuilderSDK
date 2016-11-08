@@ -1,3 +1,16 @@
+// ***********************************************************************
+// Assembly         : CoBuilderV2
+// Author           : Alex Bradley
+// Created          : 08-09-2016
+//
+// Last Modified By : Alex Bradley
+// Last Modified On : 11-08-2016
+// ***********************************************************************
+// <copyright file="BaseRequest.cs" company="AB Consulting">
+//     Copyright (c) AB Consulting. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoBuilder.Core.Enums;
@@ -8,8 +21,17 @@ using RestSharp;
 
 namespace CoBuilder.Core.Requests
 {
+    /// <summary>
+    /// Class BaseRequest.
+    /// </summary>
+    /// <seealso cref="CoBuilder.Core.Interfaces.IBaseRequest" />
     public class BaseRequest : IBaseRequest
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseRequest" /> class.
+        /// </summary>
+        /// <param name="requestResource">The request resource.</param>
+        /// <param name="client">The client.</param>
         public BaseRequest(
             string requestResource,
             IBaseClient client)
@@ -20,32 +42,53 @@ namespace CoBuilder.Core.Requests
             Parameters = new List<Parameter>();
         }
 
+        /// <summary>
+        /// Gets or sets the method.
+        /// </summary>
+        /// <value>The method.</value>
         public Method Method { get; set; }
 
+        /// <summary>
+        /// Gets or sets the request resource.
+        /// </summary>
+        /// <value>The request resource.</value>
         public string RequestResource { get; set; }
 
+        /// <summary>
+        /// Gets or sets the client.
+        /// </summary>
+        /// <value>The client.</value>
         public IBaseClient Client { get; set; }
 
+        /// <summary>
+        /// Gets or sets the parameters.
+        /// </summary>
+        /// <value>The parameters.</value>
         public List<Parameter> Parameters { get; set; }
 
+        /// <summary>
+        /// send as an asynchronous operation.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>Task&lt;T&gt;.</returns>
         public async Task<T> SendAsync<T>() where T : new()
         {
             var response = await SendRequestAsync<T>();
 
-            if (response.Data != null)
-            {
-                var auth = response.Data as IAuthenticatedResult;
-                if (auth?.Status != AuthenticationRequestStatus.NoSuchToken) return response.Data;
+            if (response.Data == null) return default(T);
+            var auth = response.Data as IAuthenticatedResult;
+            if (auth?.Status != AuthenticationRequestStatus.NoSuchToken) return response.Data;
 
-                //GetHashCode new token and try again
-                await Client.AuthenticateAsync(Client.CurrentSession.UserId, Client.CurrentSession.Pass);
-                response = await SendRequestAsync<T>();
-                return response.Data;
-            }
-
-            return default(T);
+            //GetHashCode new token and try again
+            await Client.AuthenticateAsync(Client.CurrentSession.UserId, Client.CurrentSession.Pass);
+            response = await SendRequestAsync<T>();
+            return response.Data;
         }
 
+        /// <summary>
+        /// Gets the rest request message.
+        /// </summary>
+        /// <returns>IRestRequest.</returns>
         public IRestRequest GetRestRequestMessage()
         {
             var request = new RestRequest(RequestResource, Method);
@@ -57,6 +100,14 @@ namespace CoBuilder.Core.Requests
             return request;
         }
 
+        /// <summary>
+        /// send request as an asynchronous operation.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>Task&lt;IRestResponse&lt;T&gt;&gt;.</returns>
+        /// <exception cref="CoBuilder.Core.Exceptions.CoBuilderException"></exception>
+        /// <exception cref="Error"></exception>
+        /// <exception cref="CoBuilderException"></exception>
         protected virtual async Task<IRestResponse<T>> SendRequestAsync<T>() where T : new()
         {
             // We will generate a new auth token later if that isn't set on the client, so not calling
@@ -78,6 +129,9 @@ namespace CoBuilder.Core.Requests
             return await Client.HttpProvider.SendAsync<T>(request);
         }
 
+        /// <summary>
+        /// Authenticates the HTTP provider.
+        /// </summary>
         private void AuthenticateHttpProvider()
         {
             Client.HttpProvider.Authenticator = Client.AuthenticationProvider.GetAuthenticator();

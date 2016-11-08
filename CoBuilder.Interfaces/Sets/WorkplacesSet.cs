@@ -9,7 +9,7 @@ namespace CoBuilder.Service.Sets
 {
     public class WorkplacesSet : BaseSet<IWorkplace>, IWorkplacesSet
     {
-        private ICoBuilderContext _ctx;
+        private readonly ICoBuilderContext _ctx;
 
         public WorkplacesSet(ICoBuilderContext ctx)
         {

@@ -4,7 +4,7 @@
 // Created          : 04-19-2016
 //
 // Last Modified By : Alex Bradley
-// Last Modified On : 07-19-2016
+// Last Modified On : 11-08-2016
 // ***********************************************************************
 // <copyright file="NavisworksConfig.cs" company="AB Consulting">
 //     Copyright © AB Consulting 2016
@@ -21,8 +21,15 @@ using CoBuilder.Service.Infrastructure.DI;
 
 namespace CoBuilder.Navisworks
 {
+    /// <summary>
+    /// Class NavisworksRegistry.
+    /// </summary>
+    /// <seealso cref="CoBuilder.Service.Infrastructure.DI.CoBuilderServiceRegistry" />
     public class NavisworksRegistry : CoBuilderServiceRegistry
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NavisworksRegistry" /> class.
+        /// </summary>
         public NavisworksRegistry()
         {
             For<IAppSelector<ModelItem>>().Use<NavisworksSelector>();

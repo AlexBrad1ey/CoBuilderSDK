@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : CoBuilder.Navisworks
+// Author           : Alex Bradley
+// Created          : 09-09-2016
+//
+// Last Modified By : Alex Bradley
+// Last Modified On : 11-08-2016
+// ***********************************************************************
+// <copyright file="CoBuilderNavisworksCommandHandler.cs" company="AB Consulting">
+//     Copyright (c) AB Consulting. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using System.Diagnostics;
 using System.Linq;
 using Autodesk.Navisworks.Api;
@@ -29,13 +42,22 @@ namespace CoBuilder.Navisworks.Plugins
     [Command("RefreshCommand", DisplayName = "Refresh Products", LargeIcon = "Resources//Globe-icon_Small.png")]
     public class CoBuilderNavisworksCommandHandler : CommandHandlerPlugin
     {
+        /// <summary>
+        /// The _co builder service
+        /// </summary>
         private readonly CoBuilderService _coBuilderService;
 
-        private bool _loggedIn = false;
+        /// <summary>
+        /// The _logged in
+        /// </summary>
+        private bool _loggedIn;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CoBuilderNavisworksCommandHandler"/> class.
+        /// </summary>
         public CoBuilderNavisworksCommandHandler()
         {
-            var serviceConfig = new ServiceConfiguration()
+            var serviceConfig = new ServiceConfiguration
             {
                 AppConfig = new NavisworksAppConfig(),
                 ContainerConfig = new NavisworksRegistry(),
@@ -47,6 +69,12 @@ namespace CoBuilder.Navisworks.Plugins
             if (_coBuilderService.Session != null) _loggedIn = _coBuilderService.Session.LoggedIn;
         }
 
+        /// <summary>
+        /// Called when a command is executed
+        /// </summary>
+        /// <param name="name">The name of the command</param>
+        /// <param name="parameters">Paramaters to be passed to the command</param>
+        /// <returns>System.Int32.</returns>
         public override int ExecuteCommand(string name, params string[] parameters)
         {
             try
@@ -112,6 +140,11 @@ namespace CoBuilder.Navisworks.Plugins
             return 0;
         }
 
+        /// <summary>
+        /// Called to determine if a ribbon tab can be executed
+        /// </summary>
+        /// <param name="name">The name of the ribbon tab</param>
+        /// <returns><c>true</c> if this instance [can execute ribbon tab] the specified name; otherwise, <c>false</c>.</returns>
         public override bool CanExecuteRibbonTab(string name)
         {
             if (!_loggedIn)
@@ -121,6 +154,11 @@ namespace CoBuilder.Navisworks.Plugins
             return name == "CoBuilderMainTab";
         }
 
+        /// <summary>
+        /// Called to determine if a command can be executed
+        /// </summary>
+        /// <param name="name">The name of the command</param>
+        /// <returns>CommandState.</returns>
         public override CommandState CanExecuteCommand(string name)
         {
             switch (name)
